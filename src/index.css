@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nexus-black: #09090b;
+  --color-nexus-card: #18181b;
+  --color-nexus-white: #fafafa;
+  --color-nexus-green: #22c55e;
+  --color-nexus-gray: #a1a1aa;
+  --color-nexus-card-hover: #27272a;
+}
+
+body {
+  @apply bg-nexus-black text-nexus-white;
+}

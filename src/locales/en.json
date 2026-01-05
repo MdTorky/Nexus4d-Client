@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "language": "Language",
+    "logout": "Logout",
+    "profile": "Profile",
+    "myCourses": "My Courses",
+    "dashboard": "Dashboard"
+  },
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "becomeTutor": "Become a Tutor",
+    "joinNow": "Join Now"
+  },
+  "auth": {
+    "createAccount": "Create Account",
+    "enterDetails": "Enter your details to get started",
+    "username": "Username",
+    "creatingAccount": "Creating Account...",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "loggingIn": "Logging in...",
+    "orContinueWith": "Or continue with",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "backToLearning": "Back to Learning",
+    "enterCredentials": "Enter your credentials to access your courses",
+    "verifyEmail": "Verify Your Email",
+    "sentCode": "We sent a 6-digit code to",
+    "enterCode": "Enter Verification Code",
+    "verify": "Verify Email",
+    "verifying": "Verifying...",
+    "resendCode": "Resend Code",
+    "codeSent": "New verification code sent!",
+    "failedResend": "Failed to resend code"
+  },
+  "home": {
+    "welcomeUser": "Welcome, {{name}}",
+    "trackOrders": "Track your orders, manage your profile, and explore the 4th dimension of commerce.",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity",
+    "quickActions": "Quick Actions",
+    "totalOrders": "Total Orders",
+    "activeProjects": "Active Projects",
+    "pendingReviews": "Pending Reviews",
+    "createNewOrder": "Create New Order",
+    "viewAnalytics": "View Analytics"
+  }
+}

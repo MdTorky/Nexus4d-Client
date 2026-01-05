@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "مرحباً",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "submit": "إرسال",
+    "language": "اللغة",
+    "logout": "تسجيل الخروج",
+    "profile": "الملف الشخصي",
+    "myCourses": "دوراتي",
+    "dashboard": "لوحة التحكم"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "courses": "الدورات",
+    "about": "عن المنصة",
+    "contact": "اتصل بنا",
+    "becomeTutor": "كن معلماً",
+    "joinNow": "انضم الآن"
+  },
+  "auth": {
+    "createAccount": "إنشاء حساب",
+    "enterDetails": "أدخل بياناتك للبدء",
+    "username": "اسم المستخدم",
+    "creatingAccount": "جاري إنشاء الحساب...",
+    "signUp": "تسجيل",
+    "signIn": "تسجيل الدخول",
+    "loggingIn": "جاري تسجيل الدخول...",
+    "orContinueWith": "أو تابعه باستخدام",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "backToLearning": "عودة للتعلم",
+    "enterCredentials": "أدخل بيانات الاعتماد للوصول لدوراتك",
+    "verifyEmail": "تأكيد البريد الإلكتروني",
+    "sentCode": "أرسلنا رمزاً من 6 أرقام إلى",
+    "enterCode": "أدخل رمز التحقق",
+    "verify": "تأكيد البريد",
+    "verifying": "جاري التأكيد...",
+    "resendCode": "إعادة إرسال الرمز",
+    "codeSent": "تم إرسال رمز جديد!",
+    "failedResend": "فشل إرسال الرمز"
+  },
+  "home": {
+    "welcomeUser": "مرحباً، {{name}}",
+    "trackOrders": "تتبع طلباتك، أدر ملفك الشخصي، واكتشف البعد الرابع للتجارة.",
+    "recentActivity": "النشاط الأخير",
+    "noActivity": "لا يوجد نشاط حديث",
+    "quickActions": "إجراءات سريعة",
+    "totalOrders": "إجمالي الطلبات",
+    "activeProjects": "المشاريع النشطة",
+    "pendingReviews": "المراجعات المعلقة",
+    "createNewOrder": "إنشاء طلب جديد",
+    "viewAnalytics": "عرض التحليلات"
+  }
+}
