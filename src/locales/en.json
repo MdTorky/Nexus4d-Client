@@ -18,7 +18,8 @@
     "about": "About Us",
     "contact": "Contact Us",
     "becomeTutor": "Become a Tutor",
-    "joinNow": "Join Now"
+    "joinNow": "Join Now",
+    "language": "Language"
   },
   "auth": {
     "createAccount": "Create Account",

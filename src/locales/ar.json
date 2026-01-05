@@ -18,7 +18,8 @@
     "about": "عن المنصة",
     "contact": "اتصل بنا",
     "becomeTutor": "كن معلماً",
-    "joinNow": "انضم الآن"
+    "joinNow": "انضم الآن",
+    "language": "اللغة"
   },
   "auth": {
     "createAccount": "إنشاء حساب",
