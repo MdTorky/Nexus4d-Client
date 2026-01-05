@@ -46,9 +46,10 @@ export default function Navbar() {
             <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-nexus-white">
+                    {/* <span className="text-xl font-bold text-nexus-white">
                         Nexus <span className="text-nexus-green">4D</span>
-                    </span>
+                    </span> */}
+                    <img src="Logo Horizontal.png" alt="" className="w-24" />
                 </Link>
 
                 {/* Desktop Links */}
