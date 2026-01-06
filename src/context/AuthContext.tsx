@@ -1,19 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import api from '../api/axios';
-
-interface User {
-    _id: string;
-    username: string;
-    email: string;
-    role: 'student' | 'tutor' | 'admin';
-    avatar_url?: string;
-}
+import type { User } from '../types';
 
 interface AuthContextType {
     user: User | null;
     token: string | null;
     login: (userData: any) => void;
     logout: () => void;
+    updateUser: (userData: Partial<User>) => void;
     isLoading: boolean;
 }
 
@@ -25,18 +19,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is logged in (could check localStorage for basic persistence, 
-        // but typically we'd hit a /me endpoint or just wait for the first 401 to fail)
-        // For now, let's just finish loading.
-        const storedToken = localStorage.getItem('accessToken');
-        const storedUser = localStorage.getItem('user');
-
-        if (storedToken && storedUser) {
-            setToken(storedToken);
-            setUser(JSON.parse(storedUser));
-            api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-        }
-        setIsLoading(false);
+        const checkAuth = async () => {
+            const storedToken = localStorage.getItem('accessToken');
+            if (storedToken) {
+                api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+                try {
+                    const { data } = await api.get('/auth/me');
+                    setUser(data);
+                    setToken(storedToken);
+                    // Update local storage with fresh data
+                    localStorage.setItem('user', JSON.stringify(data));
+                } catch (error) {
+                    console.error('Session validation failed:', error);
+                    // If token is invalid, clear auth
+                    logout();
+                }
+            }
+            setIsLoading(false);
+        };
+        checkAuth();
     }, []);
 
     const login = (data: { accessToken: string;[key: string]: any }) => {
@@ -57,8 +58,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         api.post('/auth/logout'); // Tell server to clear cookies
     };
 
+    const updateUser = (userData: Partial<User>) => {
+        if (user) {
+            const updatedUser = { ...user, ...userData };
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+        <AuthContext.Provider value={{ user, token, login, logout, updateUser, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

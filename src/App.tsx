@@ -5,12 +5,17 @@ import Register from './pages/auth/Register';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import Layout from './components/common/Layout';
 import Home from './pages/Home';
+import Onboarding from './pages/Onboarding';
+import Profile from './pages/Profile';
+import { FullScreenLoader } from './components/ui/Loader';
+
+// ... (existing imports)
 
 // Protected Route Wrapper
 const ProtectedRoute = () => {
   const { token, isLoading } = useAuth();
 
-  if (isLoading) return <div className="flex h-screen items-center justify-center bg-nexus-black text-nexus-green">Loading...</div>;
+  if (isLoading) return <FullScreenLoader />;
 
   return token ? <Outlet /> : <Navigate to="/login" replace />;
 };
@@ -32,6 +37,8 @@ function AppRoutes() {
 
           {/* Protected Pages */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<div className="text-white p-8">Dashboard Placeholder</div>} />
             <Route path="/my-courses" element={<div className="text-white p-8">My Courses Placeholder</div>} />
           </Route>

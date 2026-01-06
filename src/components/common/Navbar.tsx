@@ -88,13 +88,18 @@ export default function Navbar() {
                             >
                                 <button className="flex items-center gap-2 rounded-full border border-nexus-card bg-nexus-card px-2 py-1 transition-colors hover:border-nexus-green">
                                     <img
-                                        src={user.avatar_url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"}
+                                        src={user.current_avatar_url || user.avatar_url || '/Icons/M Glitch Nexon.png'}
                                         alt="Avatar"
                                         className="h-6 w-6 rounded-full bg-nexus-black object-cover"
                                     />
-                                    <span className="text-xs font-medium text-nexus-white pr-1">
-                                        {user.username}
-                                    </span>
+                                    <div className="flex flex-col items-start leading-none">
+                                        <span className="text-xs font-medium text-nexus-white">
+                                            {user.username}
+                                        </span>
+                                        <span className="text-[10px] text-nexus-green">
+                                            Lvl {user.level} • {user.xp_points} XP
+                                        </span>
+                                    </div>
                                 </button>
 
                                 <AnimatePresence>
@@ -187,12 +192,13 @@ export default function Navbar() {
                                 <>
                                     <div className="flex items-center gap-3 py-2">
                                         <img
-                                            src={user.avatar_url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"}
+                                            src={user.current_avatar_url || user.avatar_url || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"}
                                             alt="Avatar"
                                             className="h-10 w-10 rounded-full bg-nexus-card object-cover"
                                         />
                                         <div>
                                             <p className="text-sm font-medium text-nexus-white">{user.username}</p>
+                                            <p className="text-xs text-nexus-green">Lvl {user.level} • {user.xp_points} XP</p>
                                             <p className="text-xs text-gray-500">{user.email}</p>
                                         </div>
                                     </div>

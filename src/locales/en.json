@@ -72,5 +72,53 @@
       "title": "Ready to Transform Your Career?",
       "button": "Join Now"
     }
+  },
+  "onboarding": {
+    "title": "Complete Your Profile",
+    "subtitle": "Tell us a bit about yourself to personalize your experience.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "major": "University Major",
+    "semester": "Current Semester/Year",
+    "bio": "Bio (Optional)",
+    "selectMajor": "Select your Major",
+    "selectSemester": "Select your Semester",
+    "save": "Complete Profile",
+    "saving": "Saving...",
+    "majors": {
+      "electricalEngineering": "Electrical Engineering",
+      "computerScience": "Computer Science",
+      "mechanicalEngineering": "Mechanical Engineering",
+      "civilEngineering": "Civil Engineering",
+      "chemicalEngineering": "Chemical Engineering",
+      "other": "Other"
+    },
+    "semesters": {
+      "bridging": "Bridging & Foundation",
+      "semester1": "Semester 1",
+      "semester2": "Semester 2",
+      "semester3": "Semester 3",
+      "semester4": "Semester 4",
+      "semester5": "Semester 5",
+      "semester6": "Semester 6",
+      "semester7": "Semester 7",
+      "semester8": "Semester 8",
+      "masters": "Masters",
+      "phd": "PhD"
+    }
+  },
+  "profile": {
+    "changeAvatar": "CHANGE",
+    "totalXP": "Total XP",
+    "major": "Major",
+    "semester": "Semester",
+    "nextLevel": "Next Level",
+    "editProfile": "Edit Profile",
+    "notSet": "Not set",
+    "selectNexon": "Select Your Nexon",
+    "maleNexons": "Male Nexons",
+    "femaleNexons": "Female Nexons",
+    "close": "Close",
+    "loading": "Loading Nexons..."
   }
 }

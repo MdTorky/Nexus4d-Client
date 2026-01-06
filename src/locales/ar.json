@@ -72,5 +72,53 @@
       "title": "جاهز لتغيير مسارك المهني؟",
       "button": "انضم الآن"
     }
+  },
+  "onboarding": {
+    "title": "أكمل ملفك الشخصي",
+    "subtitle": "أخبرنا قليلاً عن نفسك لتخصيص تجربتك.",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "major": "التخصص الجامعي",
+    "semester": "الفصل الدراسي / السنة",
+    "bio": "نبذة عنك (اختياري)",
+    "selectMajor": "اختر تخصصك",
+    "selectSemester": "اختر فصلك الدراسي",
+    "save": "إكمال الملف الشخصي",
+    "saving": "بإنتظار الحفظ...",
+    "majors": {
+      "electricalEngineering": "الهندسة الكهربائية",
+      "computerScience": "علوم الحاسب",
+      "mechanicalEngineering": "الهندسة الميكانيكية",
+      "civilEngineering": "الهندسة المدنية",
+      "chemicalEngineering": "الهندسة الكيميائية",
+      "other": "أخرى"
+    },
+    "semesters": {
+      "bridging": "تمهيدي وتأسيسي",
+      "semester1": "الفصل الدراسي 1",
+      "semester2": "الفصل الدراسي 2",
+      "semester3": "الفصل الدراسي 3",
+      "semester4": "الفصل الدراسي 4",
+      "semester5": "الفصل الدراسي 5",
+      "semester6": "الفصل الدراسي 6",
+      "semester7": "الفصل الدراسي 7",
+      "semester8": "الفصل الدراسي 8",
+      "masters": "ماجستير",
+      "phd": "دكتوراه"
+    }
+  },
+  "profile": {
+    "changeAvatar": "تغيير",
+    "totalXP": "مجموع نقاط الخبرة",
+    "major": "التخصص",
+    "semester": "الفصل الدراسي",
+    "nextLevel": "المستوى التالي",
+    "editProfile": "تعديل الملف الشخصي",
+    "notSet": "غير محدد",
+    "selectNexon": "اختر النكسون الخاص بك",
+    "maleNexons": "ذكور نكسون",
+    "femaleNexons": "إناث نكسون",
+    "close": "إغلاق",
+    "loading": "جاري تحميل النكسون..."
   }
 }
