@@ -19,7 +19,7 @@ export default function LanguageSwitcher() {
         <Button
             variant="outline"
             onClick={toggleLanguage}
-            className="cursor-pointer px-3 py-1 text-sm bg-nexus-card/80 backdrop-blur-sm border-nexus-green/20 hover:border-nexus-green text-nexus-white"
+            className={`cursor-pointer px-3 py-1 text-sm bg-nexus-card/80 backdrop-blur-sm border-nexus-green/20 hover:border-nexus-green text-nexus-white ${i18n.language === 'ar' ? 'font-coortif' : 'font-changa'}`}
         >
             {i18n.language === 'en' ? 'العربية' : 'English'}
         </Button>

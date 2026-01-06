@@ -44,15 +44,33 @@
     "failedResend": "فشل إرسال الرمز"
   },
   "home": {
-    "welcomeUser": "مرحباً، {{name}}",
-    "trackOrders": "تتبع طلباتك، أدر ملفك الشخصي، واكتشف البعد الرابع للتجارة.",
-    "recentActivity": "النشاط الأخير",
-    "noActivity": "لا يوجد نشاط حديث",
-    "quickActions": "إجراءات سريعة",
-    "totalOrders": "إجمالي الطلبات",
-    "activeProjects": "المشاريع النشطة",
-    "pendingReviews": "المراجعات المعلقة",
-    "createNewOrder": "إنشاء طلب جديد",
-    "viewAnalytics": "عرض التحليلات"
+    "heroTitle": "سيطر على مستقبلك مع Nexus 4D",
+    "heroSubtitle": "موارد تعليمية متميزة مصممة للمتعلم الحديث. انضم إلى مجتمع الناجحين.",
+    "exploreCourses": "تصفح الدورات",
+    "startLearning": "ابدأ التعلم",
+    "stats": {
+      "students": "طالب نشط",
+      "courses": "دورة متميزة",
+      "tutors": "معلم خبير"
+    },
+    "features": {
+      "title": "لماذا تختار Nexus 4D؟",
+      "quality": {
+        "title": "جودة عالية",
+        "desc": "محتوى منتقى بعناية من خبراء الصناعة."
+      },
+      "flexibility": {
+        "title": "تعلم مرن",
+        "desc": "تعلم بالسرعة التي تناسبك، في أي مكان وفي أي وقت."
+      },
+      "community": {
+        "title": "مجتمع عالمي",
+        "desc": "تواصل مع المتعلمين حول العالم."
+      }
+    },
+    "cta": {
+      "title": "جاهز لتغيير مسارك المهني؟",
+      "button": "انضم الآن"
+    }
   }
 }

@@ -4,6 +4,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import Layout from './components/common/Layout';
+import Home from './pages/Home';
 
 // Protected Route Wrapper
 const ProtectedRoute = () => {
@@ -26,12 +27,8 @@ function AppRoutes() {
         {/* Main Layout Routes */}
         <Route element={<Layout />}>
           {/* Public Pages */}
-          <Route path="/" element={
-            <div className="container mx-auto py-20 text-center text-nexus-white">
-              <h1 className="text-4xl font-bold mb-4">Welcome to Nexus <span className="text-nexus-green">4D</span></h1>
-              <p className="text-gray-400">Your journey to excellence starts here.</p>
-            </div>
-          } />
+          {/* Public Pages */}
+          <Route path="/" element={<Home />} />
 
           {/* Protected Pages */}
           <Route element={<ProtectedRoute />}>

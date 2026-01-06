@@ -44,15 +44,33 @@
     "failedResend": "Failed to resend code"
   },
   "home": {
-    "welcomeUser": "Welcome, {{name}}",
-    "trackOrders": "Track your orders, manage your profile, and explore the 4th dimension of commerce.",
-    "recentActivity": "Recent Activity",
-    "noActivity": "No recent activity",
-    "quickActions": "Quick Actions",
-    "totalOrders": "Total Orders",
-    "activeProjects": "Active Projects",
-    "pendingReviews": "Pending Reviews",
-    "createNewOrder": "Create New Order",
-    "viewAnalytics": "View Analytics"
+    "heroTitle": "Master Your Future with Nexus 4D",
+    "heroSubtitle": "Premium educational resources tailored for the modern learner. Join a community of achievers.",
+    "exploreCourses": "Explore Courses",
+    "startLearning": "Start Learning",
+    "stats": {
+      "students": "Active Students",
+      "courses": "Premium Courses",
+      "tutors": "Expert Tutors"
+    },
+    "features": {
+      "title": "Why Choose Nexus 4D?",
+      "quality": {
+        "title": "Premium Quality",
+        "desc": "Curated content from industry experts."
+      },
+      "flexibility": {
+        "title": "Flexible Learning",
+        "desc": "Learn at your own pace, anywhere, anytime."
+      },
+      "community": {
+        "title": "Global Community",
+        "desc": "Connect with learners around the world."
+      }
+    },
+    "cta": {
+      "title": "Ready to Transform Your Career?",
+      "button": "Join Now"
+    }
   }
 }

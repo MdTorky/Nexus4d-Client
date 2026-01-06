@@ -1,5 +1,40 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Coortif";
+  src: url("/fonts/coortif.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Wahran";
+  src: url("/fonts/Wahran-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Wahran";
+  src: url("/fonts/Wahran-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Wahran";
+  src: url("/fonts/Wahran-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Changa";
+  src: url("/fonts/Changa-Regular.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @theme {
   --color-nexus-black: #09090b;
   --color-nexus-card: #18181b;
@@ -7,8 +42,22 @@
   --color-nexus-green: #22c55e;
   --color-nexus-gray: #a1a1aa;
   --color-nexus-card-hover: #27272a;
+  --font-coortif: "Coortif", sans-serif;
+  --font-wahran: "Wahran", sans-serif;
+  --font-changa: "Changa", sans-serif;
 }
 
 body {
   @apply bg-nexus-black text-nexus-white;
+  font-family: var(--font-coortif);
+}
+
+/* [dir="rtl"] body {
+  font-family: "Wahran", sans-serif;
+  font-weight: light;
+  font-size: larger;
+} */
+
+[dir="rtl"] body {
+  font-family: var(--font-changa);
 }
