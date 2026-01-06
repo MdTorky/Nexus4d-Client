@@ -20,7 +20,7 @@ const onboardingSchema = z.object({
 type OnboardingFormData = z.infer<typeof onboardingSchema>;
 
 import { Controller } from 'react-hook-form';
-import Select, { type SelectOption } from '../components/ui/Select';
+import Select from '../components/ui/Select';
 
 // ... (existing imports, keep z, zodResolver, etc.)
 
