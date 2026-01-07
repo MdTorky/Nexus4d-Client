@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
+import { NotificationProvider } from './context/NotificationContext';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import VerifyEmail from './pages/auth/VerifyEmail';
@@ -7,6 +9,10 @@ import Layout from './components/common/Layout';
 import Home from './pages/Home';
 import Onboarding from './pages/Onboarding';
 import Profile from './pages/Profile';
+import TutorApplication from './pages/TutorApplication';
+import AdminDashboard from './pages/AdminDashboard';
+import TutorDashboard from './pages/TutorDashboard';
+import CourseEditor from './pages/CourseEditor';
 import { FullScreenLoader } from './components/ui/Loader';
 
 // ... (existing imports)
@@ -41,6 +47,17 @@ function AppRoutes() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<div className="text-white p-8">Dashboard Placeholder</div>} />
             <Route path="/my-courses" element={<div className="text-white p-8">My Courses Placeholder</div>} />
+            <Route path="/tutor-application" element={<TutorApplication />} />
+            <Route path="/tutor-application" element={<TutorApplication />} />
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/courses/create" element={<CourseEditor />} />
+            <Route path="/admin/courses/:id/edit" element={<CourseEditor />} />
+
+            {/* Tutor Routes (Read Only for Dashboard) */}
+            <Route path="/tutor-dashboard" element={<TutorDashboard />} />
+            {/* Tutors can VIEW course details (using same component but read-only mode logic can be inside) */}
+            <Route path="/tutor/courses/:id/edit" element={<CourseEditor />} />
           </Route>
 
           {/* Placeholders for PRD Links */}
@@ -57,7 +74,11 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <ToastProvider>
+        <NotificationProvider>
+          <AppRoutes />
+        </NotificationProvider>
+      </ToastProvider>
     </AuthProvider>
   );
 }

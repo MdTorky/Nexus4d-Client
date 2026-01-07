@@ -3,17 +3,16 @@ export interface User {
     username: string;
     email: string;
     role: 'student' | 'tutor' | 'admin';
-    avatar_url?: string;
+    xp_points: number;
+    level: number;
+    avatar_url?: string; // Legacy
     current_avatar_url?: string;
-    
-    // PRD v1.1
+    avatar_unlock_tokens?: number; // New field
     first_name?: string;
     last_name?: string;
     major?: string;
     semester?: string;
     bio?: string;
-    xp_points: number;
-    level: number;
 }
 
 export interface Avatar {
@@ -21,9 +20,10 @@ export interface Avatar {
     name: string;
     image_url: string;
     type: 'default' | 'premium' | 'reward';
-    unlock_condition: 'none' | 'course_completion' | 'level_up';
+    unlock_condition: 'none' | 'course_completion' | 'level_up' | 'token';
     is_active: boolean;
-    is_unlocked?: boolean;
+    required_level?: number; // New field
+    is_unlocked?: boolean; // Frontend helper property
 }
 
 export interface AuthState {

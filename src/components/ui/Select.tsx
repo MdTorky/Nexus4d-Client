@@ -14,6 +14,7 @@ interface SelectProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
+    searchable?: boolean;
     className?: string;
     error?: string;
 }
@@ -23,6 +24,7 @@ export default function Select({
     value,
     onChange,
     placeholder = "Select an option",
+    searchable = true,
     className,
     error
 }: SelectProps) {
@@ -94,19 +96,21 @@ export default function Select({
                         className="absolute z-50 mt-1 max-h-60 w-full overflow-hidden rounded-md border border-nexus-card bg-nexus-black shadow-lg"
                     >
                         {/* Search Input */}
-                        <div className="sticky top-0 border-b border-nexus-card bg-nexus-black p-2">
-                            <div className="relative">
-                                <Icon icon="akar-icons:search" className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search..."
-                                    className="w-full rounded-md bg-nexus-card/50 py-1 pl-8 pr-2 text-sm text-nexus-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-nexus-green"
-                                    autoFocus
-                                />
+                        {searchable && (
+                            <div className="sticky top-0 border-b border-nexus-card bg-nexus-black p-2">
+                                <div className="relative">
+                                    <Icon icon="akar-icons:search" className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Search..."
+                                        className="w-full rounded-md bg-nexus-card/50 py-1 pl-8 pr-2 text-sm text-nexus-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-nexus-green"
+                                        autoFocus
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Options List */}
                         <div className="max-h-48 overflow-y-auto py-1 custom-scrollbar">

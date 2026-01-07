@@ -1,8 +1,13 @@
 import { motion } from 'framer-motion';
 
-export const Loader = () => {
+type LoaderProps = {
+    className?: string;
+    text?: string;
+};
+
+export const Loader = ({ className = "", text = "Loading Data" }: LoaderProps) => {
     return (
-        <div className="flex flex-col items-center justify-center gap-4">
+        <div className={`flex flex-col items-center justify-center gap-4 ${className}`}>
             <div className="relative h-16 w-16">
                 {/* Outer Ring */}
                 <motion.div
@@ -25,9 +30,11 @@ export const Loader = () => {
                     transition={{ duration: 1.5, repeat: Infinity }}
                 />
             </div>
-            <p className="text-xs font-medium uppercase tracking-widest text-gray-500 animate-pulse">
-                Loading Data
-            </p>
+            {text && (
+                <p className="text-xs font-medium uppercase tracking-widest text-gray-500 animate-pulse">
+                    {text}
+                </p>
+            )}
         </div>
     );
 };

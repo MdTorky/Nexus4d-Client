@@ -119,6 +119,22 @@
     "maleNexons": "ذكور نكسون",
     "femaleNexons": "إناث نكسون",
     "close": "إغلاق",
-    "loading": "جاري تحميل النكسون..."
+    "loading": "جاري تحميل النكسون...",
+    "tokensLeft": "رموز متبقية",
+    "filter": {
+      "all": "الكل",
+      "unlocked": "مفتوح",
+      "locked": "مغلق"
+    },
+    "noAvatars": "لا توجد شخصيات في هذه الفئة.",
+    "clickToUnlock": "اضغط لفتح الشخصية",
+    "avatarUpdated": "تم تحديث الشخصية بنجاح!",
+    "avatarUnlocked": "تم فتح الشخصية!",
+    "noTokens": "لا توجد رموز فتح متاحة",
+    "lockedCondition": "مغلق: {{condition}}",
+    "unlockTokensAvailable": "{{count}} رموز فتح متاحة",
+    "devLevelUp": "[مطور] +1 مستوى",
+    "lvl": "مستوى",
+    "xp": "خبرة"
   }
 }

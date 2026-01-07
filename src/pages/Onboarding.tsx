@@ -78,7 +78,7 @@ export default function Onboarding() {
             // Update local user context immediately
             updateUser(data);
             showToast('Profile updated!', 'success');
-            navigate('/dashboard');
+            navigate('/profile');
         } catch (error: any) {
             showToast(error.message || 'Update failed', 'error');
         } finally {

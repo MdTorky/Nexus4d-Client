@@ -17,9 +17,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 className={cn(
-                    'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-nexus-green disabled:pointer-events-none disabled:opacity-50',
+                    'cursor-pointer inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-nexus-green disabled:pointer-events-none disabled:opacity-50',
                     {
-                        'bg-nexus-green text-nexus-black hover:bg-nexus-green/90': variant === 'primary',
+                        'bg-nexus-green text-nexus-black hover:bg-nexus-green/50 hover:scale-105 duration-200 transition': variant === 'primary',
                         'border border-nexus-card bg-transparent hover:bg-nexus-card text-nexus-white': variant === 'outline',
                         'hover:bg-nexus-card text-nexus-white': variant === 'ghost',
                         'h-8 px-3 text-xs': size === 'sm',

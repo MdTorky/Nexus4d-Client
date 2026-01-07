@@ -119,6 +119,22 @@
     "maleNexons": "Male Nexons",
     "femaleNexons": "Female Nexons",
     "close": "Close",
-    "loading": "Loading Nexons..."
+    "loading": "Loading Nexons...",
+    "tokensLeft": "Tokens Left",
+    "filter": {
+      "all": "All",
+      "unlocked": "Unlocked",
+      "locked": "Locked"
+    },
+    "noAvatars": "No avatars found in this category.",
+    "clickToUnlock": "CLICK TO UNLOCK",
+    "avatarUpdated": "Avatar updated successfully!",
+    "avatarUnlocked": "Avatar Unlocked!",
+    "noTokens": "No unlock tokens available",
+    "lockedCondition": "Locked: {{condition}}",
+    "unlockTokensAvailable": "{{count}} Unlock Toks Available",
+    "devLevelUp": "[Dev] +1 Level",
+    "lvl": "Lvl",
+    "xp": "XP"
   }
 }
