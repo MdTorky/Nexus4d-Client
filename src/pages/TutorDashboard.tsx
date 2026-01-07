@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import api from '../api/axios';
 // import Navbar from '../components/common/Navbar';

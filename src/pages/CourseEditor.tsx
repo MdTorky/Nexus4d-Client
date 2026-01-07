@@ -7,7 +7,6 @@ import ChapterManager from '../components/course/ChapterManager';
 import { useToast } from '../context/ToastContext';
 import { FullScreenLoader } from '../components/ui/Loader';
 import { useAuth } from '../context/AuthContext';
-import { Controller } from 'react-hook-form';
 import { MAJORS } from '../constants/onboarding';
 import Select from '../components/ui/Select';
 import { useTranslation } from 'react-i18next';
@@ -303,7 +302,7 @@ export default function CourseEditor() {
                                                     name="type"
                                                     value="university"
                                                     checked={formData.type === 'university'}
-                                                    onChange={e => setFormData({ ...formData, type: 'university' })}
+                                                    onChange={() => setFormData({ ...formData, type: 'university' })}
                                                     className="accent-nexus-green"
                                                 /> University
                                             </label>
@@ -313,7 +312,7 @@ export default function CourseEditor() {
                                                     name="type"
                                                     value="general"
                                                     checked={formData.type === 'general'}
-                                                    onChange={e => setFormData({ ...formData, type: 'general' })}
+                                                    onChange={() => setFormData({ ...formData, type: 'general' })}
                                                     className="accent-nexus-green"
                                                 /> General
                                             </label>

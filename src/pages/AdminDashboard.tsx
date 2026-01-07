@@ -29,7 +29,7 @@ interface Course {
 }
 
 export default function AdminDashboard() {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const { user } = useAuth();
     const { showToast } = useToast();
     const [activeTab, setActiveTab] = useState<'applications' | 'courses'>('applications');
