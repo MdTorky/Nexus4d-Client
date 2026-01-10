@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import api from '../../api/axios';
-import { FullScreenLoader, Loader } from '../ui/Loader';
+import { Loader } from '../ui/Loader';
 import { motion } from 'framer-motion';
 
 const StatCard = ({ title, value, icon, color, gradient }: any) => (

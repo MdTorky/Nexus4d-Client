@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import api from '../../api/axios';
 import { useToast } from '../../context/ToastContext';
-import { FullScreenLoader, Loader } from '../ui/Loader';
+import { Loader } from '../ui/Loader';
 import { useDebounce } from 'use-debounce';
 import { motion, AnimatePresence } from 'framer-motion';
 

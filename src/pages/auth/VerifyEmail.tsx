@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,7 +21,7 @@ export default function VerifyEmail() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { showToast } = useToast();
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const [cooldown, setCooldown] = useState(0);
 

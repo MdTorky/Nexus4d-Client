@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+// import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useAuth } from '../context/AuthContext';
@@ -21,7 +21,7 @@ type TutorFormData = {
 };
 
 export default function TutorApplication() {
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();

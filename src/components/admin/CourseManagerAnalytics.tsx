@@ -154,17 +154,17 @@ const StatCard = ({ title, value, icon, color, gradient }: any) => (
     </motion.div>
 );
 
-function StatCardOld({ title, value, icon, color, bg }: any) {
-    return (
-        <div className={`relative overflow-hidden rounded-xl bg-nexus-card border border-white/5 p-6`}>
-            <div className={`absolute inset-0 bg-gradient-to-br ${bg} opacity-50`} />
-            <div className="relative z-10">
-                <div className="flex justify-between items-start mb-4">
-                    <p className="text-gray-400 text-sm font-medium">{title}</p>
-                    <Icon icon={icon} className={`text-2xl ${color}`} />
-                </div>
-                <h3 className="text-2xl font-bold text-white">{value}</h3>
-            </div>
-        </div>
-    );
-}
+// function StatCardOld({ title, value, icon, color, bg }: any) {
+//     return (
+//         <div className={`relative overflow-hidden rounded-xl bg-nexus-card border border-white/5 p-6`}>
+//             <div className={`absolute inset-0 bg-gradient-to-br ${bg} opacity-50`} />
+//             <div className="relative z-10">
+//                 <div className="flex justify-between items-start mb-4">
+//                     <p className="text-gray-400 text-sm font-medium">{title}</p>
+//                     <Icon icon={icon} className={`text-2xl ${color}`} />
+//                 </div>
+//                 <h3 className="text-2xl font-bold text-white">{value}</h3>
+//             </div>
+//         </div>
+//     );
+// }

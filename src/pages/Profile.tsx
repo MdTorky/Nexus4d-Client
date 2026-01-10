@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -11,10 +11,10 @@ import { FullScreenLoader } from '../components/ui/Loader';
 import { MAJORS, SEMESTERS } from '../constants/onboarding';
 
 export default function Profile() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { user, updateUser } = useAuth();
     const { showToast } = useToast();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // --- State Management ---
     const [unlockedAvatars, setUnlockedAvatars] = useState<Avatar[]>([]);
@@ -435,7 +435,10 @@ export default function Profile() {
                             className="space-y-8"
                         >
                             {/* Tutor Followers Data */}
-                            {user.role === 'tutor' && (
+                            {user.role === 'tutor' &&
+                                isLoadingFollowers ? (
+                                <div className="py-20 flex justify-center"><Icon icon="mdi:loading" className="animate-spin text-4xl text-nexus-green" /></div>
+                            ) : (
                                 <div className="bg-black/40 border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
                                     <div className="flex items-center justify-between mb-6">
                                         <h3 className="text-xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
@@ -444,6 +447,8 @@ export default function Profile() {
                                         </h3>
                                         <span className="text-xs text-gray-500 font-mono">{followers.length} CADETS</span>
                                     </div>
+                                    )
+
 
                                     {followers.length === 0 ? (
                                         <div className="text-center py-12 text-gray-500 border border-dashed border-white/10 rounded-2xl bg-black/20">

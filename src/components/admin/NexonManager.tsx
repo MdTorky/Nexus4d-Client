@@ -97,16 +97,16 @@ export default function NexonManager() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!window.confirm('Are you sure you want to delete this Nexon? It will reappear in the Scan list if the file exists.')) return;
-        try {
-            await api.delete(`/avatar/${id}`);
-            showToast('Nexon deleted', 'success');
-            fetchAvatars();
-        } catch (error) {
-            showToast('Failed to delete', 'error');
-        }
-    };
+    // const handleDelete = async (id: string) => {
+    //     if (!window.confirm('Are you sure you want to delete this Nexon? It will reappear in the Scan list if the file exists.')) return;
+    //     try {
+    //         await api.delete(`/avatar/${id}`);
+    //         showToast('Nexon deleted', 'success');
+    //         fetchAvatars();
+    //     } catch (error) {
+    //         showToast('Failed to delete', 'error');
+    //     }
+    // };
 
     const openCreateModal = (icon: ScannedIcon) => {
         setEditingAvatar({

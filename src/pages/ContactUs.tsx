@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import api from '../api/axios';
+// import api from '../api/axios';
 import { useToast } from '../context/ToastContext';
 
 const containerVariants = {
