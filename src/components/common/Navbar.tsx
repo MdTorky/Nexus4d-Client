@@ -49,7 +49,7 @@ export default function Navbar() {
                     <div className="flex items-center gap-8">
                         {/* Logo */}
                         <Link to="/" className="flex items-center gap-2">
-                            <img src="/Logo Horizontal.png" alt="Nexus 4D" className="w-32 object-contain" />
+                            <img src="/Logo Horizontal.png" alt="Nexus 4D" className="w-28 object-contain" />
                         </Link>
                         {/* Desktop Links */}
                         <div className="hidden md:flex items-center gap-6">
@@ -208,7 +208,7 @@ export default function Navbar() {
                                                         <Icon icon="mdi:account" className="text-nexus-green" />
                                                         <span>{t('common.profile')}</span>
                                                     </Link>
-                                                    <Link to="/my-learning" className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-300 hover:bg-nexus-green/10 hover:text-white" onClick={() => setIsAvatarOpen(false)}>
+                                                    <Link to="/my-courses" className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-300 hover:bg-nexus-green/10 hover:text-white" onClick={() => setIsAvatarOpen(false)}>
                                                         <Icon icon="mdi:school" className="text-nexus-green" />
                                                         <span>{t('common.myCourses')}</span>
                                                     </Link>
@@ -218,7 +218,7 @@ export default function Navbar() {
                                                             <span>Admin Dashboard</span>
                                                         </Link>
                                                     )}
-                                                    {user && (user.role === 'tutor' || user.role === 'admin') && (
+                                                    {user && (user.role === 'tutor') && (
                                                         <Link to="/tutor-dashboard" className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-300 hover:bg-nexus-green/10 hover:text-white" onClick={() => setIsAvatarOpen(false)}>
                                                             <Icon icon="mdi:view-dashboard" className="text-nexus-green" />
                                                             <span>Tutor Dashboard</span>
@@ -239,7 +239,10 @@ export default function Navbar() {
                         ) : (
                             // ... Auth Buttons ...
                             <div className="hidden md:flex gap-4">
-                                <Link to="/login" className="text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">{t('common.login')}</Link>
+                                {/* <Link to="/courses" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    {t('nav.courses') || 'Courses'}
+                                </Link> */}
+                                <Link to="/login" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">{t('common.login')}</Link>
                                 <Link to="/register" className="rounded-full bg-nexus-green px-6 py-2 text-sm font-bold text-nexus-black hover:bg-nexus-green/90 transition-all shadow-[0_0_15px_rgba(57,255,20,0.3)]">{t('nav.joinNow')}</Link>
                             </div>
                         )}
@@ -304,7 +307,7 @@ export default function Navbar() {
                                             Admin Dashboard
                                         </Link>
                                     )}
-                                    {user && (user.role === 'tutor' || user.role === 'admin') && (
+                                    {user && (user.role === 'tutor') && (
                                         <Link to="/tutor-dashboard" className="text-sm text-gray-400 hover:text-nexus-green" onClick={() => setIsMenuOpen(false)}>
                                             Tutor Dashboard
                                         </Link>

@@ -65,11 +65,13 @@ export default function CourseEditor() {
 
     const [avatars, setAvatars] = useState<any[]>([]);
 
+    const isReadOnly = user?.role !== 'admin';
+
     useEffect(() => {
-        // 1. Check Admin Access
-        if (user && user.role !== 'admin') {
-            showToast('Unauthorized. Admin access only.', 'error');
-            navigate('/tutor-dashboard');
+        // 1. Check Permissions (Admin or Tutor)
+        if (user && !['admin', 'tutor'].includes(user.role)) {
+            showToast('Unauthorized access.', 'error');
+            navigate('/dashboard');
             return;
         }
 
@@ -126,14 +128,14 @@ export default function CourseEditor() {
 
     }, [id, user, navigate, showToast]);
 
-    const handlePackageChange = (tier: 'basic' | 'advanced' | 'premium', field: 'price' | 'features', value: any) => {
+    const handlePackageChange = (tier: 'basic' | 'advanced' | 'premium', field: 'price' | 'features', value: string | number) => {
         setFormData(prev => ({
             ...prev,
             packages: {
                 ...prev.packages,
                 [tier]: {
                     ...prev.packages[tier],
-                    [field]: field === 'features' ? value.split('\n') : Number(value)
+                    [field]: field === 'features' ? (value as string).split('\n') : Number(value)
                 }
             }
         }));
@@ -209,7 +211,8 @@ export default function CourseEditor() {
 
     const statusOptions = [
         { label: 'Ongoing (In Development)', value: 'ongoing', icon: 'mdi:pencil-outline' },
-        { label: 'Complete (Published)', value: 'complete', icon: 'mdi:check-circle-outline' }
+        { label: 'Complete (Published)', value: 'complete', icon: 'mdi:check-circle-outline' },
+        { label: 'Disabled (Hidden)', value: 'disabled', icon: 'mdi:eye-off-outline' }
     ];
 
     const avatarOptions = avatars.map(a => ({
@@ -230,7 +233,7 @@ export default function CourseEditor() {
                             <Icon icon="mdi:arrow-left" /> Back to Dashboard
                         </button>
                         <h1 className="text-3xl font-bold">{id === 'create' ? 'Create New Course' : `Edit: ${course?.title}`}</h1>
-                        {id !== 'create' && <span className={`text-xs px-2 py-0.5 rounded ml-2 ${formData.status === 'complete' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-500'}`}>{formData.status}</span>}
+                        {id !== 'create' && <span className={`text-xs px-2 py-0.5 rounded ml-2 ${formData.status === 'complete' ? 'bg-green-500/20 text-green-400' : formData.status === 'disabled' ? 'bg-red-500/20 text-red-500' : 'bg-yellow-500/20 text-yellow-500'}`}>{formData.status}</span>}
                     </div>
                 </div>
 
@@ -269,6 +272,7 @@ export default function CourseEditor() {
                                             onChange={e => setFormData({ ...formData, title: e.target.value })}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                             required
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                     <div>
@@ -278,6 +282,7 @@ export default function CourseEditor() {
                                             onChange={e => setFormData({ ...formData, description: e.target.value })}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none h-32"
                                             required
+                                            disabled={isReadOnly}
                                         />
                                     </div>
 
@@ -289,6 +294,7 @@ export default function CourseEditor() {
                                             onChange={e => setFormData({ ...formData, total_duration: e.target.value })}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                             placeholder="e.g. 10 Hours 30 Mins"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
 
@@ -304,6 +310,7 @@ export default function CourseEditor() {
                                                     checked={formData.type === 'university'}
                                                     onChange={() => setFormData({ ...formData, type: 'university' })}
                                                     className="accent-nexus-green"
+                                                    disabled={isReadOnly}
                                                 /> University
                                             </label>
                                             <label className="flex items-center gap-2 cursor-pointer">
@@ -314,6 +321,7 @@ export default function CourseEditor() {
                                                     checked={formData.type === 'general'}
                                                     onChange={() => setFormData({ ...formData, type: 'general' })}
                                                     className="accent-nexus-green"
+                                                    disabled={isReadOnly}
                                                 /> General
                                             </label>
                                         </div>
@@ -341,6 +349,7 @@ export default function CourseEditor() {
                                                 className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                                 placeholder="e.g. Web Development"
                                                 required
+                                                disabled={isReadOnly}
                                             />
                                         </div>
                                     )}
@@ -394,6 +403,7 @@ export default function CourseEditor() {
                                                 onChange={handleThumbnailChange}
                                                 className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                                 required={id === 'create'}
+                                                disabled={isReadOnly}
                                             />
                                         </div>
                                         <p className="text-xs text-gray-500 mt-1">Uploaded to Cloudinary (Folder: Thumbnails)</p>
@@ -401,17 +411,21 @@ export default function CourseEditor() {
                                 </div>
                             </div>
                             <div className="pt-4 border-t border-white/5">
-                                <button
-                                    type="submit"
-                                    disabled={saving}
-                                    className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                                >
-                                    {saving && <Icon icon="eos-icons:loading" className="animate-spin" />}
-                                    {id === 'create' ? 'Create Course' : 'Save Details'}
-                                </button>
+                                {!isReadOnly && (
+                                    <button
+                                        type="submit"
+                                        disabled={saving}
+                                        className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all w-full md:w-auto disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                    >
+                                        {saving && <Icon icon="eos-icons:loading" className="animate-spin" />}
+                                        {id === 'create' ? 'Create Course' : 'Save Details'}
+                                    </button>
+                                )}
                             </div>
                         </form>
                     )}
+
+
 
                     {activeTab === 'packages' && (
                         <form onSubmit={handleSave} className="space-y-8">
@@ -427,6 +441,7 @@ export default function CourseEditor() {
                                             onChange={e => handlePackageChange('basic', 'price', e.target.value)}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                             min="0"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                     <div>
@@ -435,6 +450,7 @@ export default function CourseEditor() {
                                             value={formData.packages.basic.features.join('\n')}
                                             onChange={e => handlePackageChange('basic', 'features', e.target.value)}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none h-40 text-sm"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                 </div>
@@ -451,6 +467,7 @@ export default function CourseEditor() {
                                             onChange={e => handlePackageChange('advanced', 'price', e.target.value)}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                             min="0"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                     <div>
@@ -459,6 +476,7 @@ export default function CourseEditor() {
                                             value={formData.packages.advanced.features.join('\n')}
                                             onChange={e => handlePackageChange('advanced', 'features', e.target.value)}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none h-40 text-sm"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                 </div>
@@ -474,6 +492,7 @@ export default function CourseEditor() {
                                             onChange={e => handlePackageChange('premium', 'price', e.target.value)}
                                             className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                             min="0"
+                                            disabled={isReadOnly}
                                         />
                                     </div>
                                     <div>
@@ -487,9 +506,11 @@ export default function CourseEditor() {
                                 </div>
                             </div>
                             <div className="pt-4 border-t border-white/5">
-                                <button type="submit" className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all">
-                                    Save Packages
-                                </button>
+                                {!isReadOnly && (
+                                    <button type="submit" className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all">
+                                        Save Packages
+                                    </button>
+                                )}
                             </div>
                         </form>
                     )}
@@ -511,6 +532,7 @@ export default function CourseEditor() {
                                                 onChange={e => setFormData({ ...formData, completion_xp_bonus: Number(e.target.value) })}
                                                 className="w-full bg-black/50 border border-gray-700 rounded-lg p-2 text-white focus:border-nexus-green outline-none"
                                                 min="0"
+                                                disabled={isReadOnly}
                                             />
                                         </div>
                                     </div>
@@ -531,9 +553,11 @@ export default function CourseEditor() {
                                 </div>
                             </div>
                             <div className="pt-4 border-t border-white/5">
-                                <button type="submit" className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all">
-                                    Save Gamification Settings
-                                </button>
+                                {!isReadOnly && (
+                                    <button type="submit" className="bg-nexus-green text-black px-6 py-3 rounded-lg font-bold hover:bg-nexus-green/90 transition-all">
+                                        Save Gamification Settings
+                                    </button>
+                                )}
                             </div>
                         </form>
                     )}
@@ -544,6 +568,7 @@ export default function CourseEditor() {
                                 courseId={id!}
                                 chapters={chapters}
                                 onChapterAdded={(newChapter) => setChapters([...chapters, newChapter])}
+                                isReadOnly={isReadOnly}
                             />
                         </div>
                     )}

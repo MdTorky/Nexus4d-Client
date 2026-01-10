@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 interface ToastContextType {
     showToast: (message: string, type?: ToastType) => void;
@@ -30,8 +30,9 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                         animate={{ opacity: 1, y: 0, x: '-50%' }}
                         exit={{ opacity: 0, y: 20, x: '-50%' }}
                         className={`fixed bottom-8 left-1/2 z-50 flex items-center gap-3 rounded-lg px-6 py-3 shadow-2xl ${toast.type === 'error' ? 'bg-red-500/90 text-white' :
-                            toast.type === 'success' ? 'bg-nexus-green text-nexus-black' :
-                                'bg-nexus-card text-nexus-white border border-gray-700'
+                                toast.type === 'success' ? 'bg-nexus-green text-nexus-black' :
+                                    toast.type === 'warning' ? 'bg-yellow-500/90 text-black' :
+                                        'bg-nexus-card text-nexus-white border border-gray-700'
                             }`}
                     >
                         <Icon

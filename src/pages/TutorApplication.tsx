@@ -13,6 +13,7 @@ import { Loader } from '../components/ui/Loader';
 type TutorFormData = {
     full_name: string;
     email: string;
+    phone: string;
     specialization: string;
     bio: string;
     linkedin_profile?: string;
@@ -30,7 +31,7 @@ export default function TutorApplication() {
 
     const { register, handleSubmit, formState: { errors } } = useForm<TutorFormData>({
         defaultValues: {
-            full_name: user ? `${user?.first_name} ${user?.last_name} ` : '', // Pre-fill if useful, though real name preferred
+            full_name: user && user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : '',
             email: user?.email || '',
         }
     });
@@ -76,6 +77,7 @@ export default function TutorApplication() {
             const formData = new FormData();
             formData.append('full_name', data.full_name);
             formData.append('email', data.email);
+            formData.append('phone', data.phone);
             formData.append('specialization', data.specialization);
             formData.append('bio', data.bio);
             if (data.linkedin_profile) formData.append('linkedin_profile', data.linkedin_profile);
@@ -113,6 +115,24 @@ export default function TutorApplication() {
 
     if (isLoadingStatus) {
         return <div className="flex h-screen items-center justify-center bg-nexus-black"><div className="text-nexus-green">Checking Status...</div></div>;
+    }
+
+    // NEW: Check for complete profile
+    if (!user.first_name || !user.last_name || user.first_name.trim() === '' || user.last_name.trim() === '') {
+        return (
+            <div className="min-h-screen bg-nexus-black flex items-center justify-center px-4">
+                <div className="max-w-md w-full text-center space-y-6">
+                    <div className="mx-auto h-24 w-24 rounded-full bg-red-500/20 flex items-center justify-center">
+                        <Icon icon="mdi:account-alert" className="h-12 w-12 text-red-500" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-white">Incomplete Profile</h1>
+                    <p className="text-gray-400">Please complete your profile before applying to become a tutor.</p>
+                    <Button onClick={() => navigate('/profile')} variant="primary" className="w-full">
+                        Go to Profile
+                    </Button>
+                </div>
+            </div>
+        );
     }
 
     // Access Control Logic
@@ -201,6 +221,17 @@ export default function TutorApplication() {
                             placeholder="e.g. john@example.com"
                         />
                         {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+                    </div>
+
+                    {/* Phone Number */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-400 mb-1">Phone Number</label>
+                        <input
+                            {...register('phone', { required: 'Phone Number is required' })}
+                            className="w-full rounded-lg border border-nexus-card bg-black/50 p-3 text-nexus-white focus:border-nexus-green focus:outline-none focus:ring-1 focus:ring-nexus-green transition text-sm"
+                            placeholder="e.g. +1 234 567 890"
+                        />
+                        {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone.message}</p>}
                     </div>
 
                     {/* Specialization */}

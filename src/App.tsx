@@ -9,11 +9,18 @@ import Layout from './components/common/Layout';
 import Home from './pages/Home';
 import Onboarding from './pages/Onboarding';
 import Profile from './pages/Profile';
+import Courses from './pages/Courses';
 import TutorApplication from './pages/TutorApplication';
 import AdminDashboard from './pages/AdminDashboard';
 import TutorDashboard from './pages/TutorDashboard';
 import CourseEditor from './pages/CourseEditor';
+import CourseDetail from './pages/CourseDetail';
+import TutorProfile from './pages/TutorProfile';
+import UserProfile from './pages/UserProfile';
+import CoursePlayer from './pages/CoursePlayer';
+import MyCourses from './pages/MyCourses';
 import { FullScreenLoader } from './components/ui/Loader';
+import Deactivated from './pages/Deactivated';
 
 // ... (existing imports)
 
@@ -33,38 +40,42 @@ function AppRoutes() {
         {/* Auth Routes (No Navbar) */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/deactivated" element={<Deactivated />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
 
         {/* Main Layout Routes */}
         <Route element={<Layout />}>
           {/* Public Pages */}
-          {/* Public Pages */}
           <Route path="/" element={<Home />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/courses/:id" element={<CourseDetail />} />
+          <Route path="/tutors/:id" element={<TutorProfile />} />
+          <Route path="/users/:id" element={<UserProfile />} />
 
           {/* Protected Pages */}
           <Route element={<ProtectedRoute />}>
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<div className="text-white p-8">Dashboard Placeholder</div>} />
-            <Route path="/my-courses" element={<div className="text-white p-8">My Courses Placeholder</div>} />
+            <Route path="/my-courses" element={<MyCourses />} />
             <Route path="/tutor-application" element={<TutorApplication />} />
-            <Route path="/tutor-application" element={<TutorApplication />} />
+
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/courses/create" element={<CourseEditor />} />
             <Route path="/admin/courses/:id/edit" element={<CourseEditor />} />
 
-            {/* Tutor Routes (Read Only for Dashboard) */}
-            <Route path="/tutor-dashboard" element={<TutorDashboard />} />
             {/* Tutors can VIEW course details (using same component but read-only mode logic can be inside) */}
             <Route path="/tutor/courses/:id/edit" element={<CourseEditor />} />
+
+            {/* Course Player (Protected) */}
+            <Route path="/courses/:id/learn" element={<CoursePlayer />} />
           </Route>
 
           {/* Placeholders for PRD Links */}
-          <Route path="/courses" element={<div className="text-white p-8">Courses Placeholder</div>} />
           <Route path="/about" element={<div className="text-white p-8">About Us Placeholder</div>} />
           <Route path="/contact" element={<div className="text-white p-8">Contact Us Placeholder</div>} />
-          <Route path="/tutor-application" element={<div className="text-white p-8">Become a Tutor Placeholder</div>} />
+          <Route path="/tutor-dashboard" element={<TutorDashboard />} />
         </Route>
       </Routes>
     </Router>

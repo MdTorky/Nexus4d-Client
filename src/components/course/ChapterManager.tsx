@@ -7,6 +7,7 @@ import Select from '../ui/Select';
 
 interface Material {
     title: string;
+    description?: string;
     type: 'video' | 'pdf' | 'link' | 'slide' | 'image';
     url: string;
     min_package_tier: 'basic' | 'advanced' | 'premium';
@@ -21,9 +22,7 @@ interface Chapter {
     materials: Material[];
 }
 
-
-
-export default function ChapterManager({ courseId, chapters }: { courseId: string; chapters: Chapter[]; onChapterAdded: (chapter: Chapter) => void }) {
+export default function ChapterManager({ courseId, chapters, isReadOnly = false }: { courseId: string; chapters: Chapter[]; onChapterAdded?: (chapter: Chapter) => void; isReadOnly?: boolean }) {
     const { showToast } = useToast();
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState<string | null>(null);
@@ -41,6 +40,7 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
     const [isAddingMaterial, setIsAddingMaterial] = useState<string | null>(null); // Chapter ID
     const [materialForm, setMaterialForm] = useState({
         title: '',
+        description: '',
         type: 'video', // video, pdf, link, slide
         min_package_tier: 'basic',
         url: '',
@@ -102,10 +102,6 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
         }
     };
 
-    // ... (Material Submit remains mostly the same, omitting for brevity in tool call if not modifying logic)
-    // Actually, I need to provide the full content or use multi_replace. Standard replace preferred for full function refactor.
-    // I will include the material submit as well to ensure it's preserved.
-
     // Material Editing State
     const [editingMaterialIndex, setEditingMaterialIndex] = useState<number | null>(null);
 
@@ -115,6 +111,7 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
 
         const data = new FormData();
         data.append('title', materialForm.title);
+        data.append('description', materialForm.description);
         data.append('type', materialForm.type);
         data.append('min_package_tier', materialForm.min_package_tier);
 
@@ -122,6 +119,8 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
             data.append('url', materialForm.url);
         } else if (materialForm.file) {
             data.append('file', materialForm.file);
+            // }else if (materialForm.image){
+            //     data.append('image', materialForm.image);
         } else if (editingMaterialIndex === null) {
             showToast('File required for this type', 'error');
             return;
@@ -154,6 +153,7 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
         setEditingMaterialIndex(index);
         setMaterialForm({
             title: material.title,
+            description: material.description || '',
             type: material.type,
             min_package_tier: material.min_package_tier,
             url: material.url,
@@ -176,17 +176,19 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold text-white">Curriculum</h3>
-                <button
-                    onClick={() => { resetForm(); setIsAdding(!isAdding); }}
-                    className="flex items-center gap-2 text-nexus-green hover:underline"
-                >
-                    <Icon icon="mdi:plus" /> {isAdding ? 'Close Form' : 'Create Chapter'}
-                </button>
+                {!isReadOnly && (
+                    <button
+                        onClick={() => { resetForm(); setIsAdding(!isAdding); }}
+                        className="flex items-center gap-2 text-nexus-green hover:underline"
+                    >
+                        <Icon icon="mdi:plus" /> {isAdding ? 'Close Form' : 'Create Chapter'}
+                    </button>
+                )}
             </div>
 
             {/* Create/Edit Chapter Form */}
             <AnimatePresence>
-                {isAdding && (
+                {isAdding && !isReadOnly && (
                     <motion.form
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
@@ -270,12 +272,16 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button onClick={() => handleEditClick(chapter)} className="p-2 text-gray-400 hover:text-white" title="Edit">
-                                    <Icon icon="mdi:pencil" />
-                                </button>
-                                <button onClick={() => handleDeleteClick(chapter._id)} className="p-2 text-gray-400 hover:text-red-500" title="Delete">
-                                    <Icon icon="mdi:trash-can" />
-                                </button>
+                                {!isReadOnly && (
+                                    <>
+                                        <button onClick={() => handleEditClick(chapter)} className="p-2 text-gray-400 hover:text-white" title="Edit">
+                                            <Icon icon="mdi:pencil" />
+                                        </button>
+                                        <button onClick={() => handleDeleteClick(chapter._id)} className="p-2 text-gray-400 hover:text-red-500" title="Delete">
+                                            <Icon icon="mdi:trash-can" />
+                                        </button>
+                                    </>
+                                )}
                                 <button onClick={() => setExpandedChapter(expandedChapter === chapter._id ? null : chapter._id)} className="p-2 text-gray-400">
                                     <Icon icon={expandedChapter === chapter._id ? "mdi:chevron-up" : "mdi:chevron-down"} />
                                 </button>
@@ -299,7 +305,8 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
                                                         mat.type === 'video' ? 'mdi:video' :
                                                             mat.type === 'pdf' ? 'mdi:file-pdf-box' :
                                                                 mat.type === 'link' ? 'mdi:link' :
-                                                                    mat.type === 'slide' ? 'mdi:presentation' : 'mdi:image'
+                                                                    mat.type === 'slide' ? 'mdi:presentation' :
+                                                                        mat.type === 'image' ? 'mdi:image' : 'mdi:file'
                                                     } className="text-nexus-green" />
                                                     <span className="text-sm text-gray-300">{mat.title}</span>
                                                     <span className={`text-[10px] uppercase px-1.5 py-0.5 rounded border ${mat.min_package_tier === 'premium' ? 'border-purple-500 text-purple-400' :
@@ -309,29 +316,43 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
                                                         {mat.min_package_tier}
                                                     </span>
                                                 </div>
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        onClick={() => handleEditMaterial(chapter._id, mat, idx)}
-                                                        className="text-gray-500 hover:text-white"
-                                                    >
-                                                        <Icon icon="mdi:pencil" width="16" />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteMaterial(chapter._id, idx)}
-                                                        className="text-gray-500 hover:text-red-500"
-                                                    >
-                                                        <Icon icon="mdi:trash-can" width="16" />
-                                                    </button>
+                                                <div className="flex gap-2 items-center">
+                                                    {isReadOnly && (
+                                                        <a
+                                                            href={mat.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="flex items-center gap-1.5 text-xs font-bold text-nexus-green bg-nexus-green/10 hover:bg-nexus-green/20 border border-nexus-green/30 px-3 py-1.5 rounded transition-all"
+                                                        >
+                                                            <Icon icon="mdi:eye" width="14" /> View
+                                                        </a>
+                                                    )}
+                                                    {!isReadOnly && (
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleEditMaterial(chapter._id, mat, idx)}
+                                                                className="text-gray-500 hover:text-white"
+                                                            >
+                                                                <Icon icon="mdi:pencil" width="16" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteMaterial(chapter._id, idx)}
+                                                                className="text-gray-500 hover:text-red-500"
+                                                            >
+                                                                <Icon icon="mdi:trash-can" width="16" />
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         ))}
 
-                                        {!isAddingMaterial && (
+                                        {!isAddingMaterial && !isReadOnly && (
                                             <button
                                                 onClick={() => {
                                                     setIsAddingMaterial(chapter._id);
                                                     setEditingMaterialIndex(null);
-                                                    setMaterialForm({ title: '', type: 'video', min_package_tier: 'basic', url: '', file: null });
+                                                    setMaterialForm({ title: '', description: '', type: 'video', min_package_tier: 'basic', url: '', file: null });
                                                 }}
                                                 className="w-full py-2 border border-dashed border-gray-700 text-gray-400 text-sm hover:border-nexus-green hover:text-nexus-green rounded transition-colors"
                                             >
@@ -339,7 +360,7 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
                                             </button>
                                         )}
 
-                                        {isAddingMaterial === chapter._id && (
+                                        {isAddingMaterial === chapter._id && !isReadOnly && (
                                             <form onSubmit={handleMaterialSubmit} className="bg-gray-900/50 p-4 rounded border border-gray-700 space-y-3">
                                                 <h5 className="text-sm font-bold text-white">
                                                     {editingMaterialIndex !== null ? 'Edit Material' : 'Add New Material'}
@@ -351,6 +372,12 @@ export default function ChapterManager({ courseId, chapters }: { courseId: strin
                                                     value={materialForm.title}
                                                     onChange={e => setMaterialForm({ ...materialForm, title: e.target.value })}
                                                     required
+                                                />
+                                                <textarea
+                                                    placeholder="Description (Optional)"
+                                                    className="w-full bg-black border border-gray-700 rounded p-2 text-sm text-white h-20"
+                                                    value={materialForm.description}
+                                                    onChange={e => setMaterialForm({ ...materialForm, description: e.target.value })}
                                                 />
                                                 <div className="flex gap-2">
                                                     <div className="w-1/2">

@@ -8,6 +8,19 @@ const api = axios.create({
     },
 });
 
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 api.interceptors.response.use(
     (response) => {
         return response;
@@ -37,6 +50,12 @@ api.interceptors.response.use(
                 return Promise.reject(refreshError);
             }
         }
+        
+        // Handle Account Deactivation
+        if (error.response.status === 403 && error.response.data?.message === 'Account Deactivated') {
+             window.location.href = `/deactivated?reason=${encodeURIComponent(error.response.data.reason || '')}`;
+        }
+        
         return Promise.reject(error);
     }
 );
