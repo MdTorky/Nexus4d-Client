@@ -447,7 +447,7 @@ export default function Profile() {
                                         </h3>
                                         <span className="text-xs text-gray-500 font-mono">{followers.length} CADETS</span>
                                     </div>
-                                    )
+
 
 
                                     {followers.length === 0 ? (
