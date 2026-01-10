@@ -95,7 +95,7 @@ export default function ApplicationsAnalytics() {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {analytics.specializationCounts.map((entry, index) => (
+                                    {analytics.specializationCounts.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
                                     ))}
                                 </Pie>

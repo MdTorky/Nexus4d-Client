@@ -39,7 +39,7 @@ const iconWatcher = (): Plugin => ({
   configureServer(server) {
     const iconsPath = path.resolve(__dirname, 'public/Icons');
     server.watcher.add(iconsPath);
-    server.watcher.on('all', (event, file) => {
+    server.watcher.on('all', (file) => {
       if (file.startsWith(iconsPath) && /\.(png|jpg|jpeg|svg|webp)$/i.test(file)) {
         generateIcons();
       }
