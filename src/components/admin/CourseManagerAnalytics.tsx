@@ -92,7 +92,7 @@ export default function CourseManagerAnalytics() {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {analytics.categoryCounts.map((entry, index) => (
+                                    {analytics.categoryCounts.map((_, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="none" />
                                     ))}
                                 </Pie>
