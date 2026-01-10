@@ -1,184 +1,190 @@
-// ... imports
-// import { useState, useEffect } from 'react';
-import EnrollmentAnalytics from '../components/admin/EnrollmentAnalytics';
+import { useSearchParams } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+
+import EnrollmentAnalytics from '../components/admin/EnrollmentAnalytics';
 import ApplicationsList from '../components/admin/ApplicationsList';
 import ApplicationsAnalytics from '../components/admin/ApplicationsAnalytics';
 import CourseManagerAnalytics from '../components/admin/CourseManagerAnalytics';
 import PendingEnrollmentsList from '../components/admin/PendingEnrollmentsList';
-import { Link, useSearchParams } from 'react-router-dom';
-import { Icon } from '@iconify/react';
 import CourseList from '../components/admin/CourseList';
 import AccountsList from '../components/admin/AccountsList';
 import AccountsAnalytics from '../components/admin/AccountsAnalytics';
+import PromoCodeManager from '../components/admin/PromoCodeManager';
 import NexonManager from '../components/admin/NexonManager';
 
 export default function AdminDashboard() {
-    const { user } = useAuth();
     const [searchParams, setSearchParams] = useSearchParams();
+    const { user } = useAuth();
 
-    // Derived state from URL or defaults
-    const activeTab = searchParams.get('tab') || 'applications';
-    const subTab = searchParams.get('view') || 'requests'; // shared sub-tab key
+    // Derived state from URL to enable persistence
+    const activeTab = searchParams.get('tab') || 'accounts';
+    const subTab = searchParams.get('view') || 'requests';
 
-    // Helper to change tab
     const handleTabChange = (tab: string) => {
-        setSearchParams({ tab, view: 'requests' }); // Reset sub-tab on main tab change
+        setSearchParams({ tab, view: 'requests' }); // Reset sub-tab when tab changes
     };
 
-    // Helper to change sub-tab
     const handleSubTabChange = (view: string) => {
         setSearchParams({ tab: activeTab, view });
     };
 
-    if (!user || user.role !== 'admin') {
-        // ... (forbidden code remains same)
-        return (
-            <div className="flex h-screen items-center justify-center bg-nexus-black text-white">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-red-500 mb-4">403 Forbidden</h1>
-                    <p>Access Restricted to Admins Only.</p>
-                </div>
-            </div>
-        );
-    }
+    const navItems = [
+        { id: 'accounts', label: 'Accounts', icon: 'mdi:account-group' },
+        { id: 'applications', label: 'Applications', icon: 'mdi:briefcase-account' },
+        { id: 'courses', label: 'Courses', icon: 'mdi:book-education' },
+        { id: 'enrollments', label: 'Enrollments', icon: 'mdi:clipboard-check' },
+        { id: 'nexons', label: 'Nexons', icon: 'mdi:robot' },
+        { id: 'promocodes', label: 'Promo Codes', icon: 'mdi:ticket-percent' },
+    ];
+
+    const getPageTitle = () => {
+        const item = navItems.find(i => i.id === activeTab);
+        return item ? item.label : 'Dashboard';
+    };
 
     return (
-        <div className="min-h-screen bg-nexus-black px-4 py-8 lg:px-8">
-            <div className="mx-auto max-w-7xl">
-                <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-3xl font-bold text-nexus-white">Admin Dashboard</h1>
-                    <div className="flex gap-4">
-                        <button
-                            onClick={() => handleTabChange('accounts')}
-                            className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'accounts' ? 'bg-nexus-green text-black' : 'text-gray-400 hover:text-white hover:scale-105 transition duration-300'}`}
-                        >
-                            Accounts
-                        </button>
-                        <button
-                            onClick={() => handleTabChange('applications')}
-                            className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'applications' ? 'bg-nexus-green text-black' : 'text-gray-400 hover:text-white hover:scale-105 transition duration-300'}`}
-                        >
-                            Tutor Applications
-                        </button>
-                        <button
-                            onClick={() => handleTabChange('courses')}
-                            className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'courses' ? 'bg-nexus-green text-black' : 'text-gray-400 hover:text-white hover:scale-105 transition duration-300'}`}
-                        >
-                            Course Manager
-                        </button>
-                        <button
-                            onClick={() => handleTabChange('enrollments')}
-                            className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'enrollments' ? 'bg-nexus-green text-black' : 'text-gray-400 hover:text-white hover:scale-105 transition duration-300'}`}
-                        >
-                            Enrollments
-                        </button>
-                        <button
-                            onClick={() => handleTabChange('nexons')}
-                            className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === 'nexons' ? 'bg-nexus-green text-black' : 'text-gray-400 hover:text-white hover:scale-105 transition duration-300'}`}
-                        >
-                            Nexons
-                        </button>
+        <div className="min-h-screen bg-nexus-black text-white flex">
 
+            {/* Sidebar */}
+            <div className="w-64 bg-nexus-card/50 border-r border-white/5 backdrop-blur-xl h-screen sticky top-0 flex flex-col p-6 overflow-y-auto">
+                <div className="mb-10 flex items-center gap-3 px-2">
+                    <div className="w-8 h-8 rounded-lg bg-nexus-green flex items-center justify-center">
+                        <Icon icon="mdi:shield-crown" className="text-black text-xl" />
+                    </div>
+                    <div>
+                        <h1 className="font-bold text-lg tracking-tight">Admin</h1>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest">Control Panel</p>
                     </div>
                 </div>
 
-                {activeTab === 'applications' && (
-                    <div>
-                        <div className="flex gap-4 mb-6 border-b border-white/10 pb-4">
-                            <button
-                                onClick={() => handleSubTabChange('requests')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'requests' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                Requests
-                            </button>
-                            <button
-                                onClick={() => handleSubTabChange('overview')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'overview' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                Overview & Analytics
-                            </button>
-                        </div>
-
-                        {subTab === 'requests' ? <ApplicationsList /> : <ApplicationsAnalytics />}
-                    </div>
-                )}
-
-                {activeTab === 'enrollments' && (
-                    <div>
-                        <div className="flex gap-4 mb-6 border-b border-white/10 pb-4">
-                            <button
-                                onClick={() => handleSubTabChange('requests')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'requests' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                Requests
-                            </button>
-                            <button
-                                onClick={() => handleSubTabChange('overview')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'overview' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                Overview & Analytics
-                            </button>
-                        </div>
-
-                        {subTab === 'requests' ? <PendingEnrollmentsList /> : <EnrollmentAnalytics />}
-                    </div>
-                )}
-
-                {activeTab === 'courses' && (
-                    <div>
-                        <div className="flex justify-between items-center mb-6">
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={() => handleSubTabChange('requests')} // Reuse 'requests' as 'manage' or make specific
-                                    className={`text-sm font-medium pb-1 transition-colors ${subTab === 'requests' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                                >
-                                    Manage Courses
-                                </button>
-                                <button
-                                    onClick={() => handleSubTabChange('overview')}
-                                    className={`text-sm font-medium pb-1 transition-colors ${subTab === 'overview' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                                >
-                                    Overview & Analytics
-                                </button>
-                            </div>
-
-                            {subTab === 'requests' && (
-                                <Link
-                                    to="/admin/courses/create"
-                                    className="flex items-center gap-2 bg-nexus-green text-black px-4 py-2 rounded-lg font-bold hover:bg-nexus-green/90 transition-colors"
-                                >
-                                    <Icon icon="mdi:plus" /> Create Course
-                                </Link>
+                <nav className="space-y-1 flex-1">
+                    {navItems.map((item) => (
+                        <button
+                            key={item.id}
+                            onClick={() => handleTabChange(item.id)}
+                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${activeTab === item.id
+                                ? 'bg-nexus-green/10 text-nexus-green'
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                }`}
+                        >
+                            {activeTab === item.id && (
+                                <motion.div
+                                    layoutId="activeTabIndicator"
+                                    className="absolute inset-0 bg-nexus-green/10 rounded-xl"
+                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                />
                             )}
+                            <Icon
+                                icon={item.icon}
+                                className={`text-xl relative z-10 transition-colors ${activeTab === item.id ? 'text-nexus-green' : 'text-gray-500 group-hover:text-white'
+                                    }`}
+                            />
+                            <span className="relative z-10 font-medium text-sm">{item.label}</span>
+                        </button>
+                    ))}
+                </nav>
+
+                <div className="mt-auto pt-6 border-t border-white/5">
+                    <div className="flex items-center gap-3 px-2">
+                        <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center border border-white/10">
+                            {/* <Icon icon="mdi:account" className="text-gray-400" /> */}
+                            <img src={user?.current_avatar_url} alt="" className='p-1' />
                         </div>
-
-                        {subTab === 'requests' ? <CourseList /> : <CourseManagerAnalytics />}
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-bold truncate">{user?.username}</p>
+                            <p className="text-xs text-nexus-green flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-nexus-green animate-pulse" /> Online
+                            </p>
+                        </div>
                     </div>
-                )}
+                </div>
+            </div>
 
-                {activeTab === 'accounts' && (
+            {/* Main Content */}
+            <div className="flex-1 p-8 h-screen overflow-y-auto w-full">
+                <header className="flex justify-between items-center mb-8">
                     <div>
-                        <div className="flex gap-4 mb-6 border-b border-white/10 pb-4">
-                            <button
-                                onClick={() => handleSubTabChange('requests')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'requests' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                User List
-                            </button>
-                            <button
-                                onClick={() => handleSubTabChange('overview')}
-                                className={`text-sm font-medium pb-1 transition-colors ${subTab === 'overview' ? 'text-nexus-green border-b-2 border-nexus-green' : 'text-gray-400 hover:text-white'}`}
-                            >
-                                Analytics
-                            </button>
-                        </div>
-
-                        {subTab === 'requests' ? <AccountsList /> : <AccountsAnalytics />}
+                        <h2 className="text-3xl font-black tracking-tight mb-2">{getPageTitle()}</h2>
+                        <p className="text-gray-400">Manage your platform resources</p>
                     </div>
-                )}
 
-                {activeTab === 'nexons' && <NexonManager />}
+                    {/* Contextual Actions (Top Right) */}
+                    {/* {activeTab === 'courses' && subTab === 'requests' && (
+                        <Link
+                            to="/admin/courses/create"
+                            className="flex items-center gap-2 bg-nexus-green text-black px-6 py-3 rounded-xl font-bold hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+                        >
+                            <Icon icon="mdi:plus" className="text-xl" />
+                            <span>Create Course</span>
+                        </Link>
+                    )} */}
+                </header>
+
+                <div className="bg-[#09090b] border border-white/10 rounded-3xl p-1 overflow-hidden min-h-[600px] shadow-2xl relative">
+                    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none" />
+
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeTab}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-black/40 backdrop-blur-3xl rounded-[22px] h-full p-6 md:p-8"
+                        >
+                            {/* Sub-Tabs Navigation for complex pages */}
+                            {(activeTab === 'applications' || activeTab === 'enrollments' || activeTab === 'courses' || activeTab === 'accounts') && (
+                                <div className="flex gap-1 bg-white/5 p-1 rounded-xl w-fit mb-8">
+                                    {(activeTab === 'accounts' ? [
+                                        { id: 'requests', label: 'User List' },
+                                        { id: 'overview', label: 'Analytics' }
+                                    ] : activeTab === 'courses' ? [
+                                        { id: 'requests', label: 'Manage Courses' },
+                                        { id: 'overview', label: 'Overview & Analytics' }
+                                    ] : [
+                                        { id: 'requests', label: 'Requests' },
+                                        { id: 'overview', label: 'Overview & Analytics' }
+                                    ]).map((tab) => (
+                                        <button
+                                            key={tab.id}
+                                            onClick={() => handleSubTabChange(tab.id)}
+                                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${subTab === tab.id
+                                                ? 'bg-nexus-card text-white shadow-lg border border-white/10'
+                                                : 'text-gray-400 hover:text-white hover:bg-white/5'
+                                                }`}
+                                        >
+                                            {tab.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Dynamic Content Rendering */}
+                            <div className="relative z-10">
+                                {activeTab === 'applications' && (
+                                    subTab === 'requests' ? <ApplicationsList /> : <ApplicationsAnalytics />
+                                )}
+
+                                {activeTab === 'enrollments' && (
+                                    subTab === 'requests' ? <PendingEnrollmentsList /> : <EnrollmentAnalytics />
+                                )}
+
+                                {activeTab === 'courses' && (
+                                    subTab === 'requests' ? <CourseList /> : <CourseManagerAnalytics />
+                                )}
+
+                                {activeTab === 'accounts' && (
+                                    subTab === 'requests' ? <AccountsList /> : <AccountsAnalytics />
+                                )}
+
+                                {activeTab === 'nexons' && <NexonManager />}
+                                {activeTab === 'promocodes' && <PromoCodeManager />}
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
             </div>
         </div>
     );

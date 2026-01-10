@@ -21,6 +21,8 @@ import CoursePlayer from './pages/CoursePlayer';
 import MyCourses from './pages/MyCourses';
 import { FullScreenLoader } from './components/ui/Loader';
 import Deactivated from './pages/Deactivated';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 
 // ... (existing imports)
 
@@ -31,6 +33,15 @@ const ProtectedRoute = () => {
   if (isLoading) return <FullScreenLoader />;
 
   return token ? <Outlet /> : <Navigate to="/login" replace />;
+};
+
+// Admin Route Wrapper
+const AdminRoute = () => {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return <FullScreenLoader />;
+
+  return user && user.role === 'admin' ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 function AppRoutes() {
@@ -60,11 +71,6 @@ function AppRoutes() {
             <Route path="/my-courses" element={<MyCourses />} />
             <Route path="/tutor-application" element={<TutorApplication />} />
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/courses/create" element={<CourseEditor />} />
-            <Route path="/admin/courses/:id/edit" element={<CourseEditor />} />
-
             {/* Tutors can VIEW course details (using same component but read-only mode logic can be inside) */}
             <Route path="/tutor/courses/:id/edit" element={<CourseEditor />} />
 
@@ -72,9 +78,17 @@ function AppRoutes() {
             <Route path="/courses/:id/learn" element={<CoursePlayer />} />
           </Route>
 
+          {/* Admin Routes */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/courses/create" element={<CourseEditor />} />
+            <Route path="/admin/courses/:id/edit" element={<CourseEditor />} />
+          </Route>
+
           {/* Placeholders for PRD Links */}
-          <Route path="/about" element={<div className="text-white p-8">About Us Placeholder</div>} />
-          <Route path="/contact" element={<div className="text-white p-8">Contact Us Placeholder</div>} />
+          <Route path="/about" element={<AboutUs />} />
+
+          <Route path="/contact" element={<ContactUs />} />
           <Route path="/tutor-dashboard" element={<TutorDashboard />} />
         </Route>
       </Routes>

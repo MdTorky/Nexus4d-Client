@@ -60,49 +60,90 @@ export default function Courses() {
     if (loading) return <FullScreenLoader />;
 
     return (
-        <div className="min-h-screen bg-nexus-black pt-24 px-4 sm:px-6 lg:px-8 pb-12">
-            <div className="max-w-7xl mx-auto space-y-8">
+        <div className="min-h-screen bg-nexus-black pt-24 px-4 sm:px-6 lg:px-8 pb-12 relative overflow-hidden">
+
+            {/* Ambient Background */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-nexus-green/5 rounded-full blur-[150px]" />
+                <div className="absolute bottom-[-10%] left-[-20%] w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[150px]" />
+            </div>
+
+            <div className="max-w-7xl mx-auto space-y-12 relative z-10">
 
                 {/* Header & Search */}
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div>
-                        <h1 className="text-3xl font-bold text-white mb-2">Explore Courses</h1>
-                        <p className="text-gray-400">Find the perfect course to level up your skills.</p>
-                    </div>
+                <div className="flex flex-col md:flex-row justify-between items-end gap-6">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className="flex items-center gap-3 mb-2">
+                            {/* <div className="p-2 bg-nexus-green/10 rounded-lg">
+                                <Icon icon="mdi:compass-outline" className="text-nexus-green text-2xl" />
+                            </div> */}
+                            <span className="text-nexus-green font-bold tracking-wider uppercase text-sm">Course Catalog</span>
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                            CHOOSE YOUR <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-white">PATHWAY</span>
+                        </h1>
+                    </motion.div>
 
-                    <div className="relative w-full md:w-96">
-                        <Icon icon="mdi:magnify" className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" width="20" />
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                        className="relative w-full md:w-96"
+                    >
+                        <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-nexus-green transition-colors" width="24" />
                         <input
                             type="text"
-                            placeholder="Search courses..."
+                            placeholder="Search for knowledge..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-black/50 border border-gray-700 rounded-full py-2.5 pl-10 pr-4 text-white focus:border-nexus-green focus:outline-none transition-colors"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-gray-500 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all shadow-lg backdrop-blur-sm"
                         />
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Filters */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/5 pb-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-1 border-b border-white/5 pb-8"
+                >
                     {/* Tabs */}
-                    <div className="flex bg-black/30 p-1 rounded-lg">
+                    <div className="flex gap-2 bg-white/5 p-1.5 rounded-xl backdrop-blur-md border border-white/5">
                         {(['all', 'university', 'general'] as const).map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => { setActiveTab(tab); setSelectedMajor(''); }}
-                                className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${activeTab === tab
-                                    ? 'bg-nexus-green text-black shadow-lg shadow-nexus-green/20'
-                                    : 'text-gray-400 hover:text-white'
+                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all relative overflow-hidden ${activeTab === tab
+                                    ? 'text-black shadow-lg shadow-nexus-green/20'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/5'
                                     }`}
                             >
-                                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                {activeTab === tab && (
+                                    <motion.div
+                                        layoutId="activeTab"
+                                        className="absolute inset-0 bg-nexus-green z-0"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    />
+                                )}
+                                <span className="relative z-10">{tab.charAt(0).toUpperCase() + tab.slice(1)}</span>
                             </button>
                         ))}
                     </div>
 
                     {/* Secondary Filter (Major) */}
                     {activeTab === 'university' && (
-                        <div className="w-full sm:w-64">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="w-full sm:w-72"
+                        >
                             <Select
                                 options={[
                                     { label: "All Majors", value: "", icon: "mdi:all-inclusive" },
@@ -113,34 +154,45 @@ export default function Courses() {
                                 placeholder="Filter by Major"
                                 className="w-full"
                             />
-                        </div>
+                        </motion.div>
                     )}
-                </div>
+                </motion.div>
 
                 {/* Grid */}
                 {filteredCourses.length > 0 ? (
                     <motion.div
                         layout
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
                     >
-                        {filteredCourses.map((course) => (
-                            <CourseCard key={course._id} course={course} />
+                        {filteredCourses.map((course, index) => (
+                            <motion.div
+                                key={course._id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                            >
+                                <CourseCard course={course} />
+                            </motion.div>
                         ))}
                     </motion.div>
                 ) : (
-                    <div className="text-center py-20">
-                        <div className="bg-gray-900/50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                            <Icon icon="mdi:school-off" className="text-gray-600" width="40" />
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-center py-32 border border-dashed border-white/10 rounded-3xl bg-white/5"
+                    >
+                        <div className="bg-white/5 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                            <Icon icon="mdi:database-off" className="text-gray-500" width="48" />
                         </div>
-                        <h3 className="text-xl font-bold text-white mb-2">No courses found</h3>
-                        <p className="text-gray-500">Try adjusting your filters or search query.</p>
+                        <h3 className="text-2xl font-bold text-white mb-2">Signal Lost</h3>
+                        <p className="text-gray-400 max-w-md mx-auto">No courses generated on this frequency. Adjust your filters to re-establish connection.</p>
                         <button
                             onClick={() => { setActiveTab('all'); setSearchQuery(''); setSelectedMajor(''); }}
-                            className="mt-6 text-nexus-green hover:underline cursor-pointer"
+                            className="mt-8 px-6 py-3 bg-white/10 hover:bg-white/20 text-nexus-green font-bold rounded-xl transition-all border border-nexus-green/20 hover:border-nexus-green/50"
                         >
-                            Clear all filters
+                            Reset Parameters
                         </button>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </div>

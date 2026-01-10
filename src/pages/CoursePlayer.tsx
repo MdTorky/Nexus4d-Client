@@ -9,6 +9,7 @@ import NexusPlayer from '../components/course/NexusPlayer';
 import NexusViewer from '../components/course/NexusViewer';
 import type { Course, Chapter, Enrollment, Avatar } from '../types';
 import { RewardModal } from '../components/common/RewardModal';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CoursePlayer() {
     const { id } = useParams<{ id: string }>();
@@ -37,18 +38,17 @@ export default function CoursePlayer() {
 
     const fetchCourse = async () => {
         try {
-            // Use Secure Content Endpoint
             const { data } = await api.get(`/courses/${id}/content`);
-            setCourse(data.course); // Backend returns object { course, chapters, userProgress }
+            setCourse(data.course);
             setChapters(data.chapters || []);
             setEnrollment(data.userProgress);
         } catch (error: any) {
             console.error('Failed to load course:', error);
             if (error.response?.status === 403) {
-                showToast('You must be enrolled to access this content', 'error');
+                showToast('Access Denied. Please enroll first.', 'error');
                 navigate(`/courses/${id}`);
             } else {
-                showToast('Failed to load course content', 'error');
+                showToast('Failed to load course data.', 'error');
                 navigate('/courses');
             }
         } finally {
@@ -57,22 +57,21 @@ export default function CoursePlayer() {
     };
 
     const toggleMaterialCompletion = async (materialId: string, e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent navigation when clicking checkbox
+        e.stopPropagation();
         if (!enrollment) return;
 
-        // Optimistic Update (Material IDs only)
+        // Optimistic Update
         const isCompleted = enrollment.completed_material_ids?.includes(materialId);
         const newCompletedIds = isCompleted
             ? enrollment.completed_material_ids?.filter(id => id !== materialId)
             : [...(enrollment.completed_material_ids || []), materialId];
 
-        // Partially update state optimistically
         setEnrollment(prev => prev ? { ...prev, completed_material_ids: newCompletedIds } : null);
 
         try {
             const { data } = await api.post(`/courses/${id}/materials/${materialId}/toggle`);
 
-            // Sync full state from server response (Progress & Completed Chapters)
+            // Sync full state
             setEnrollment(prev => prev ? {
                 ...prev,
                 progress: data.progress,
@@ -82,8 +81,7 @@ export default function CoursePlayer() {
 
         } catch (error) {
             console.error("Failed to toggle completion", error);
-            // Revert on failure
-            fetchCourse();
+            fetchCourse(); // Revert
         }
     };
 
@@ -95,350 +93,343 @@ export default function CoursePlayer() {
     const progress = enrollment?.progress || 0;
 
     return (
-        <div className="flex h-screen bg-nexus-black overflow-hidden font-sans text-white">
-            {/* Sidebar */}
-            <div
-                className={`${sidebarOpen ? 'w-80' : 'w-0'} bg-black/40 backdrop-blur-xl border-r border-white/5 transition-all duration-300 flex flex-col shrink-0 relative`}
-            >
-                {/* Sidebar Header */}
-                <div className="p-6 border-b border-white/10 flex items-center justify-between bg-black/20">
-                    <div>
-                        <h2 className="text-white font-bold text-lg tracking-tight">Course Content</h2>
-                        <div className="flex items-center gap-2 mt-1">
-                            <div className="h-1.5 w-24 bg-gray-800 rounded-full overflow-hidden">
-                                <div
-                                    className="h-full bg-nexus-green transition-all duration-500"
-                                    style={{ width: `${progress}%` }}
-                                />
+        <div className="flex h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-[#0a0a0a] to-black overflow-hidden font-sans text-white text-selection-nexus">
+            {/* Holographic Sidebar */}
+            <AnimatePresence mode="wait">
+                {sidebarOpen && (
+                    <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 350, opacity: 1 }}
+                        exit={{ width: 0, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        className="h-full border-r border-white/5 bg-black/60 backdrop-blur-2xl flex flex-col shrink-0 relative z-20 shadow-[5px_0_30px_rgba(0,0,0,0.5)]"
+                    >
+                        {/* Sidebar Header */}
+                        <div className="p-6 border-b border-white/5 bg-gradient-to-r from-white/5 to-transparent">
+                            <div className="flex items-center justify-between mb-4">
+                                <h2 className="text-white font-black text-sm uppercase tracking-widest flex items-center gap-2">
+                                    <Icon icon="mdi:view-list" className="text-nexus-green" />
+                                    Mission Logs
+                                </h2>
+                                <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-500 hover:text-white transition-colors">
+                                    <Icon icon="mdi:close" />
+                                </button>
                             </div>
-                            <span className="text-xs text-nexus-green font-mono">{progress}%</span>
+
+                            {/* Progress Widget */}
+                            <div className="bg-black/40 rounded-xl p-3 border border-white/5 relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-nexus-green/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                                <div className="flex justify-between items-end mb-2 relative z-10">
+                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Mission Progress</span>
+                                    <span className="text-lg font-black text-nexus-green">{Math.round(progress)}%</span>
+                                </div>
+                                <div className="h-1 w-full bg-gray-800 rounded-full overflow-hidden relative z-10">
+                                    <motion.div
+                                        className="h-full bg-nexus-green shadow-[0_0_10px_#22c55e]"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${progress}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-400 hover:text-white">
-                        <Icon icon="mdi:close" width="24" />
-                    </button>
-                </div>
 
-                {/* Chapter List */}
-                <div className="flex-1 overflow-y-auto custom-scrollbar">
-                    {chapters.map((chapter, cIndex) => (
-                        <div key={chapter._id} className="border-b border-white/5 last:border-0">
-                            <div className="px-6 py-4 bg-white/5">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">
-                                    Chapter {cIndex + 1}
-                                </h3>
-                                <p className="text-sm font-semibold text-gray-200">{chapter.title}</p>
-                            </div>
+                        {/* Chapter List */}
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
+                            {chapters.map((chapter, cIndex) => {
+                                const isChapterActive = cIndex === activeChapterIndex;
+                                const isChapterCompleted = enrollment?.completed_chapter_ids?.includes(chapter._id);
 
-                            <div className="py-2">
-                                {chapter.materials?.map((material, mIndex) => {
-                                    const isActive = cIndex === activeChapterIndex && mIndex === activeMaterialIndex;
-                                    const isCompleted = enrollment?.completed_material_ids?.includes(material._id || '');
-
-                                    return (
-                                        <div
-                                            key={mIndex}
-                                            className={`relative group flex items-center px-6 py-3 cursor-pointer transition-colors ${isActive ? 'bg-nexus-green/10 border-r-2 border-nexus-green' : 'hover:bg-white/5'
-                                                }`}
-                                            onClick={() => {
-                                                setActiveChapterIndex(cIndex);
-                                                setActiveMaterialIndex(mIndex);
-                                            }}
-                                        >
-                                            {/* Checkbox */}
-                                            <button
-                                                onClick={(e) => material._id && toggleMaterialCompletion(material._id, e)}
-                                                className={`mr-4 shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-all ${isCompleted
-                                                    ? 'bg-nexus-green border-nexus-green text-black'
-                                                    : 'border-gray-600 hover:border-nexus-green text-transparent'
-                                                    }`}
-                                            >
-                                                <Icon icon="mdi:check" width="14" strokeWidth="3" />
-                                            </button>
-
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2 text-sm">
-                                                    <Icon
-                                                        icon={material.type === 'video' ? 'mdi:play-circle-outline' : 'mdi:file-document-outline'}
-                                                        className={isActive ? 'text-nexus-green' : 'text-gray-500'}
-                                                        width="16"
-                                                    />
-                                                    <span className={`truncate ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>
-                                                        {material.title}
-                                                    </span>
+                                return (
+                                    <div key={chapter._id} className="rounded-xl overflow-hidden border border-transparent transition-colors">
+                                        <div className={`px-4 py-3 bg-white/5 flex items-center justify-between ${isChapterActive ? 'bg-white/10' : ''}`}>
+                                            <div className="flex items-center gap-3">
+                                                <div className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold border ${isChapterCompleted
+                                                    ? 'bg-nexus-green text-black border-nexus-green'
+                                                    : isChapterActive
+                                                        ? 'bg-white text-black border-white'
+                                                        : 'bg-transparent text-gray-500 border-gray-700'
+                                                    }`}>
+                                                    {isChapterCompleted ? <Icon icon="mdi:check" /> : cIndex + 1}
                                                 </div>
+                                                <h3 className={`text-xs font-bold uppercase tracking-wide ${isChapterActive ? 'text-white' : 'text-gray-400'}`}>
+                                                    {chapter.title}
+                                                </h3>
                                             </div>
                                         </div>
-                                    );
-                                })}
-                                {(!chapter.materials || chapter.materials.length === 0) && (
-                                    <p className="text-xs text-gray-600 px-6 py-2 italic">No materials yet</p>
-                                )}
-                            </div>
+
+                                        <div className="space-y-0.5 mt-0.5">
+                                            {chapter.materials?.map((material, mIndex) => {
+                                                const isActive = cIndex === activeChapterIndex && mIndex === activeMaterialIndex;
+                                                const isCompleted = enrollment?.completed_material_ids?.includes(material._id || '');
+
+                                                return (
+                                                    <motion.div
+                                                        key={mIndex}
+                                                        layout
+                                                        className={`relative group flex items-center px-4 py-3 cursor-pointer transition-all border-l-2 ${isActive
+                                                            ? 'bg-nexus-green/10 border-nexus-green'
+                                                            : 'border-transparent hover:bg-white/5 hover:border-white/20'
+                                                            }`}
+                                                        onClick={() => {
+                                                            setActiveChapterIndex(cIndex);
+                                                            setActiveMaterialIndex(mIndex);
+                                                        }}
+                                                    >
+                                                        {isActive && (
+                                                            <div className="absolute inset-0 bg-gradient-to-r from-nexus-green/10 to-transparent pointer-events-none" />
+                                                        )}
+
+                                                        {/* Status Icon */}
+                                                        <div className="mr-3 relative z-10">
+                                                            <button
+                                                                onClick={(e) => material._id && toggleMaterialCompletion(material._id, e)}
+                                                                className={`w-4 h-4 rounded flex items-center justify-center transition-all border ${isCompleted
+                                                                    ? 'bg-nexus-green border-nexus-green text-black'
+                                                                    : 'border-gray-600 hover:border-nexus-green text-transparent'
+                                                                    }`}
+                                                            >
+                                                                <Icon icon="mdi:check" className="text-[10px]" strokeWidth="4" />
+                                                            </button>
+                                                        </div>
+
+                                                        <div className="flex-1 min-w-0 relative z-10">
+                                                            <div className="flex items-center gap-2">
+                                                                <Icon
+                                                                    icon={material.type === 'video' ? 'mdi:play' : material.type === 'pdf' ? 'mdi:file-pdf' : 'mdi:file-image'}
+                                                                    className={`text-sm ${isActive ? 'text-nexus-green' : 'text-gray-500'}`}
+                                                                />
+                                                                <span className={`text-xs font-medium truncate ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                                                                    {material.title}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Duration/Type indicator could go here */}
+                                                    </motion.div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
-                    ))}
-                </div>
 
-                {/* Back to Course */}
-                <div className="p-4 border-t border-white/10 bg-black/20">
-                    <Link to={`/courses/${id}`} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                        <Icon icon="mdi:arrow-left" /> Back to Course Info
-                    </Link>
-                </div>
-            </div>
+                        {/* Back to Course */}
+                        <div className="p-4 border-t border-white/5 bg-black/40">
+                            <Link to={`/courses/${id}`} className="flex items-center justify-center gap-2 w-full py-2 rounded-lg bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all text-xs font-bold uppercase tracking-wider">
+                                <Icon icon="mdi:arrow-left" /> Abort Mission
+                            </Link>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col relative bg-gradient-to-br from-gray-900 to-black">
+            {/* Main Content Area - "Cinema Mode" */}
+            <div className="flex-1 flex flex-col relative z-10">
 
-                {/* Header */}
-                <div className="h-20 flex items-center px-8 border-b border-white/5 bg-black/20 backdrop-blur-md z-10">
-                    <button
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
-                        className={`mr-6 text-gray-400 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 ${sidebarOpen ? 'hidden md:block' : ''}`}
-                    >
-                        <Icon icon={sidebarOpen ? "mdi:menu-open" : "mdi:menu"} width="24" />
-                    </button>
+                {/* HUD Header */}
+                <header className="h-16 flex items-center px-6 border-b border-white/5 bg-black/40 backdrop-blur-md justify-between select-none">
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => setSidebarOpen(!sidebarOpen)}
+                            className={`text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 ${sidebarOpen ? 'hidden md:block' : ''}`}
+                        >
+                            <Icon icon={sidebarOpen ? "mdi:page-layout-sidebar-left" : "mdi:page-layout-sidebar-right"} width="20" />
+                        </button>
 
-                    <div className="flex-1">
-                        <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
-                            {currentMaterial?.title || course.title}
-                            {enrollment?.completed_material_ids?.includes(currentMaterial?._id || '') && (
-                                <span className="px-2 py-0.5 bg-nexus-green/20 text-nexus-green text-xs rounded-full border border-nexus-green/30 font-mono uppercase tracking-wider">
-                                    Completed
-                                </span>
-                            )}
-                        </h1>
-                        <p className="text-sm text-gray-400 mt-1">
-                            {course.title} <span className="mx-2 text-gray-600">/</span> Chapter {activeChapterIndex + 1}
-                        </p>
+                        <div className="flex flex-col">
+                            <h1 className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-3">
+                                <span className="text-nexus-green">//</span>
+                                {currentMaterial?.title || "Briefing"}
+                            </h1>
+                            <span className="text-[10px] font-mono text-gray-500 uppercase tracking-tight">
+                                {course.title} • TOP SECRET • CH {activeChapterIndex + 1}
+                            </span>
+                        </div>
                     </div>
 
-                    {/* XP / Gamification Widget */}
-                    <div className="px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm flex items-center gap-3">
-                        <div className="p-1.5 bg-nexus-green/20 rounded-full text-nexus-green">
-                            <Icon icon="mdi:star-four-points" />
-                        </div>
-                        <div>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Total XP</p>
-                            <p className="text-sm font-bold text-white leading-none">{Math.floor(user?.xp_points || 0)}</p>
+                    <div className="flex items-center gap-4">
+                        {/* XP Widget */}
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-nexus-green/10 border border-nexus-green/20">
+                            <Icon icon="mdi:star-four-points" className="text-nexus-green text-xs animate-pulse" />
+                            <span className="text-xs font-black text-nexus-green tracking-wider">{Math.floor(user?.xp_points || 0)} XP</span>
                         </div>
                     </div>
-                </div>
+                </header>
 
+                {/* Content Viewport */}
+                <main className="flex-1 overflow-y-auto relative scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent flex flex-col items-center">
 
-                {/* Content Area */}
-                <div className="flex-1 overflow-y-auto relative scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-
-                    <div className="max-w-6xl mx-auto p-8">
+                    <div className="w-full max-w-6xl mx-auto p-6 md:p-10 flex-1 flex flex-col">
 
                         {currentMaterial ? (
-                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                {/* Viewer Container */}
-                                <div className="aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative z-0">
-                                    {currentMaterial.type === 'video' ? (
-                                        <NexusPlayer
-                                            src={currentMaterial.url}
-                                            poster={course.thumbnail_url}
-                                            autoPlay={false}
-                                        />
-                                    ) : (
-                                        <NexusViewer
-                                            type={currentMaterial.type}
-                                            url={currentMaterial.url}
-                                            title={currentMaterial.title}
-                                        />
-                                    )}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                                className="flex-1 flex flex-col gap-8"
+                            >
+                                {/* Media Container */}
+                                <div className="relative group rounded-2xl overflow-hidden border border-white/10 bg-black shadow-[0_0_100px_rgba(34,197,94,0.05)] ring-1 ring-white/5">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-nexus-green/10 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-1000 pointer-events-none" />
+
+                                    <div className="aspect-video relative z-10 bg-black">
+                                        {currentMaterial.type === 'video' ? (
+                                            <NexusPlayer
+                                                src={currentMaterial.url}
+                                                poster={course.thumbnail_url}
+                                                autoPlay={false}
+                                            />
+                                        ) : (
+                                            <NexusViewer
+                                                type={currentMaterial.type}
+                                                url={currentMaterial.url}
+                                                title={currentMaterial.title}
+                                            />
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="flex gap-4 mb-10 w-full justify-evenly">
-                                    {enrollment?.completed_chapter_ids?.includes(currentChapter._id) &&
-                                        !enrollment?.claimed_chapter_ids?.includes(currentChapter._id) && (
-                                            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-2xl p-6 animate-pulse flex-1">
-                                                <h4 className="font-bold text-yellow-500 mb-2 flex items-center gap-2">
-                                                    <Icon icon="mdi:trophy" /> Chapter Completed!
-                                                </h4>
-                                                <p className="text-sm text-gray-300 mb-4">
-                                                    You've finished this chapter. Claim your XP reward now!
-                                                </p>
+
+                                {/* Controls & Context Row */}
+                                <div className="flex flex-col md:flex-row gap-6">
+                                    {/* Left: Info */}
+                                    <div className="flex-1 space-y-4">
+                                        <div className="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                                            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+                                                <Icon icon="mdi:information-outline" className="text-nexus-green" />
+                                                Intel Brief
+                                            </h3>
+                                            <p className="text-sm text-gray-400 leading-relaxed font-light">
+                                                {currentMaterial.description || <span className='text-red-400'>No additional intelligence provided for this mission segment.</span>}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Right: Actions */}
+                                    <div className="w-full md:w-80 flex flex-col gap-4">
+                                        {/* Mark Complete Action */}
+                                        <button
+                                            onClick={(e) => currentMaterial._id && toggleMaterialCompletion(currentMaterial._id, e)}
+                                            className={`w-full py-4 px-6 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all duration-300 transform group ${enrollment?.completed_material_ids?.includes(currentMaterial._id || '')
+                                                ? 'bg-nexus-green text-black shadow-[0_0_20px_rgba(34,197,94,0.4)]'
+                                                : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10 hover:border-nexus-green/50'
+                                                }`}
+                                        >
+                                            <Icon icon={enrollment?.completed_material_ids?.includes(currentMaterial._id || '') ? "mdi:check-all" : "mdi:checkbox-blank-circle-outline"} className="text-lg" />
+                                            {enrollment?.completed_material_ids?.includes(currentMaterial._id || '') ? "Objective Complete" : "Mark Complete"}
+                                        </button>
+
+                                        {/* Chapter Claim */}
+                                        {enrollment?.completed_chapter_ids?.includes(currentChapter._id) &&
+                                            !enrollment?.claimed_chapter_ids?.includes(currentChapter._id) && (
+                                                <motion.div
+                                                    initial={{ scale: 0.9, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    className="p-1 rounded-xl bg-gradient-to-r from-yellow-500 via-yellow-400 to-orange-500"
+                                                >
+                                                    <button
+                                                        onClick={async () => {
+                                                            try {
+                                                                const { data } = await api.post(`/courses/${id}/chapters/${currentChapter._id}/claim`);
+                                                                if (data.success) {
+                                                                    showToast(`Mission Accomplished: +${data.claimedXp} XP`, 'success');
+                                                                    updateUser({ xp_points: data.newTotalXp, level: data.newLevel, avatar_unlock_tokens: data.newTokens });
+                                                                    setEnrollment(prev => prev ? { ...prev, claimed_chapter_ids: [...(prev.claimed_chapter_ids || []), currentChapter._id] } : null);
+                                                                    if (data.leveledUp) showToast(`PROMOTION! Level Up!`, 'success');
+                                                                }
+                                                            } catch (e) { console.error(e); }
+                                                        }}
+                                                        className="w-full bg-black/90 rounded-lg py-3 px-4 flex items-center justify-between text-yellow-500 hover:text-yellow-400 transition-colors group"
+                                                    >
+                                                        <span className="text-xs font-black uppercase tracking-wider">Chapter Complete</span>
+                                                        <div className="flex items-center gap-1.5 bg-yellow-500/10 px-2 py-1 rounded text-xs font-bold">
+                                                            <span>Claim Reward</span>
+                                                            <Icon icon="mdi:arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                                                        </div>
+                                                    </button>
+                                                </motion.div>
+                                            )}
+
+                                        {/* Course Claim */}
+                                        {enrollment?.progress === 100 && !enrollment?.is_course_reward_claimed && (
+                                            <motion.div
+                                                initial={{ scale: 0.9, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                className="p-1 rounded-xl bg-gradient-to-r from-purple-500 via-purple-400 to-pink-500 shadow-[0_0_30px_rgba(168,85,247,0.4)] animate-pulse"
+                                            >
                                                 <button
                                                     onClick={async () => {
                                                         try {
-                                                            const { data } = await api.post(`/courses/${id}/chapters/${currentChapter._id}/claim`);
+                                                            const { data } = await api.post(`/courses/${id}/claim-rewards`);
                                                             if (data.success) {
-                                                                showToast(`Claimed ${data.claimedXp} XP!`, 'success');
-
-                                                                // Sync XP and Level
-                                                                updateUser({
-                                                                    xp_points: data.newTotalXp,
-                                                                    level: data.newLevel,
-                                                                    avatar_unlock_tokens: data.newTokens
-                                                                });
-
-                                                                // Update local state for claimed rewards
-                                                                setEnrollment(prev => prev ? {
-                                                                    ...prev,
-                                                                    claimed_chapter_ids: [...(prev.claimed_chapter_ids || []), currentChapter._id]
-                                                                } : null);
-
-                                                                if (data.leveledUp) {
-                                                                    showToast(`Level Up! Earned ${data.tokensEarned} Token(s)`, 'success');
-                                                                }
+                                                                updateUser({ xp_points: data.newTotalXp, level: data.newLevel, avatar_unlock_tokens: data.newTokens });
+                                                                setEnrollment(prev => prev ? { ...prev, is_course_reward_claimed: true } : null);
+                                                                setRewardData({ xp: data.claimedXp, avatar: data.rewardAvatar });
+                                                                setShowRewardModal(true);
                                                             }
-                                                        } catch (e) {
-                                                            console.error(e);
-                                                            showToast('Failed to claim reward', 'error');
-                                                        }
+                                                        } catch (e) { console.error(e); }
                                                     }}
-                                                    className="w-full py-2 px-4 rounded-lg font-bold bg-yellow-500 text-black hover:bg-yellow-400 transition-colors flex items-center justify-center gap-2"
+                                                    className="w-full bg-black/90 rounded-lg py-4 px-4 flex flex-col items-center justify-center gap-1 text-purple-400 hover:text-white transition-colors"
                                                 >
-                                                    <Icon icon="mdi:hand-coin" /> Claim {currentChapter.xp_reward} XP
+                                                    <Icon icon="mdi:trophy-variant" className="text-2xl mb-1 text-purple-500" />
+                                                    <span className="text-xs font-black uppercase tracking-widest text-white">Full Course Completed</span>
+                                                    <span className="text-[10px] font-bold text-purple-400">Claim Final Rewards</span>
                                                 </button>
-                                            </div>
+                                            </motion.div>
                                         )}
-
-                                    {enrollment?.progress === 100 && !enrollment?.is_course_reward_claimed && (
-                                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-2xl p-6 animate-pulse flex-1">
-                                            <h4 className="font-bold text-purple-500 mb-2 flex items-center gap-2">
-                                                <Icon icon="mdi:crown" /> Course Completed!
-                                            </h4>
-                                            <p className="text-sm text-gray-300 mb-4">
-                                                Congratulations! Claim your course completion rewards (XP & Avatar).
-                                            </p>
-                                            <button
-                                                onClick={async () => {
-                                                    try {
-                                                        const { data } = await api.post(`/courses/${id}/claim-rewards`);
-                                                        if (data.success) {
-                                                            // Update global user state (XP & Level)
-                                                            updateUser({
-                                                                xp_points: data.newTotalXp,
-                                                                level: data.newLevel,
-                                                                avatar_unlock_tokens: data.newTokens
-                                                            });
-
-                                                            setEnrollment(prev => prev ? { ...prev, is_course_reward_claimed: true } : null);
-
-                                                            // Show Reward Modal
-                                                            setRewardData({ xp: data.claimedXp, avatar: data.rewardAvatar });
-                                                            setShowRewardModal(true);
-
-                                                            if (data.leveledUp) {
-                                                                showToast(`Level Up! Earned ${data.tokensEarned} Token(s)`, 'success');
-                                                            }
-                                                        }
-                                                    } catch (e) {
-                                                        console.error(e);
-                                                        showToast('Failed to claim rewards', 'error');
-                                                    }
-                                                }}
-                                                className="w-full py-3 px-4 rounded-lg font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                                            >
-                                                <Icon icon="mdi:gift" /> Claim Rewards
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Description / Context */}
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                                    <div className="lg:col-span-2">
-                                        <div className="bg-white/5 border border-white/5 rounded-2xl p-8 backdrop-blur-md">
-                                            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                                                <Icon icon="mdi:text-box-outline" className="text-nexus-green" />
-                                                About this lesson
-                                            </h3>
-                                            <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                                                {currentMaterial.description || "No description provided for this lesson."}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Action Card */}
-                                    <div className="lg:col-span-1 space-y-4">
-                                        <div className="bg-nexus-green/5 border border-nexus-green/20 rounded-2xl p-6 sticky top-8 z-10">
-                                            <h4 className="font-bold text-white mb-4">Lesson Actions</h4>
-
-                                            <button
-                                                onClick={(e) => currentMaterial._id && toggleMaterialCompletion(currentMaterial._id, e)}
-                                                className={`w-full py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 ${enrollment?.completed_material_ids?.includes(currentMaterial._id || '')
-                                                    ? 'bg-nexus-green text-black hover:bg-white'
-                                                    : 'bg-white/10 text-white hover:bg-nexus-green hover:text-black'
-                                                    }`}
-                                            >
-                                                {enrollment?.completed_material_ids?.includes(currentMaterial._id || '') ? (
-                                                    <>
-                                                        <Icon icon="mdi:check-circle" className="text-xl" /> Completed
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Icon icon="mdi:circle-outline" className="text-xl" /> Mark as Done
-                                                    </>
-                                                )}
-                                            </button>
-
-                                            <p className="text-xs text-center text-gray-500 mt-3">
-                                                Completing this lesson contributes to your course progress and XP.
-                                            </p>
-                                        </div>
-
-                                        {/* CXP Claim Reward UI */}
-
-
-                                        {/* Course Completion Claim */}
-
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ) : (
-                            <div className="h-full flex flex-col items-center justify-center text-center text-gray-500 opacity-60">
-                                <Icon icon="mdi:play-box-outline" width="80" className="mb-4" />
-                                <p className="text-xl font-light">Select a lesson from the sidebar to start</p>
+                            <div className="flex-1 flex flex-col items-center justify-center text-center opacity-40 select-none pointer-events-none">
+                                <Icon icon="mdi:shield-lock-outline" className="text-6xl text-gray-500 mb-4" />
+                                <h2 className="text-2xl font-black uppercase tracking-widest text-gray-600">Secure Channel Closed</h2>
+                                <p className="text-sm font-mono text-gray-500 mt-2">Initialize playback from Mission Logs</p>
                             </div>
                         )}
+
                     </div>
-                </div>
 
-                {/* Bottom Navigation */}
-                <div className="h-20 border-t border-white/10 bg-black/60 backdrop-blur-xl flex items-center justify-between px-8 z-10">
-                    <button
-                        className="flex items-center gap-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all group"
-                        disabled={activeChapterIndex === 0 && activeMaterialIndex === 0}
-                        onClick={() => {
-                            if (activeMaterialIndex > 0) {
-                                setActiveMaterialIndex(prev => prev - 1);
-                            } else if (activeChapterIndex > 0) {
-                                setActiveChapterIndex(prev => prev - 1);
-                                setActiveMaterialIndex(chapters[activeChapterIndex - 1].materials?.length ? chapters[activeChapterIndex - 1].materials!.length - 1 : 0);
-                            }
-                        }}
-                    >
-                        <div className="p-2 rounded-full bg-white/5 group-hover:bg-nexus-green/20 transition-colors">
-                            <Icon icon="mdi:chevron-left" width="24" className="text-white" />
-                        </div>
-                        <span className="font-medium hidden sm:block">Previous Lesson</span>
-                    </button>
+                    {/* Footer / Navigation */}
+                    <div className="w-full max-w-6xl mx-auto px-6 pb-6 pt-2 flex items-center justify-between">
+                        <button
+                            className="group flex items-center gap-3 px-4 py-2 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                            disabled={activeChapterIndex === 0 && activeMaterialIndex === 0}
+                            onClick={() => {
+                                if (activeMaterialIndex > 0) {
+                                    setActiveMaterialIndex(prev => prev - 1);
+                                } else if (activeChapterIndex > 0) {
+                                    setActiveChapterIndex(prev => prev - 1);
+                                    setActiveMaterialIndex(chapters[activeChapterIndex - 1].materials?.length ? chapters[activeChapterIndex - 1].materials!.length - 1 : 0);
+                                }
+                            }}
+                        >
+                            <Icon icon="mdi:arrow-left" className="text-gray-400 group-hover:text-white transition-colors" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-400 group-hover:text-white hidden sm:block">Previous</span>
+                        </button>
 
-                    <button
-                        className="flex items-center gap-3 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all group"
-                        disabled={
-                            activeChapterIndex === chapters.length - 1 &&
-                            activeMaterialIndex === (chapters[activeChapterIndex].materials?.length || 0) - 1
-                        }
-                        onClick={() => {
-                            const currentChap = chapters[activeChapterIndex];
-                            if (currentChap.materials && activeMaterialIndex < currentChap.materials.length - 1) {
-                                setActiveMaterialIndex(prev => prev + 1);
-                            } else if (activeChapterIndex < chapters.length - 1) {
-                                setActiveChapterIndex(prev => prev + 1);
-                                setActiveMaterialIndex(0);
+                        <button
+                            className="group flex items-center gap-3 px-4 py-2 rounded-full border border-white/5 bg-white/5 hover:bg-nexus-green/10 hover:border-nexus-green/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                            disabled={
+                                activeChapterIndex === chapters.length - 1 &&
+                                activeMaterialIndex === (chapters[activeChapterIndex].materials?.length || 0) - 1
                             }
-                        }}
-                    >
-                        <span className="font-medium hidden sm:block">Next Lesson</span>
-                        <div className="p-2 rounded-full bg-white/5 group-hover:bg-nexus-green/20 transition-colors">
-                            <Icon icon="mdi:chevron-right" width="24" className="text-white" />
-                        </div>
-                    </button>
-                </div>
+                            onClick={() => {
+                                const currentChap = chapters[activeChapterIndex];
+                                if (currentChap.materials && activeMaterialIndex < currentChap.materials.length - 1) {
+                                    setActiveMaterialIndex(prev => prev + 1);
+                                } else if (activeChapterIndex < chapters.length - 1) {
+                                    setActiveChapterIndex(prev => prev + 1);
+                                    setActiveMaterialIndex(0);
+                                }
+                            }}
+                        >
+                            <span className="text-xs font-bold uppercase tracking-wider text-gray-400 group-hover:text-nexus-green hidden sm:block">Next Objective</span>
+                            <Icon icon="mdi:arrow-right" className="text-gray-400 group-hover:text-nexus-green transition-colors" />
+                        </button>
+                    </div>
+                </main>
             </div>
 
             <RewardModal

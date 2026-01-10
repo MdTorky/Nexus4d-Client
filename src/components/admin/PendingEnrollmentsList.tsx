@@ -25,6 +25,7 @@ interface PendingEnrollment {
     receipt_url: string;
     status: string;
     createdAt: string;
+    promo_code?: string;
 }
 
 export default function PendingEnrollmentsList() {
@@ -140,10 +141,14 @@ export default function PendingEnrollmentsList() {
                                 <p className="flex items-center gap-2">
                                     <Icon icon="mdi:email" /> {enrollment.user_id?.email}
                                 </p>
-                                <p className="flex items-center gap-2 mt-1 text-white font-mono">
-                                    <Icon icon="mdi:cash" className="text-green-500" />
-                                    Paid: RM {enrollment.amount_paid}
-                                </p>
+                                <Icon icon="mdi:cash" className="text-green-500" />
+                                Paid: RM {enrollment.amount_paid}
+                                {enrollment.promo_code && (
+                                    <span className="ml-2 text-xs bg-nexus-green/10 text-nexus-green px-2 py-0.5 rounded border border-nexus-green/20">
+                                        Coupon: {enrollment.promo_code}
+                                    </span>
+                                )}
+
                             </div>
 
                             <p className="text-xs text-gray-600">
@@ -182,7 +187,8 @@ export default function PendingEnrollmentsList() {
                         </div>
                     </div>
                 </motion.div>
-            ))}
-        </div>
+            ))
+            }
+        </div >
     );
 }

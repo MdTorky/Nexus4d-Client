@@ -22,6 +22,7 @@ export interface User {
 }
 
 export interface Avatar {
+    token_cost: number;
     _id: string;
     name: string;
     image_url: string;
@@ -109,4 +110,18 @@ export interface Enrollment {
     createdAt: string;
     updatedAt: string;
     isEnrolled?: boolean; // Frontend helper
+}
+
+export interface PromoCode {
+    _id: string;
+    code: string;
+    discountType: 'percentage' | 'fixed';
+    discountValue: number;
+    validFrom: string; // ISO Dates
+    validUntil: string;
+    usageLimit?: number;
+    usedCount: number;
+    isActive: boolean;
+    applicableCourses?: string[]; // IDs
+    applicablePackages?: string[];
 }

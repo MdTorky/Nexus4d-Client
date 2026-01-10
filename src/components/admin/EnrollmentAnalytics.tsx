@@ -17,6 +17,7 @@ interface Enrollment {
     status: string;
     createdAt: string;
     receipt_url: string;
+    promo_code?: string;
 }
 
 interface AnalyticsData {
@@ -199,13 +200,14 @@ export default function EnrollmentAnalytics() {
                                 <th className="px-6 py-4">Package</th>
                                 <th className="px-6 py-4">Paid</th>
                                 <th className="px-6 py-4">Status</th>
+                                <th className="px-6 py-4">Promo Code</th>
                                 <th className="px-6 py-4">Date</th>
                                 <th className="px-6 py-4">Receipt</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 jus">
                             {enrollments.length === 0 ? (
-                                <tr><td colSpan={6} className="px-6 py-8 text-center">No enrollments match your filters.</td></tr>
+                                <tr><td colSpan={7} className="px-6 py-8 text-center">No enrollments match your filters.</td></tr>
                             ) : (
                                 enrollments.map((enr) => (
                                     <tr key={enr._id} className="hover:bg-white/5 transition-colors">
@@ -232,14 +234,30 @@ export default function EnrollmentAnalytics() {
                                                 {enr.status}
                                             </span>
                                         </td>
+                                        <td className="px-6 py-4">
+                                            {enr.promo_code ? (
+                                                <span className="bg-nexus-green/10 text-nexus-green px-2 py-1 rounded text-xs border border-nexus-green/20 font-mono tracking-wider">
+                                                    {enr.promo_code}
+                                                </span>
+                                            ) : (
+                                                <span className="text-gray-600">-</span>
+                                            )}
+                                        </td>
                                         <td className="px-6 py-4">{new Date(enr.createdAt).toLocaleDateString()}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex  group relative cursor-pointer" onClick={() => window.open(enr.receipt_url, '_blank')}>
-                                                <img src={enr.receipt_url} className='w-24 h-24 object-cover opacity-80 group-hover:opacity-100 transition-opacity relative' />
-
-                                                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity ">
-                                                    <Icon icon="mdi:eye" className="text-white text-2xl" />
-                                                </div>
+                                                {enr.receipt_url === 'COUPON_FREE' ? (
+                                                    <div className="w-24 h-8 flex items-center justify-center bg-nexus-green/10 border border-nexus-green/30 rounded text-xs text-nexus-green font-bold">
+                                                        100% OFF
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <img src={enr.receipt_url} className='w-24 h-24 object-cover opacity-80 group-hover:opacity-100 transition-opacity relative' />
+                                                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity ">
+                                                            <Icon icon="mdi:eye" className="text-white text-2xl" />
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                         </td>
 
