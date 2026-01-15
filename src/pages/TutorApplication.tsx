@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import api from '../api/axios';
 import { FullScreenLoader } from '../components/ui/Loader';
+import i18n from '../i18n';
 
 type TutorFormData = {
     full_name: string;
@@ -21,7 +22,7 @@ type TutorFormData = {
 };
 
 export default function TutorApplication() {
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
     const { user } = useAuth();
     const { showToast } = useToast();
     const navigate = useNavigate();
@@ -87,10 +88,10 @@ export default function TutorApplication() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            showToast('Application submitted successfully!', 'success');
+            showToast(t('tutorApp.form.success'), 'success');
             setAppStatus('pending');
         } catch (error: any) {
-            showToast(error.response?.data?.message || 'Failed to submit application', 'error');
+            showToast(error.response?.data?.message || t('tutorApp.form.failure'), 'error');
         } finally {
             setIsSubmitting(false);
         }
@@ -102,13 +103,13 @@ export default function TutorApplication() {
                 <div className="absolute inset-0 bg-nexus-green/5 blur-[100px]" />
                 <div className="relative z-10 text-center max-w-md bg-black/40 p-8 rounded-3xl border border-white/10 backdrop-blur-md">
                     <Icon icon="mdi:lock-alert" className="text-nexus-green text-5xl mx-auto mb-4" />
-                    <h2 className="text-2xl font-black text-white mb-2 uppercase tracking-wide">Access Restricted</h2>
-                    <p className="text-gray-400 mb-6">You must be logged in to apply for tutor status.</p>
+                    <h2 className="text-2xl font-black text-white mb-2 uppercase tracking-wide">{t('tutorApp.accessRestricted.title')}</h2>
+                    <p className="text-gray-400 mb-6">{t('tutorApp.accessRestricted.message')}</p>
                     <button
                         onClick={() => navigate('/login')}
                         className="w-full bg-nexus-green text-black font-black py-3 rounded-xl hover:bg-white transition-all shadow-lg hover:shadow-nexus-green/50 uppercase tracking-widest"
                     >
-                        Login Now
+                        {t('tutorApp.accessRestricted.login')}
                     </button>
                 </div>
             </div>
@@ -128,14 +129,14 @@ export default function TutorApplication() {
                         <Icon icon="mdi:account-alert" className="h-10 w-10 text-red-500" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-black text-white uppercase tracking-wide">Incomplete Profile</h1>
-                        <p className="text-gray-400 mt-2 text-sm leading-relaxed">System protocols require a complete user profile before initiating the tutor application process.</p>
+                        <h1 className="text-2xl font-black text-white uppercase tracking-wide">{t('tutorApp.incompleteProfile.title')}</h1>
+                        <p className="text-gray-400 mt-2 text-sm leading-relaxed">{t('tutorApp.incompleteProfile.message')}</p>
                     </div>
                     <button
                         onClick={() => navigate('/profile')}
                         className="w-full bg-red-500 text-white font-bold py-3 rounded-xl hover:bg-red-400 transition-all shadow-lg hover:shadow-red-500/30 uppercase tracking-wider flex items-center justify-center gap-2"
                     >
-                        Complete Profile <Icon icon="mdi:arrow-right" />
+                        {t('tutorApp.incompleteProfile.button')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                     </button>
                 </div>
             </div>
@@ -159,17 +160,17 @@ export default function TutorApplication() {
                         <Icon icon="mdi:check-decagram" className="h-16 w-16 text-nexus-green" />
                     </motion.div>
                     <div>
-                        <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">Access Granted</h1>
-                        <p className="text-nexus-green font-bold tracking-widest uppercase text-sm mb-4">Clearance Level: Tutor</p>
+                        <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">{t('tutorApp.accessGranted.title')}</h1>
+                        <p className="text-nexus-green font-bold tracking-widest uppercase text-sm mb-4">{t('tutorApp.accessGranted.level')}</p>
                         <p className="text-gray-400 text-sm leading-relaxed">
-                            Your capabilities have been verified. You now have authorization to access the Tutor Command Center.
+                            {t('tutorApp.accessGranted.message')}
                         </p>
                     </div>
                     <button
                         onClick={() => navigate('/tutor-dashboard')}
                         className="w-full bg-nexus-green text-black font-black py-4 rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] uppercase tracking-widest flex items-center justify-center gap-2"
                     >
-                        <Icon icon="mdi:view-dashboard" /> Enter Dashboard
+                        <Icon icon="mdi:view-dashboard" /> {t('tutorApp.accessGranted.button')}
                     </button>
                 </div>
             </div>
@@ -188,17 +189,17 @@ export default function TutorApplication() {
                         <Icon icon="mdi:cached" className="h-14 w-14 text-yellow-500" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">Status: Pending</h1>
-                        <p className="text-yellow-500 font-bold tracking-widest uppercase text-sm mb-4">Awaiting Admin Review</p>
+                        <h1 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">{t('tutorApp.pending.title')}</h1>
+                        <p className="text-yellow-500 font-bold tracking-widest uppercase text-sm mb-4">{t('tutorApp.pending.subtitle')}</p>
                         <p className="text-gray-400 text-sm leading-relaxed">
-                            Your application is currently being processed by our central systems. Stand by for status updates.
+                            {t('tutorApp.pending.message')}
                         </p>
                     </div>
                     <button
                         onClick={() => navigate('/')}
                         className="w-full bg-white/5 text-white font-bold py-4 rounded-xl hover:bg-white/10 transition-all border border-white/10 uppercase tracking-wider"
                     >
-                        Return to Base
+                        {t('tutorApp.pending.button')}
                     </button>
                 </div>
             </div>
@@ -225,10 +226,10 @@ export default function TutorApplication() {
                         <Icon icon="mdi:school-outline" className="text-3xl" />
                     </div> */}
                     <h1 className="text-4xl sm:text-5xl font-black text-white uppercase tracking-tighter mb-4">
-                        Initialize <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-blue-400">Tutor Protocol</span>
+                        {t('tutorApp.header.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-blue-400">{t('tutorApp.header.title2')}</span>
                     </h1>
                     <p className="text-gray-400 text-lg max-w-xl mx-auto leading-relaxed">
-                        Join the elite ranks of Nexus 4D instructors. Share your knowledge and shape the next generation of operatives.
+                        {t('tutorApp.header.subtitle')}
                     </p>
                 </div>
 
@@ -242,9 +243,9 @@ export default function TutorApplication() {
                             <Icon icon="mdi:alert-decagram" className="text-2xl" />
                         </div>
                         <div>
-                            <h3 className="font-bold text-red-400 text-lg uppercase tracking-wide mb-1">Application Declined</h3>
-                            <p className="text-red-200/80 text-sm mb-2">Review Board Notes: <span className="text-white font-medium">{adminNotes || 'Insufficient credentials provided.'}</span></p>
-                            <p className="text-xs text-red-400/60 uppercase tracking-widest font-bold">You may revise and resubmit your application below.</p>
+                            <h3 className="font-bold text-red-400 text-lg uppercase tracking-wide mb-1">{t('tutorApp.rejected.title')}</h3>
+                            <p className="text-red-200/80 text-sm mb-2">{t('tutorApp.rejected.notes')} <span className="text-white font-medium">{adminNotes || t('tutorApp.rejected.defaultNote')}</span></p>
+                            <p className="text-xs text-red-400/60 uppercase tracking-widest font-bold">{t('tutorApp.rejected.footer')}</p>
                         </div>
                     </motion.div>
                 )}
@@ -253,13 +254,13 @@ export default function TutorApplication() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Full Name */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Identity</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.identity')}</label>
                             <div className="relative group">
                                 <Icon icon="mdi:account" className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-nexus-green transition-colors" />
                                 <input
-                                    {...register('full_name', { required: 'Full Name is required' })}
+                                    {...register('full_name', { required: t('tutorApp.form.errors.fullNameRequired') })}
                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all"
-                                    placeholder="FULL NAME"
+                                    placeholder={t('tutorApp.form.fullNamePlaceholder')}
                                 />
                             </div>
                             {errors.full_name && <p className="text-xs text-red-500 ml-1 font-bold">{errors.full_name.message}</p>}
@@ -267,13 +268,13 @@ export default function TutorApplication() {
 
                         {/* Specialization */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Expertise</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.expertise')}</label>
                             <div className="relative group">
                                 <Icon icon="mdi:star-four-points" className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-nexus-green transition-colors" />
                                 <input
-                                    {...register('specialization', { required: 'Specialization is required' })}
+                                    {...register('specialization', { required: t('tutorApp.form.errors.specializationRequired') })}
                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all"
-                                    placeholder="PRIMARY SUBJECT"
+                                    placeholder={t('tutorApp.form.specializationPlaceholder')}
                                 />
                             </div>
                             {errors.specialization && <p className="text-xs text-red-500 ml-1 font-bold">{errors.specialization.message}</p>}
@@ -283,19 +284,19 @@ export default function TutorApplication() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Email */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Comms (Email)</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.email')}</label>
                             <div className="relative group">
                                 <Icon icon="mdi:email" className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-nexus-green transition-colors" />
                                 <input
                                     {...register('email', {
-                                        required: 'Email is required',
+                                        required: t('tutorApp.form.errors.emailRequired'),
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: "Invalid format"
+                                            message: t('tutorApp.form.errors.emailInvalid')
                                         }
                                     })}
                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all"
-                                    placeholder="EMAIL ADDRESS"
+                                    placeholder={t('tutorApp.form.emailPlaceholder')}
                                 />
                             </div>
                             {errors.email && <p className="text-xs text-red-500 ml-1 font-bold">{errors.email.message}</p>}
@@ -303,13 +304,13 @@ export default function TutorApplication() {
 
                         {/* Phone */}
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Comms (Phone)</label>
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.phone')}</label>
                             <div className="relative group">
                                 <Icon icon="mdi:phone" className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-nexus-green transition-colors" />
                                 <input
-                                    {...register('phone', { required: 'Phone Number is required' })}
+                                    {...register('phone', { required: t('tutorApp.form.errors.phoneRequired') })}
                                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all"
-                                    placeholder="PHONE NUMBER"
+                                    placeholder={t('tutorApp.form.phonePlaceholder')}
                                 />
                             </div>
                             {errors.phone && <p className="text-xs text-red-500 ml-1 font-bold">{errors.phone.message}</p>}
@@ -318,31 +319,31 @@ export default function TutorApplication() {
 
                     {/* LinkedIn */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Digital Footprint</label>
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.linkedin')}</label>
                         <div className="relative group">
                             <Icon icon="mdi:linkedin" className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-nexus-green transition-colors" />
                             <input
                                 {...register('linkedin_profile')}
                                 className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all"
-                                placeholder="LINKEDIN PROFILE URL (OPTIONAL)"
+                                placeholder={t('tutorApp.form.linkedinPlaceholder')}
                             />
                         </div>
                     </div>
 
                     {/* Bio */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Mission Brief (Bio)</label>
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.bio')}</label>
                         <textarea
-                            {...register('bio', { required: 'Bio is required', minLength: { value: 50, message: "Please provide at least 50 characters" } })}
+                            {...register('bio', { required: t('tutorApp.form.errors.bioRequired'), minLength: { value: 50, message: t('tutorApp.form.errors.bioLength') } })}
                             className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all min-h-[150px] resize-none"
-                            placeholder="Detail your experience and teaching capabilities..."
+                            placeholder={t('tutorApp.form.bioPlaceholder')}
                         />
                         {errors.bio && <p className="text-xs text-red-500 ml-1 font-bold">{errors.bio.message}</p>}
                     </div>
 
                     {/* File Upload */}
                     <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Profile Identification</label>
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">{t('tutorApp.form.profileId')}</label>
                         <div className="relative border-2 border-dashed border-white/10 rounded-2xl p-6 hover:border-nexus-green/50 hover:bg-nexus-green/5 transition-all group cursor-pointer bg-black/20 text-center">
                             <input
                                 type="file"
@@ -360,15 +361,15 @@ export default function TutorApplication() {
                                     <div className="w-24 h-24 rounded-full border-2 border-nexus-green p-1 relative z-10">
                                         <img src={previewUrl} alt="Preview" className="w-full h-full rounded-full object-cover" />
                                     </div>
-                                    <span className="text-nexus-green font-bold text-sm uppercase tracking-wider relative z-10 bg-black/50 px-3 py-1 rounded-full">Image Selected</span>
+                                    <span className="text-nexus-green font-bold text-sm uppercase tracking-wider relative z-10 bg-black/50 px-3 py-1 rounded-full">{t('tutorApp.form.imageSelected')}</span>
                                 </div>
                             ) : (
                                 <div className="flex flex-col items-center gap-2">
                                     <div className="p-4 bg-white/5 rounded-full group-hover:scale-110 transition-transform mb-2">
                                         <Icon icon="mdi:camera-plus" className="text-2xl text-gray-400 group-hover:text-white" />
                                     </div>
-                                    <span className="text-gray-400 font-bold group-hover:text-white transition-colors">Upload Profile Photo</span>
-                                    <span className="text-xs text-gray-600">JPG or PNG (MAX 2MB)</span>
+                                    <span className="text-gray-400 font-bold group-hover:text-white transition-colors">{t('tutorApp.form.uploadPhoto')}</span>
+                                    <span className="text-xs text-gray-600">{t('tutorApp.form.format')}</span>
                                 </div>
                             )}
                         </div>
@@ -382,15 +383,14 @@ export default function TutorApplication() {
                         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
                         {isSubmitting ? (
                             <>
-                                <Icon icon="mdi:loading" className="animate-spin text-2xl" /> Transmitting...
+                                <Icon icon="mdi:loading" className="animate-spin text-2xl" /> {t('tutorApp.form.submitting')}
                             </>
                         ) : (
                             <>
-                                <Icon icon="mdi:send" className="text-2xl group-hover:translate-x-1 transition-transform" /> Submit Application
+                                <Icon icon="mdi:send" className="text-2xl group-hover:translate-x-1 transition-transform" /> {t('tutorApp.form.submit')}
                             </>
                         )}
                     </button>
-
                 </form>
             </motion.div>
         </div>

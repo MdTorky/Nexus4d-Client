@@ -167,14 +167,14 @@ export default function Navbar() {
                                                 <div className="p-5 border-b border-white/5 bg-white/5 flex justify-between items-center">
                                                     <div className="flex items-center gap-2">
                                                         <Icon icon="mdi:access-point-network" className="text-nexus-green" />
-                                                        <h3 className="font-black text-white uppercase tracking-wider text-sm">Command Feed</h3>
+                                                        <h3 className="font-black text-white uppercase tracking-wider text-sm">{t('nav.notifications.title')}</h3>
                                                     </div>
                                                     {unreadCount > 0 && (
                                                         <button
                                                             onClick={markAllAsRead}
                                                             className="text-[10px] font-bold text-nexus-green hover:text-white uppercase tracking-widest bg-nexus-green/10 hover:bg-nexus-green/20 px-3 py-1 rounded-full transition-colors border border-nexus-green/20"
                                                         >
-                                                            Mark All Read
+                                                            {t('nav.notifications.markAll')}
                                                         </button>
                                                     )}
                                                 </div>
@@ -184,7 +184,7 @@ export default function Navbar() {
                                                     {notifications.length === 0 ? (
                                                         <div className="py-12 flex flex-col items-center text-center opacity-50">
                                                             <Icon icon="mdi:bell-sleep-outline" className="text-4xl text-gray-500 mb-2" />
-                                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wide">No active signals</p>
+                                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wide">{t('nav.notifications.empty')}</p>
                                                         </div>
                                                     ) : (
                                                         <div className="space-y-1">
@@ -260,7 +260,7 @@ export default function Navbar() {
                                                 {user.first_name || user.username}
                                             </span>
                                             <span className="text-[9px] text-nexus-green font-bold tracking-widest uppercase">
-                                                Level {user.level || 1}
+                                                {t('nav.user.level')} {user.level || 1}
                                             </span>
                                         </div>
                                         <Icon
@@ -299,8 +299,8 @@ export default function Navbar() {
                                                         />
                                                     </div>
                                                     <div className="flex justify-between mt-1 text-[9px] font-mono text-gray-500">
-                                                        <span>XP: {user.xp_points || 0}</span>
-                                                        <span>NEXT LVL: {((user.level || 1) * 500)}</span>
+                                                        <span>{t('nav.user.xp')}: {user.xp_points || 0}</span>
+                                                        <span>{t('nav.user.nextLevel')}: {((user.level || 1) * 500)}</span>
                                                     </div>
                                                 </div>
 
@@ -308,22 +308,22 @@ export default function Navbar() {
                                                 <div className="p-3 grid grid-cols-2 gap-2">
                                                     <Link to="/profile" onClick={() => setIsAvatarOpen(false)} className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:border-nexus-green/30 group">
                                                         <Icon icon="mdi:card-account-details" className="text-2xl text-gray-400 group-hover:text-nexus-green mb-1 transition-colors" />
-                                                        <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wide group-hover:text-white">Profile</span>
+                                                        <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wide group-hover:text-white">{t('common.profile')}</span>
                                                     </Link>
                                                     <Link to="/my-courses" onClick={() => setIsAvatarOpen(false)} className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 hover:border-blue-500/30 group">
                                                         <Icon icon="mdi:school" className="text-2xl text-gray-400 group-hover:text-blue-500 mb-1 transition-colors" />
-                                                        <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wide group-hover:text-white">Courses</span>
+                                                        <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wide group-hover:text-white">{t('common.myCourses')}</span>
                                                     </Link>
                                                     {user.role === 'admin' && (
                                                         <Link to="/admin" onClick={() => setIsAvatarOpen(false)} className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 transition-colors border border-purple-500/20 hover:border-purple-500/50 group">
                                                             <Icon icon="eos-icons:admin" className="text-lg text-purple-500" />
-                                                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wide group-hover:text-purple-300">Admin Command</span>
+                                                            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-wide group-hover:text-purple-300">{t('nav.user.adminCommand')}</span>
                                                         </Link>
                                                     )}
                                                     {user.role === 'tutor' && (
                                                         <Link to="/tutor-dashboard" onClick={() => setIsAvatarOpen(false)} className="col-span-2 flex items-center justify-center gap-2 p-3 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 transition-colors border border-blue-500/20 hover:border-blue-500/50 group">
                                                             <Icon icon="mdi:view-dashboard" className="text-lg text-blue-500" />
-                                                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wide group-hover:text-blue-300">Tutor Dashboard</span>
+                                                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wide group-hover:text-blue-300">{t('nav.user.tutorDashboard')}</span>
                                                         </Link>
                                                     )}
                                                 </div>
@@ -335,7 +335,7 @@ export default function Navbar() {
                                                         className="w-full flex items-center justify-center gap-2 p-3 rounded-xl hover:bg-red-500/10 text-gray-400 hover:text-red-500 transition-colors font-bold uppercase text-xs tracking-wider"
                                                     >
                                                         <Icon icon="mdi:logout" className="text-lg" />
-                                                        Disconnect
+                                                        {t('nav.user.disconnect')}
                                                     </button>
                                                 </div>
                                             </motion.div>

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-// import api from '../api/axios';
+import api from '../api/axios';
 import { useToast } from '../context/ToastContext';
 
 const containerVariants = {
@@ -27,7 +27,11 @@ const itemVariants = {
     }
 };
 
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
+
 export default function ContactUs() {
+    const { t } = useTranslation();
     const { showToast } = useToast();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -41,16 +45,15 @@ export default function ContactUs() {
         e.preventDefault();
         setLoading(true);
         try {
-            // Placeholder for actual API call if needed later
-            // await api.post('/contact', formData); 
+            await api.post('/contact', formData);
 
             // Simulate delay for effect
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 800));
 
-            showToast('Transmission Received. We will respond shortly.', 'success');
+            showToast(t('contact.toast.success'), 'success');
             setFormData({ name: '', email: '', subject: '', message: '' });
         } catch (error) {
-            showToast('Transmission Failed. Please try again.', 'error');
+            showToast(t('contact.toast.error'), 'error');
         } finally {
             setLoading(false);
         }
@@ -80,19 +83,19 @@ export default function ContactUs() {
                 >
                     <motion.div variants={itemVariants} className="inline-block mb-4">
                         <span className="px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm font-bold tracking-wider uppercase">
-                            Open Frequency
+                            {t('contact.openFrequency')}
                         </span>
                     </motion.div>
 
                     <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter leading-none">
-                        INITIATE <br />
+                        {t('contact.header.title1')} <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-nexus-green">
-                            CONTACT
+                            {t('contact.header.title2')}
                         </span>
                     </motion.h1>
 
                     <motion.p variants={itemVariants} className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Have a query? Found a glitch in the matrix? Ready to partner? Send a signal. Our team is listening on all frequencies.
+                        {t('contact.header.subtitle')}
                     </motion.p>
                 </motion.div>
 
@@ -109,19 +112,19 @@ export default function ContactUs() {
                             <div className="w-12 h-12 bg-nexus-green/20 rounded-lg flex items-center justify-center text-nexus-green mb-4 group-hover:scale-110 transition-transform">
                                 <Icon icon="mdi:email-fast" className="text-2xl" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">Direct Uplink</h3>
-                            <p className="text-gray-400 mb-4">For general inquiries, support, and partnership proposals.</p>
-                            <a href="mailto:hello@nexus4d.com" className="text-white font-mono hover:text-nexus-green transition-colors">hello@nexus4d.com</a>
+                            <h3 className="text-xl font-bold mb-2">{t('contact.directUplink.title')}</h3>
+                            <p className="text-gray-400 mb-4">{t('contact.directUplink.desc')}</p>
+                            <a href="mailto:hello@nexus4d.com" className="text-white font-mono hover:text-nexus-green transition-colors">nexus4d.academy@gmail.com</a>
                         </div>
 
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors group">
                             <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition-transform">
                                 <Icon icon="mdi:discord" className="text-2xl" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">Join the Hive</h3>
-                            <p className="text-gray-400 mb-4">Connect with 10k+ learners in real-time. This is where the magic happens.</p>
+                            <h3 className="text-xl font-bold mb-2">{t('contact.joinHive.title')}</h3>
+                            <p className="text-gray-400 mb-4">{t('contact.joinHive.desc')}</p>
                             <a href="#" className="flex items-center gap-2 text-white font-bold hover:text-purple-400 transition-colors">
-                                Enter Server <Icon icon="mdi:arrow-right" />
+                                {t('contact.joinHive.cta')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                             </a>
                         </div>
 
@@ -129,11 +132,9 @@ export default function ContactUs() {
                             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition-transform">
                                 <Icon icon="mdi:map-marker" className="text-2xl" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">HQ Coordinates</h3>
-                            <p className="text-gray-400">
-                                Nexus4D Labs<br />
-                                101 Digital Frontier Blvd<br />
-                                Cyberjaya, Malaysia
+                            <h3 className="text-xl font-bold mb-2">{t('contact.hqCoordinates.title')}</h3>
+                            <p className="text-gray-400 whitespace-pre-line">
+                                {t('contact.hqCoordinates.desc')}
                             </p>
                         </div>
                     </motion.div>
@@ -145,15 +146,15 @@ export default function ContactUs() {
                         viewport={{ once: true }}
                         className="bg-black/40 border border-white/10 rounded-3xl p-8 md:p-10 backdrop-blur-xl relative"
                     >
-                        <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
+                        <div className={`absolute top-0  p-4 opacity-20 pointer-events-none ${i18n.language === "en" ? "right-0" : "left-0"}`}>
                             <Icon icon="mdi:message-processing" className="text-9xl text-white" />
                         </div>
 
-                        <h2 className="text-2xl font-bold mb-6">Transmit Message</h2>
+                        <h2 className="text-2xl font-bold mb-6">{t('contact.form.title')}</h2>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm text-gray-400 mb-2">Identity</label>
+                                    <label className="block text-sm text-gray-400 mb-2">{t('contact.form.identity')}</label>
                                     <input
                                         type="text"
                                         name="name"
@@ -161,11 +162,11 @@ export default function ContactUs() {
                                         value={formData.name}
                                         onChange={handleChange}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-nexus-green focus:ring-1 focus:ring-nexus-green outline-none transition-all"
-                                        placeholder="John Doe"
+                                        placeholder={t('contact.form.identityPlaceholder')}
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm text-gray-400 mb-2">Comms Frequency</label>
+                                    <label className="block text-sm text-gray-400 mb-2">{t('contact.form.email')}</label>
                                     <input
                                         type="email"
                                         name="email"
@@ -173,29 +174,29 @@ export default function ContactUs() {
                                         value={formData.email}
                                         onChange={handleChange}
                                         className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-nexus-green focus:ring-1 focus:ring-nexus-green outline-none transition-all"
-                                        placeholder="john@example.com"
+                                        placeholder={t('contact.form.emailPlaceholder')}
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm text-gray-400 mb-2">Subject</label>
+                                <label className="block text-sm text-gray-400 mb-2">{t('contact.form.subject')}</label>
                                 <select
                                     name="subject"
                                     value={formData.subject}
                                     onChange={handleChange as any}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-nexus-green focus:ring-1 focus:ring-nexus-green outline-none transition-all appearance-none"
                                 >
-                                    <option value="" disabled>Select a Topic</option>
-                                    <option value="support" className="bg-gray-900">Technical Support</option>
-                                    <option value="partnership" className="bg-gray-900">Partnership Proposal</option>
-                                    <option value="billing" className="bg-gray-900">Billing Inquiry</option>
-                                    <option value="other" className="bg-gray-900">Other</option>
+                                    <option value="" disabled>{t('contact.form.subjectPlaceholder')}</option>
+                                    <option value="support" className="bg-gray-900">{t('contact.form.subjects.support')}</option>
+                                    <option value="partnership" className="bg-gray-900">{t('contact.form.subjects.partnership')}</option>
+                                    <option value="billing" className="bg-gray-900">{t('contact.form.subjects.billing')}</option>
+                                    <option value="other" className="bg-gray-900">{t('contact.form.subjects.other')}</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label className="block text-sm text-gray-400 mb-2">Message Payload</label>
+                                <label className="block text-sm text-gray-400 mb-2">{t('contact.form.message')}</label>
                                 <textarea
                                     name="message"
                                     required
@@ -203,7 +204,7 @@ export default function ContactUs() {
                                     onChange={handleChange}
                                     rows={5}
                                     className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-nexus-green focus:ring-1 focus:ring-nexus-green outline-none transition-all resize-none"
-                                    placeholder="Type your message here..."
+                                    placeholder={t('contact.form.messagePlaceholder')}
                                 />
                             </div>
 
@@ -215,12 +216,12 @@ export default function ContactUs() {
                                 {loading ? (
                                     <>
                                         <Icon icon="mdi:loading" className="animate-spin text-xl" />
-                                        Transmitting...
+                                        {t('contact.form.submitting')}
                                     </>
                                 ) : (
                                     <>
                                         <Icon icon="mdi:send" />
-                                        Send Transmission
+                                        {t('contact.form.submit')}
                                     </>
                                 )}
                             </button>

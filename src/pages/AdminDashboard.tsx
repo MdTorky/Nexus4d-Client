@@ -13,6 +13,7 @@ import AccountsList from '../components/admin/AccountsList';
 import AccountsAnalytics from '../components/admin/AccountsAnalytics';
 import PromoCodeManager from '../components/admin/PromoCodeManager';
 import NexonManager from '../components/admin/NexonManager';
+import ContactMessagesList from '../components/admin/ContactMessagesList';
 
 export default function AdminDashboard() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -37,6 +38,7 @@ export default function AdminDashboard() {
         { id: 'enrollments', label: 'Enrollments', icon: 'mdi:clipboard-check' },
         { id: 'nexons', label: 'Nexons', icon: 'mdi:robot' },
         { id: 'promocodes', label: 'Promo Codes', icon: 'mdi:ticket-percent' },
+        { id: 'messages', label: 'Messages', icon: 'mdi:email-outline' },
     ];
 
     const getPageTitle = () => {
@@ -181,6 +183,7 @@ export default function AdminDashboard() {
 
                                 {activeTab === 'nexons' && <NexonManager />}
                                 {activeTab === 'promocodes' && <PromoCodeManager />}
+                                {activeTab === 'messages' && <ContactMessagesList />}
                             </div>
                         </motion.div>
                     </AnimatePresence>

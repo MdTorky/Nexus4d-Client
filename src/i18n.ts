@@ -31,4 +31,8 @@ i18n.on('languageChanged', (lng) => {
     document.documentElement.lang = lng;
 });
 
+// Set initial direction
+document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+document.documentElement.lang = i18n.language;
+
 export default i18n;

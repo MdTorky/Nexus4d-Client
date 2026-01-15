@@ -7,10 +7,111 @@
     "password": "Password",
     "submit": "Submit",
     "language": "Language",
-    "logout": "Logout",
+    "packages": {
+      "basic": "Basic",
+      "advanced": "Advanced",
+      "premium": "Premium"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "status": {
+      "active": "Active",
+      "ongoing": "Ongoing",
+      "complete": "Complete",
+      "disabled": "Disabled",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "time": {
+      "hours": "Hours"
+    },
+    "majors": {
+      "computer science": "Computer Science",
+      "electrical engineering": "Electrical Engineering",
+      "mechanical engineering": "Mechanical Engineering",
+      "chemical engineering": "Chemical Engineering",
+      "civil engineering": "Civil Engineering",
+      "software engineering": "Software Engineering",
+      "information technology": "Information Technology",
+      "data science": "Data Science",
+      "artificial intelligence": "Artificial Intelligence",
+      "cyber security": "Cyber Security"
+    },
+    "general": "General",
+    "university": "University",
     "profile": "Profile",
     "myCourses": "My Courses",
     "dashboard": "Dashboard"
+  },
+
+  "tutorProfile": {
+    "notFound": "Tutor not found",
+    "toasts": {
+      "failedLoad": "Failed to load tutor profile",
+      "loginRequired": "Please login to follow tutors",
+      "unfollowed": "Unfollowed tutor",
+      "followed": "Following tutor!",
+      "updateFail": "Failed to update follow status"
+    },
+    "lvl": "Lvl",
+    "expertInstructor": "Expert Instructor",
+    "noBio": "No bio available.",
+    "followers": "Followers",
+    "missions": "Missions",
+    "cadetProfile": "Cadet Profile",
+    "editProfile": "Edit Profile",
+    "following": "Following",
+    "followProtocol": "Follow Protocol",
+    "unlocksCollection": "Unlocks Collection",
+    "activeMissions": "Active Missions",
+    "deployed": "Deployed",
+    "noMissions": "No active missions detected.",
+    "noMissionsDesc": "This instructor hasn't deployed any courses yet."
+  },
+  "userProfile": {
+    "notFound": "User not found",
+    "toasts": {
+      "loginRequired": "Please login to follow users",
+      "requestSent": "Friend request sent!",
+      "requestCancelled": "Friend request cancelled",
+      "requestAccepted": "Friend request accepted!",
+      "actionFailed": "Action failed"
+    },
+    "lvl": "Lvl",
+    "master": "Master",
+    "cadet": "Cadet",
+    "friend": "Friend",
+    "addFriend": "Add Friend",
+    "cancelRequest": "Cancel Request",
+    "accept": "Accept",
+    "decline": "Decline",
+    "viewTutorProfile": "View Tutor Profile",
+    "enrolled": "Enrolled",
+    "completed": "Completed",
+    "nexons": "Nexons",
+    "tabs": {
+      "overview": "Overview",
+      "missions": "Missions"
+    },
+    "nexonCollection": "Nexon Collection",
+    "collectionEncrypted": "Collection Encrypted",
+    "privacySettingsEnabled": "Privacy Settings Enabled",
+    "noUnlockedNexons": "No unlocked nexons yet.",
+    "achievements": "Achievements",
+    "privateData": "Private Data",
+    "courseCompleted": "Course Completed",
+    "noMedals": "No medals earned yet.",
+    "academicIntel": "Academic Intel",
+    "major": "Major",
+    "semester": "Semester",
+    "notSet": "Not Set",
+    "restrictedAccess": "Restricted Access",
+    "restrictedAccessDesc": "This user's course history is private.",
+    "progress": "Progress",
+    "noActiveMissions": "No active missions."
   },
   "nav": {
     "home": "Home",
@@ -19,7 +120,213 @@
     "contact": "Contact Us",
     "becomeTutor": "Become a Tutor",
     "joinNow": "Join Now",
-    "language": "Language"
+    "language": "Language",
+    "notifications": {
+      "title": "Command Feed",
+      "markAll": "Mark All Read",
+      "empty": "No active signals"
+    },
+    "user": {
+      "adminCommand": "Admin Command",
+      "tutorDashboard": "Tutor Dashboard",
+      "disconnect": "Disconnect",
+      "level": "LVL",
+      "nextLevel": "NEXT LVL",
+      "xp": "XP"
+    }
+  },
+  "courseDetail": {
+    "promoCode": {
+      "placeholder": "ENTER CODE",
+      "applied": "Promo code applied!",
+      "invalid": "Invalid promo code",
+      "apply": "APPLY",
+      "discountApplied": "DISCOUNT APPLIED: {{value}} OFF",
+      "label": "Promo Code"
+    },
+    "orderSummary": {
+      "title": "Order Summary",
+      "course": "Course",
+      "package": "Package",
+      "upgradeCost": "Upgrade Cost",
+      "totalPrice": "Total Price"
+    },
+    "payment": {
+      "secureCheckout": "SECURE CHECKOUT",
+      "detailsTitle": "Payment Details",
+      "bankName": "Bank Name",
+      "accountNumber": "Account Number",
+      "copied": "Account number copied!",
+      "scanQr": "— OR SCAN QR —",
+      "uploadReceipt": "Upload Payment Receipt",
+      "tapToChange": "Tap to change",
+      "clickToUpload": "Click to Upload",
+      "uploadFormat": "SVG, PNG, JPG or GIF (MAX. 800x400px)",
+      "discountApplied": "100% DISCOUNT APPLIED",
+      "noPaymentRequired": "No payment required. Proceed to enroll.",
+      "claimFree": "Claim Free Access",
+      "confirmPay": "Confirm & Pay",
+      "pendingVerification": "By confirming, your access will be activated pending admin verification.",
+      "securePayment": "100% Secure Payment (RHB / QR)",
+      "pleaseLogin": "Please login to enroll",
+      "cannotEnrollOwn": "You cannot enroll in your own course",
+      "uploadWarning": "Please upload your payment receipt",
+      "enrollSuccess": "Successfully enrolled in {{package}} package!",
+      "enrollFail": "Failed to enroll. Please try again."
+    },
+    "courseInfo": {
+      "level": "Level",
+      "duration": "Duration",
+      "chapters": "Chapters",
+      "xpReward": "XP Reward",
+      "selfPaced": "Self-Paced",
+      "leadInstructor": "Lead Instructor",
+      "masteryLevel": "Mastery Level",
+      "viewFullProfile": "View Full Profile"
+    },
+    "reward": {
+      "title": "Completion Reward",
+      "nexon": "NEXON",
+      "unlockText": "Unlock this exclusive avatar for your profile by completing 100% of this course."
+    },
+    "curriculum": {
+      "title": "Curriculum",
+      "modules": "Modules",
+      "lessons": "Lessons",
+      "free": "Free"
+    },
+    "status": {
+      "resumeMission": "Resume Mission",
+      "approvalGridlocked": "Approval Gridlocked",
+      "adminReview": "Admin review in progress. Stand by.",
+      "accessDenied": "Access Denied",
+      "applicationRejected": "Application rejected. Check comms.",
+      "missionComplete": "Mission Complete",
+      "objectivesAchieved": "All objectives achieved. Well done, operative.",
+      "unlockAccess": "Unlock Full Access",
+      "chooseLevel": "Choose your clearance level below",
+      "enrollmentActive": "Enrollment Active",
+      "instructorAccess": "Instructor Access",
+      "commanderMessage": "You are the commander of this mission.",
+      "initiateEnrollment": "Initiate Enrollment",
+      "recommended": "Recommended"
+    },
+    "support": {
+      "title": "Need Support?",
+      "message": "Contact our support command center for assistance.",
+      "link": "Contact Support"
+    }
+  },
+  "myCourses": {
+    "academicDashboard": "Academic Dashboard",
+    "myMissions": "My Missions",
+    "totalEnrollments": "Total Enrollments",
+    "acrossCategories": "Across all categories",
+    "noActiveMissions": "No Active Missions",
+    "emptyDashboard": "Your dashboard is empty. Initialize your first learning protocol to begin.",
+    "exploreCourses": "Explore Courses",
+    "plan": "Plan",
+    "pendingApproval": "Pending Approval",
+    "enrollmentRejected": "Enrollment Rejected",
+    "instructor": "Instructor",
+    "unknown": "Unknown",
+    "missionProgress": "Mission Progress",
+    "accessPending": "Access pending verification of payment credentials.",
+    "reason": "REASON:",
+    "adminDecision": "Administrative decision.",
+    "reEnterSim": "Re-Enter Sim",
+    "continueMission": "Continue Mission",
+    "locked": "Locked",
+    "viewDetails": "View Details"
+  },
+  "loader": {
+    "initializing": "Initializing",
+    "systemLoading": "System Loading...",
+    "secureConnection": "Nexus 4D // Secure Connection"
+  },
+  "footer": {
+    "brandText": "The next evolution in gamified education. Master complex skills through immersive, dopamine-driven learning experiences.",
+    "discovery": "Discovery",
+    "support": "Support",
+    "stayUpdated": "Stay Updated",
+    "newsletterText": "Join our newsletter for the latest course drops and XP events.",
+    "emailPlaceholder": "Enter your email",
+    "rightsReserved": "Nexus 4D. All rights reserved.",
+    "systemsOperational": "Systems Operational",
+    "links": {
+      "courses": "Courses",
+      "about": "About Us",
+      "contact": "Contact",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "becomeTutor": "Become a Tutor"
+    }
+  },
+  "tutorApp": {
+    "accessRestricted": {
+      "title": "Access Restricted",
+      "message": "You must be logged in to apply for tutor status.",
+      "login": "Login Now"
+    },
+    "incompleteProfile": {
+      "title": "Incomplete Profile",
+      "message": "System protocols require a complete user profile before initiating the tutor application process.",
+      "button": "Complete Profile"
+    },
+    "accessGranted": {
+      "title": "Access Granted",
+      "level": "Clearance Level: Tutor",
+      "message": "Your capabilities have been verified. You now have authorization to access the Tutor Command Center.",
+      "button": "Enter Dashboard"
+    },
+    "pending": {
+      "title": "Status: Pending",
+      "subtitle": "Awaiting Admin Review",
+      "message": "Your application is currently being processed by our central systems. Stand by for status updates.",
+      "button": "Return to Base"
+    },
+    "rejected": {
+      "title": "Application Declined",
+      "notes": "Review Board Notes:",
+      "defaultNote": "Insufficient credentials provided.",
+      "footer": "You may revise and resubmit your application below."
+    },
+    "header": {
+      "title1": "Initialize",
+      "title2": "Tutor Protocol",
+      "subtitle": "Join the elite ranks of Nexus 4D instructors. Share your knowledge and shape the next generation of operatives."
+    },
+    "form": {
+      "identity": "Identity",
+      "fullNamePlaceholder": "FULL NAME",
+      "expertise": "Expertise",
+      "specializationPlaceholder": "PRIMARY SUBJECT",
+      "email": "Comms (Email)",
+      "emailPlaceholder": "EMAIL ADDRESS",
+      "phone": "Comms (Phone)",
+      "phonePlaceholder": "PHONE NUMBER",
+      "linkedin": "Digital Footprint",
+      "linkedinPlaceholder": "LINKEDIN PROFILE URL (OPTIONAL)",
+      "bio": "Mission Brief (Bio)",
+      "bioPlaceholder": "Detail your experience and teaching capabilities...",
+      "profileId": "Profile Identification",
+      "imageSelected": "Image Selected",
+      "uploadPhoto": "Upload Profile Photo",
+      "format": "JPG or PNG (MAX 2MB)",
+      "submit": "Submit Application",
+      "submitting": "Transmitting...",
+      "errors": {
+        "fullNameRequired": "Full Name is required",
+        "specializationRequired": "Specialization is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid format",
+        "phoneRequired": "Phone Number is required",
+        "bioRequired": "Bio is required",
+        "bioLength": "Please provide at least 50 characters"
+      },
+      "success": "Application submitted successfully!",
+      "failure": "Failed to submit application"
+    }
   },
   "auth": {
     "createAccount": "Create Account",
@@ -44,33 +351,151 @@
     "failedResend": "Failed to resend code"
   },
   "home": {
-    "heroTitle": "Master Your Future with Nexus 4D",
-    "heroSubtitle": "Premium educational resources tailored for the modern learner. Join a community of achievers.",
-    "exploreCourses": "Explore Courses",
+    "heroTitle": "LEVEL UP YOUR KNOWLEDGE",
+    "heroSubtitle": "Nexus 4D is the premiere platform for gamified learning. Master new skills, unlock rare avatars, and define your future.",
+    "heroBadge": "NEXUS ONLINE v4.0",
+    "exploreCourses": "Start Mission",
     "startLearning": "Start Learning",
-    "stats": {
-      "students": "Active Students",
-      "courses": "Premium Courses",
-      "tutors": "Expert Tutors"
-    },
+    "joinNexus": "Join Nexus",
+    "scrollToBegin": "Scroll to Begin",
+    "gamifiedLearning": "Gamified Learning",
+    "earnCollectDominate": "EARN. COLLECT. DOMINATE.",
+    "turningStudyHours": "Turning study hours into XP. Complete missions to unlock exclusive Nexons and unlock new more as you learn.",
+    "earnXp": "Earn XP",
+    "levelUp": "Level Up",
+    "rareAvatars": "Rare Avatars",
+    "showcase": "Showcase",
+    "legendaryDrop": "Legendary Drop",
+    "xpGained": "+2500 XP",
+    "unlocking": "Unlocking...",
+    "trendingMissions": "Trending Missions",
+    "joinMostActive": "Join the most active learning paths.",
+    "exploreDatabase": "Explore Database",
+    "whyNexus": "WHY NEXUS?",
+    "joinFaculty": "Join the Faculty",
+    "shareKnowledge": "Share Knowledge. Earn Revenue.",
+    "becomeVerified": "Become a verified tutor on Nexus. Create courses, mentor students, and get paid for your expertise.",
+    "applyNow": "Apply Now",
+    "readyToAscend": "READY TO ASCEND?",
+    "joinElite": "Join the elite at Nexus 4D. Your journey to mastery begins now.",
+    "initializeAccount": "Initialize Account",
+    "applyAsTutor": "Apply as Tutor",
+    "privacyProtocol": "Privacy Protocol",
+    "termsOfService": "Terms of Service",
+    "contactCommand": "Contact Command",
+    "allRightsReserved": "Nexus 4D. All rights reserved.",
     "features": {
-      "title": "Why Choose Nexus 4D?",
       "quality": {
-        "title": "Premium Quality",
-        "desc": "Curated content from industry experts."
+        "title": "Unlimited Access",
+        "desc": "One subscription, infinite possibilities. Access the entire Nexus database."
       },
       "flexibility": {
-        "title": "Flexible Learning",
-        "desc": "Learn at your own pace, anywhere, anytime."
+        "title": "Instant Feedback",
+        "desc": "AI-powered quizzes and real-time progress tracking to keep you sharp."
       },
       "community": {
-        "title": "Global Community",
-        "desc": "Connect with learners around the world."
+        "title": "Global Network",
+        "desc": "Connect with thousands of other learners and tutors worldwide."
       }
+    }
+  },
+  "about": {
+    "revolutionHere": "The Revolution is Here",
+    "beyondEducation": "BEYOND EDUCATION",
+    "notJustPlatform": "We aren't just a platform. We are the <1>dopamine-fueled engine</1> of your future success. Nexus4D merges high-octane gamification with elite-tier education.",
+    "startLearning": "Start Learning",
+    "hyperSpeed": "Hyper-Speed Learning",
+    "forgetBoring": "Forget boring lectures. Our micro-learning modules are designed for rapid absorption and instant application.",
+    "gamifiedMastery": "Gamified Mastery",
+    "levelUpEarn": "Level up, earn XP, and unlock rewards. We turned studying into an addictive RPG where YOU are the main character.",
+    "eliteCommunity": "Elite Community",
+    "joinSquad": "Join a squad of high-performers. Compete on leaderboards and collaborate with the best minds in the game.",
+    "oldSchoolObsolete": "OLD SCHOOL IS OBSOLETE",
+    "traditionalSystem": "The traditional education system was built for a world that no longer exists. It's slow, rigid, and frankly, boring.",
+    "antidote": "Nexus4D is the antidote. We use cutting-edge cognitive science and game design principles to keep you in a state of flow. Every click, every quiz, every completed chapter triggers a rush of accomplishment.",
+    "completionRate": "Completion Rate",
+    "activeLearners": "Active Learners",
+    "projectNexus": "Project Nexus",
+    "testimonial": "\"I learned more in 3 weeks on Nexus4D than I did in 3 years of college. The gamification isn't a gimmick; it's the future.\"",
+    "fullStackDev": "Full Stack Developer",
+    "faqTitle": "FREQUENTLY ASKED DATA",
+    "questions": {
+      "q1": "What exactly is Nexus 4D?",
+      "a1": "Nexus 4D is the premiere platform for gamified learning. We've replaced boring lectures with high-octane missions. You don't just learn; you ascend. We combine elite-tier education with the addictive progression systems of RPGs.",
+      "q2": "How do I earn Rewards & Avatars?",
+      "a2": "Every action has a reaction. Complete chapters and quizzes to earn XP. Master full courses to unlock rare 'Nexon' avatars. The more you learn, the more legendary your digital identity becomes on the global leaderboard.",
+      "q3": "Can I share my own knowledge?",
+      "a3": "Absolutely. We are always recruiting elite Tutors. If you have the expertise, apply to the Faculty via your dashboard. Build your curriculum, set your terms, and monetize your skills while building a following.",
+      "q4": "Is this platform free to access?",
+      "a4": "Initialization is free. You can join the network, browse missions, and customize your profile at no cost. Specific Premium courses and exclusive content drops may require enrollment fees, directly supporting our creators."
     },
-    "cta": {
-      "title": "Ready to Transform Your Career?",
-      "button": "Join Now"
+    "getStartedFree": "Get Started Free",
+    "browseCourses": "Browse Courses"
+  },
+  "courses": {
+    "header": {
+      "subtitle": "Course Catalog",
+      "title1": "CHOOSE YOUR",
+      "title2": "PATHWAY"
+    },
+    "searchPlaceholder": "Search for knowledge...",
+    "tabs": {
+      "all": "All",
+      "university": "University",
+      "general": "General"
+    },
+    "filters": {
+      "allMajors": "All Majors",
+      "filterByMajor": "Filter by Major"
+    },
+    "emptyState": {
+      "title": "Signal Lost",
+      "message": "No courses generated on this frequency. Adjust your filters to re-establish connection.",
+      "reset": "Reset Parameters"
+    }
+  },
+  "contact": {
+    "openFrequency": "Open Frequency",
+    "header": {
+      "title1": "INITIATE",
+      "title2": "CONTACT",
+      "subtitle": "Have a query? Found a glitch in the matrix? Ready to partner? Send a signal. Our team is listening on all frequencies."
+    },
+    "directUplink": {
+      "title": "Direct Uplink",
+      "desc": "For general inquiries, support, and partnership proposals."
+    },
+    "joinHive": {
+      "title": "Join the Hive",
+      "desc": "Connect with 10k+ learners in real-time. This is where the magic happens.",
+      "cta": "Enter Server"
+    },
+    "hqCoordinates": {
+      "title": "HQ Coordinates",
+      "desc": "Nexus4D Labs\n101 Digital Frontier Blvd\nCyberjaya, Malaysia"
+    },
+    "form": {
+      "title": "Transmit Message",
+      "identity": "Identity",
+      "identityPlaceholder": "John Doe",
+      "email": "Comms Frequency",
+      "emailPlaceholder": "john@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a Topic",
+      "subjects": {
+        "support": "Technical Support",
+        "partnership": "Partnership Proposal",
+        "billing": "Billing Inquiry",
+        "other": "Other"
+      },
+      "message": "Message Payload",
+      "messagePlaceholder": "Type your message here...",
+      "submit": "Send Transmission",
+      "submitting": "Transmitting..."
+    },
+    "toast": {
+      "success": "Transmission Received. We will respond shortly.",
+      "error": "Transmission Failed. Please try again."
     }
   },
   "onboarding": {
@@ -114,6 +539,7 @@
     "semester": "Semester",
     "nextLevel": "Next Level",
     "editProfile": "Edit Profile",
+    "viewPublicProfile": "View Public Profile",
     "notSet": "Not set",
     "selectNexon": "Select Your Nexon",
     "maleNexons": "Male Nexons",
@@ -121,6 +547,73 @@
     "close": "Close",
     "loading": "Loading Nexons...",
     "tokensLeft": "Tokens Left",
+    "progressToLvl": "Progress to Lvl",
+    "totalExperience": "Total Experience",
+    "nexonTokens": "Nexon Tokens",
+    "general": "General",
+    "tix": "TIX",
+    "tabs": {
+      "overview": "Overview",
+      "following": "Following",
+      "friends": "Friends",
+      "requests": "Requests",
+      "settings": "System"
+    },
+    "overview": {
+      "activeFollowers": "Active Followers",
+      "cadets": "CADETS",
+      "noFollowers": "No followers registered yet.",
+      "myMissions": "My Missions",
+      "resumeTraining": "Resume your training and track progress.",
+      "accessDashboard": "Access Dashboard",
+      "nexonArmory": "Nexon Armory",
+      "manageIdentity": "Unlock new avatars and manage your identity.",
+      "openCollection": "Open Collection"
+    },
+    "friends": {
+      "allies": "Allies",
+      "noAllies": "No Allies Found",
+      "expandNetwork": "Expand your network by visiting other user profiles."
+    },
+    "following": {
+      "mentors": "Mentors",
+      "noMentors": "You are not following any tutors.",
+      "unfollow": "Unfollow"
+    },
+    "requests": {
+      "incomingTransmissions": "Incoming Transmissions",
+      "noRequests": "No pending requests detected.",
+      "requestedAccess": "Requested Access",
+      "accepted": "Friend request accepted!",
+      "rejected": "Friend request rejected"
+    },
+    "settings": {
+      "systemProtocols": "System Protocols",
+      "publicRegistry": "Public Nexon Registry",
+      "publicRegistryDesc": "Allow other operatives to view your unlocked avatar collection.",
+      "missionLog": "Mission Log Visibility",
+      "missionLogDesc": "Allow others to see your enrolled courses and completion status.",
+      "updateProtocols": "Update Protocols",
+      "updated": "Privacy protocols updated."
+    },
+    "errors": {
+      "actionFailed": "Action failed",
+      "unfollowFailed": "Failed to unfollow",
+      "saveFailed": "Failed to save settings",
+      "unfollowed": "Unfollowed tutor"
+    },
+    "armory": {
+      "title": "Nexon Armory",
+      "subtitle": "Select your digital identity",
+      "availability": "Availability",
+      "category": "Category",
+      "searchDatabase": "Search Database",
+      "searchPlaceholder": "SEARCH...",
+      "active": "Active",
+      "equip": "Equip",
+      "equipped": "Equipped",
+      "unlock": "Unlock"
+    },
     "filter": {
       "all": "All",
       "unlocked": "Unlocked",
@@ -129,7 +622,8 @@
     "noAvatars": "No avatars found in this category.",
     "clickToUnlock": "CLICK TO UNLOCK",
     "avatarUpdated": "Avatar updated successfully!",
-    "avatarUnlocked": "Avatar Unlocked!",
+    "avatarUnlocked": "Access Granted: New Avatar Unlocked",
+    "unlockFailed": "Unlock Failed",
     "noTokens": "No unlock tokens available",
     "lockedCondition": "Locked: {{condition}}",
     "unlockTokensAvailable": "{{count}} Unlock Toks Available",

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
@@ -7,6 +9,7 @@ import { FullScreenLoader } from '../components/ui/Loader';
 import type { Enrollment as SharedEnrollment } from '../types';
 
 export default function MyCourses() {
+    const { t } = useTranslation();
     const [enrollments, setEnrollments] = useState<SharedEnrollment[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -50,7 +53,7 @@ export default function MyCourses() {
                             className="inline-flex items-center gap-2 mb-2 text-nexus-green font-bold uppercase tracking-widest text-xs"
                         >
                             <Icon icon="mdi:school-outline" className="text-lg" />
-                            Academic Dashboard
+                            {t('myCourses.academicDashboard')}
                         </motion.div>
                         <motion.h1
                             initial={{ opacity: 0, x: -20 }}
@@ -58,7 +61,7 @@ export default function MyCourses() {
                             transition={{ delay: 0.1 }}
                             className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter"
                         >
-                            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-blue-500">Missions</span>
+                            {t('myCourses.myMissions').split(' ')[0]} <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-blue-500">{t('myCourses.myMissions').split(' ').slice(1).join(' ')}</span>
                         </motion.h1>
                     </div>
 
@@ -72,8 +75,8 @@ export default function MyCourses() {
                             <span className="text-2xl font-black text-white">{enrollments.length}</span>
                         </div>
                         <div>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Total Enrollments</p>
-                            <p className="text-xs text-white font-medium">Across all categories</p>
+                            <p className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">{t('myCourses.totalEnrollments')}</p>
+                            <p className="text-xs text-white font-medium">{t('myCourses.acrossCategories')}</p>
                         </div>
                     </motion.div>
                 </div>
@@ -91,13 +94,13 @@ export default function MyCourses() {
                             <div className="w-24 h-24 mb-6 rounded-full bg-white/5 flex items-center justify-center border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)]">
                                 <Icon icon="mdi:folder-search-outline" className="text-gray-400 text-5xl" />
                             </div>
-                            <h2 className="text-2xl text-white font-black mb-2 uppercase tracking-wide">No Active Missions</h2>
-                            <p className="text-gray-400 mb-8 max-w-md text-lg">Your dashboard is empty. Initialize your first learning protocol to begin.</p>
+                            <h2 className="text-2xl text-white font-black mb-2 uppercase tracking-wide">{t('myCourses.noActiveMissions')}</h2>
+                            <p className="text-gray-400 mb-8 max-w-md text-lg">{t('myCourses.emptyDashboard')}</p>
                             <Link
                                 to="/courses"
                                 className="bg-nexus-green text-black px-8 py-3 rounded-xl font-black hover:bg-white transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] inline-flex items-center gap-2 uppercase tracking-wider"
                             >
-                                Explore Courses <Icon icon="mdi:arrow-right" />
+                                {t('myCourses.exploreCourses')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                             </Link>
                         </div>
                     </motion.div>
@@ -133,7 +136,7 @@ export default function MyCourses() {
                                                         enrollment.package === 'advanced' ? 'bg-nexus-green' : 'bg-purple-400'
                                                         }`}>
                                                         <Icon icon={`${enrollment.package === 'basic' ? 'mdi:star-circle-outline' : enrollment.package === 'advanced' ? 'mdi:star-circle' : 'mdi:crown'}`} />
-                                                        {enrollment.package} Plan
+                                                        {enrollment.package} {t('myCourses.plan')}
                                                     </div>
                                                 </div>
 
@@ -141,14 +144,14 @@ export default function MyCourses() {
                                                 {enrollment.status === 'pending' && (
                                                     <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm">
                                                         <div className="bg-yellow-500/20 border border-yellow-500/50 text-yellow-200 px-4 py-2 rounded-xl flex items-center gap-2 font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(234,179,8,0.2)]">
-                                                            <Icon icon="mdi:clock-outline" /> Pending Approval
+                                                            <Icon icon="mdi:clock-outline" /> {t('myCourses.pendingApproval')}
                                                         </div>
                                                     </div>
                                                 )}
                                                 {enrollment.status === 'rejected' && (
                                                     <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm">
                                                         <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-2 rounded-xl flex items-center gap-2 font-bold uppercase tracking-wider shadow-[0_0_20px_rgba(239,68,68,0.2)]">
-                                                            <Icon icon="mdi:alert-circle" /> Enrollment Rejected
+                                                            <Icon icon="mdi:alert-circle" /> {t('myCourses.enrollmentRejected')}
                                                         </div>
                                                     </div>
                                                 )}
@@ -177,9 +180,9 @@ export default function MyCourses() {
                                                         <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-black rounded-full"></div>
                                                     </div>
                                                     <div className="flex-1">
-                                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Instructor</p>
+                                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">{t('myCourses.instructor')}</p>
                                                         <p className="text-xs text-white font-bold truncate">
-                                                            {course.tutor_id?.first_name ? `${course.tutor_id.first_name} ${course.tutor_id.last_name}` : 'Unknown'}
+                                                            {course.tutor_id?.first_name ? `${course.tutor_id.first_name} ${course.tutor_id.last_name}` : t('myCourses.unknown')}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -188,7 +191,7 @@ export default function MyCourses() {
                                                     {(enrollment.status === 'active' || enrollment.status === 'completed') ? (
                                                         <div className="space-y-2">
                                                             <div className="flex justify-between text-xs font-bold uppercase tracking-wider">
-                                                                <span className="text-gray-400">Mission Progress</span>
+                                                                <span className="text-gray-400">{t('myCourses.missionProgress')}</span>
                                                                 <span className={enrollment.progress === 100 ? 'text-nexus-green' : 'text-white'}>{enrollment.progress || 0}%</span>
                                                             </div>
                                                             <div className="h-2 w-full bg-black rounded-full overflow-hidden border border-white/5">
@@ -200,11 +203,11 @@ export default function MyCourses() {
                                                         </div>
                                                     ) : (
                                                         <div className="bg-white/5 rounded-lg p-3 text-xs text-gray-400 border border-white/5">
-                                                            {enrollment.status === 'pending' && "Access pending verification of payment credentials."}
+                                                            {enrollment.status === 'pending' && t('myCourses.accessPending')}
                                                             {enrollment.status === 'rejected' && (
                                                                 <>
-                                                                    <span className="text-red-400 font-bold block mb-1">REASON:</span>
-                                                                    {enrollment.rejection_reason || "Administrative decision."}
+                                                                    <span className="text-red-400 font-bold block mb-1">{t('myCourses.reason')}</span>
+                                                                    {enrollment.rejection_reason || t('myCourses.adminDecision')}
                                                                 </>
                                                             )}
                                                         </div>
@@ -216,7 +219,7 @@ export default function MyCourses() {
                                                             to={`/courses/${course._id}/learn`}
                                                             className="block w-full bg-white text-black font-black text-center py-3 rounded-xl hover:bg-nexus-green transition-all uppercase tracking-wider shadow-lg text-xs"
                                                         >
-                                                            {enrollment.status === 'completed' ? 'Re-Enter Sim' : 'Continue Mission'}
+                                                            {enrollment.status === 'completed' ? t('myCourses.reEnterSim') : t('myCourses.continueMission')}
                                                         </Link>
                                                     ) : (
                                                         <Link
@@ -230,7 +233,7 @@ export default function MyCourses() {
                                                                 if (enrollment.status === 'pending') e.preventDefault();
                                                             }}
                                                         >
-                                                            {enrollment.status === 'pending' ? 'Locked' : 'View Details'}
+                                                            {enrollment.status === 'pending' ? t('myCourses.locked') : t('myCourses.viewDetails')}
                                                         </Link>
                                                     )}
                                                 </div>

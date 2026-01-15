@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import api from '../api/axios';
@@ -28,6 +30,7 @@ interface TutorProfileData {
 }
 
 export default function TutorProfile() {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const { user } = useAuth();
     const { showToast } = useToast();
@@ -45,7 +48,7 @@ export default function TutorProfile() {
             setProfile(data);
         } catch (error) {
             console.error('Failed to fetch tutor profile:', error);
-            showToast('Failed to load tutor profile', 'error');
+            showToast(t('tutorProfile.toasts.failedLoad'), 'error');
         } finally {
             setLoading(false);
         }
@@ -53,7 +56,7 @@ export default function TutorProfile() {
 
     const handleFollow = async () => {
         if (!user) {
-            showToast('Please login to follow tutors', 'info');
+            showToast(t('tutorProfile.toasts.loginRequired'), 'info');
             return;
         }
         if (!profile) return;
@@ -63,22 +66,22 @@ export default function TutorProfile() {
             if (profile.isFollowing) {
                 await api.delete(`/social/follow/${id}`);
                 setProfile(prev => prev ? ({ ...prev, isFollowing: false, stats: { ...prev.stats, followers: prev.stats.followers - 1 } }) : null);
-                showToast('Unfollowed tutor', 'info');
+                showToast(t('tutorProfile.toasts.unfollowed'), 'info');
             } else {
                 await api.post(`/social/follow/${id}`);
                 setProfile(prev => prev ? ({ ...prev, isFollowing: true, stats: { ...prev.stats, followers: prev.stats.followers + 1 } }) : null);
-                showToast('Following tutor!', 'success');
+                showToast(t('tutorProfile.toasts.followed'), 'success');
             }
         } catch (error) {
             console.error('Follow action failed:', error);
-            showToast('Failed to update follow status', 'error');
+            showToast(t('tutorProfile.toasts.updateFail'), 'error');
         } finally {
             setFollowLoading(false);
         }
     };
 
     if (loading) return <FullScreenLoader />;
-    if (!profile) return <div className="text-white text-center pt-32">Tutor not found</div>;
+    if (!profile) return <div className="text-white text-center pt-32">{t('tutorProfile.notFound')}</div>;
 
     return (
         <div className="min-h-screen bg-nexus-black pt-24 px-4 sm:px-6 lg:px-8 pb-12 relative overflow-hidden">
@@ -100,7 +103,7 @@ export default function TutorProfile() {
                     {/* Inner Glow */}
                     <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-nexus-green/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 text-center md:text-left">
+                    <div className={`relative z-10 flex flex-col md:flex-row items-center gap-10 text-center ${i18n.language === 'ar' ? 'md:text-right' : 'md:text-left'}`}>
 
                         {/* 3D Flip Avatar - PRESERVED & ENHANCED */}
                         <div className="relative w-40 h-40 group/avatar cursor-pointer shrink-0 perspective-1000">
@@ -134,7 +137,7 @@ export default function TutorProfile() {
 
                             {/* Level Badge */}
                             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black text-[10px] uppercase font-black text-white px-4 py-1.5 rounded-full border border-nexus-green/50 text-nexus-green backdrop-blur-md whitespace-nowrap z-30 shadow-[0_0_20px_rgba(34,197,94,0.4)] tracking-widest">
-                                Lvl {profile.tutor.level || 1}
+                                {t('tutorProfile.lvl')} {profile.tutor.level || 1}
                             </div>
                         </div>
 
@@ -152,50 +155,66 @@ export default function TutorProfile() {
                                     <p className="text-gray-500 text-sm font-bold tracking-wider uppercase">@{profile.tutor.username}</p>
                                     <span className="hidden md:block w-1.5 h-1.5 rounded-full bg-gray-700" />
                                     <p className="text-nexus-green text-sm font-bold uppercase tracking-widest bg-nexus-green/10 px-3 py-1 rounded-lg border border-nexus-green/20">
-                                        {profile.tutor.expertise || profile.tutor.major || "Expert Instructor"}
+                                        {profile.tutor.expertise ? t(`common.majors.${profile.tutor.expertise.toLowerCase()}`, { defaultValue: profile.tutor.expertise }) : (profile.tutor.major ? t(`common.majors.${profile.tutor.major.toLowerCase()}`, { defaultValue: profile.tutor.major }) : t('tutorProfile.expertInstructor'))}
                                     </p>
                                 </div>
                             </div>
 
                             <p className="text-gray-300 max-w-2xl mx-auto md:mx-0 leading-relaxed text-lg font-light border-l-2 border-white/10 pl-4 md:pl-0 md:border-l-0">
-                                {profile.tutor.bio || "No bio available."}
+                                {profile.tutor.bio || t('tutorProfile.noBio')}
                             </p>
 
                             <div className="flex flex-col sm:flex-row items-center gap-8 pt-4">
                                 <div className="flex gap-8">
                                     <div className="text-center md:text-left group cursor-default">
                                         <p className="text-3xl font-black text-white group-hover:text-nexus-green transition-colors">{profile.stats.followers}</p>
-                                        <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Followers</p>
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">{t('tutorProfile.followers')}</p>
                                     </div>
                                     <div className="w-px bg-white/10 h-10" />
                                     <div className="text-center md:text-left group cursor-default">
                                         <p className="text-3xl font-black text-white group-hover:text-nexus-green transition-colors">{profile.stats.courses}</p>
-                                        <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Missions</p>
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">{t('tutorProfile.missions')}</p>
                                     </div>
                                 </div>
 
                                 <div className="flex-1 flex gap-4 w-full sm:w-auto">
-                                    <button
-                                        onClick={handleFollow}
-                                        disabled={followLoading || (user?._id === profile.tutor._id)}
-                                        className={`flex-1 sm:flex-initial px-8 py-3 rounded-xl font-black transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm
-                                            ${profile.isFollowing
-                                                ? 'bg-white/10 text-white hover:bg-white/20 border border-white/5'
-                                                : 'bg-nexus-green text-black hover:bg-nexus-green/90 shadow-[0_0_25px_rgba(57,255,20,0.3)] hover:shadow-[0_0_35px_rgba(57,255,20,0.5)]'
-                                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                    <Link
+                                        to={`/users/${profile.tutor._id}`}
+                                        className="flex-1 sm:flex-initial px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm bg-white/5 text-gray-300 hover:bg-white/10 border border-white/5 hover:text-white"
                                     >
-                                        {followLoading ? (
-                                            <Icon icon="mdi:loading" className="animate-spin text-xl" />
-                                        ) : profile.isFollowing ? (
-                                            <>
-                                                <Icon icon="mdi:account-check" className="text-xl" /> Following
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Icon icon="mdi:account-plus" className="text-xl" /> Follow Protocol
-                                            </>
-                                        )}
-                                    </button>
+                                        <Icon icon="mdi:card-account-details-outline" className="text-xl" /> {t('tutorProfile.cadetProfile')}
+                                    </Link>
+
+                                    {user?._id === profile.tutor._id ? (
+                                        <Link
+                                            to="/profile"
+                                            className="flex-1 sm:flex-initial px-8 py-3 rounded-xl font-black transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm bg-nexus-green/10 text-nexus-green hover:bg-nexus-green/20 border border-nexus-green/30"
+                                        >
+                                            <Icon icon="mdi:account-edit" className="text-xl" /> {t('tutorProfile.editProfile')}
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            onClick={handleFollow}
+                                            disabled={followLoading}
+                                            className={`flex-1 sm:flex-initial px-8 py-3 rounded-xl font-black transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm
+                                                ${profile.isFollowing
+                                                    ? 'bg-white/10 text-white hover:bg-white/20 border border-white/5'
+                                                    : 'bg-nexus-green text-black hover:bg-nexus-green/90 shadow-[0_0_25px_rgba(57,255,20,0.3)] hover:shadow-[0_0_35px_rgba(57,255,20,0.5)]'
+                                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                        >
+                                            {followLoading ? (
+                                                <Icon icon="mdi:loading" className="animate-spin text-xl" />
+                                            ) : profile.isFollowing ? (
+                                                <>
+                                                    <Icon icon="mdi:account-check" className="text-xl" /> {t('tutorProfile.following')}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Icon icon="mdi:account-plus" className="text-xl" /> {t('tutorProfile.followProtocol')}
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -213,7 +232,7 @@ export default function TutorProfile() {
                     >
                         <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
                             <span className="p-2 bg-purple-500/20 rounded-lg text-purple-400"><Icon icon="mdi:robot-happy" /></span>
-                            Unlocks Collection
+                            {t('tutorProfile.unlocksCollection')}
                         </h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
                             {profile.unlockedAvatars.map((ua) => (
@@ -243,9 +262,9 @@ export default function TutorProfile() {
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
                             <span className="p-2 bg-nexus-green/20 rounded-lg text-nexus-green"><Icon icon="mdi:school" /></span>
-                            Active Missions
+                            {t('tutorProfile.activeMissions')}
                         </h2>
-                        <span className="text-sm text-gray-500 font-bold uppercase tracking-wider">{profile.courses.length} Deployed</span>
+                        <span className="text-sm text-gray-500 font-bold uppercase tracking-wider">{profile.courses.length} {t('tutorProfile.deployed')}</span>
                     </div>
 
                     {profile.courses.length > 0 ? (
@@ -265,8 +284,8 @@ export default function TutorProfile() {
                     ) : (
                         <div className="text-center py-20 text-gray-500 border border-dashed border-white/10 rounded-3xl bg-black/20 backdrop-blur-sm">
                             <Icon icon="mdi:folder-search-outline" className="text-5xl mx-auto mb-4 opacity-50" />
-                            <p className="text-lg font-bold">No active missions detected.</p>
-                            <p className="text-sm">This instructor hasn't deployed any courses yet.</p>
+                            <p className="text-lg font-bold">{t('tutorProfile.noMissions')}</p>
+                            <p className="text-sm">{t('tutorProfile.noMissionsDesc')}</p>
                         </div>
                     )}
                 </motion.div>

@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect, useRef } from 'react';
 import api from '../api/axios';
+import i18n from '../i18n';
 
 interface TopCourse {
     major: string;
@@ -51,7 +52,7 @@ export default function Home() {
     };
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden selection:bg-nexus-green selection:text-black font-sans">
+        <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden selection:bg-nexus-green selection:text-black">
 
             {/* --- HERO SECTION --- */}
             <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
@@ -83,16 +84,24 @@ export default function Home() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-nexus-green opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-nexus-green"></span>
                         </span>
-                        <span className="text-nexus-green font-mono text-xs font-bold tracking-widest uppercase">{t('home.heroBadge', 'NEXUS ONLINE v4.0')}</span>
+                        <span className="text-nexus-green text-xs font-bold tracking-widest uppercase">{t('home.heroBadge', 'NEXUS ONLINE v4.0')}</span>
                     </motion.div>
 
                     {/* Headline */}
-                    <motion.h1 variants={fadeInUp} className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mix-blend-screen">
-                        LEVEL UP YOUR <br />
+                    {i18n.language === "en" ? (<motion.h1 variants={fadeInUp} className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mix-blend-screen">
+                        {t('home.heroTitle', 'LEVEL UP YOUR KNOWLEDGE').split(' ').slice(0, 3).join(' ')} <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green via-emerald-400 to-cyan-500 animate-pulse">
-                            KNOWLEDGE
+                            {t('home.heroTitle').split(' ').slice(3).join(' ')}
                         </span>
                     </motion.h1>
+                    ) : (
+                        <motion.h1 variants={fadeInUp} className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mix-blend-screen">
+                            {t('home.heroTitle', 'LEVEL UP YOUR KNOWLEDGE').split(' ').slice(0, 2).join(' ')} <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green via-emerald-400 to-cyan-500 animate-pulse">
+                                {t('home.heroTitle').split(' ').slice(2).join(' ')}
+                            </span>
+                        </motion.h1>
+                    )}
 
                     {/* Subtitle */}
                     <motion.p variants={fadeInUp} className="text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
@@ -117,7 +126,7 @@ export default function Home() {
                                 className="group px-10 py-5 bg-transparent border border-white/20 text-white font-bold text-lg tracking-wider uppercase rounded-full hover:bg-white/5 hover:border-nexus-green/50 transition-all flex items-center gap-3 backdrop-blur-sm"
                             >
                                 <Icon icon="mdi:account-plus" className="text-2xl group-hover:text-nexus-green transition-colors" />
-                                {t('nav.joinNow', 'Join Nexus')}
+                                {t('home.joinNexus', 'Join Nexus')}
                             </Link>
                         )}
                     </motion.div>
@@ -130,7 +139,7 @@ export default function Home() {
                     transition={{ delay: 2, duration: 1 }}
                     className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500"
                 >
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Scroll to Begin</span>
+                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold">{t('home.scrollToBegin', 'Scroll to Begin')}</span>
                     <Icon icon="mdi:chevron-down" className="text-2xl animate-bounce text-nexus-green" />
                 </motion.div>
             </section>
@@ -150,24 +159,24 @@ export default function Home() {
                             >
                                 <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 text-nexus-green font-bold tracking-widest uppercase text-sm">
                                     <Icon icon="mdi:trophy-outline" className="text-xl" />
-                                    <span>Gamified Learning</span>
+                                    <span>{t('home.gamifiedLearning', 'Gamified Learning')}</span>
                                 </motion.div>
 
                                 <motion.h2 variants={fadeInUp} className="text-5xl md:text-7xl font-black leading-none">
-                                    EARN. <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-600">COLLECT.</span> <br />
-                                    DOMINATE.
+                                    {t('home.earnCollectDominate', 'EARN. COLLECT. DOMINATE.').split(' ')[0]} <span className="text-transparent bg-clip-text bg-gradient-to-br from-purple-400 to-pink-600">{t('home.earnCollectDominate', 'EARN. COLLECT. DOMINATE.').split(' ')[1]}</span> <br />
+                                    {t('home.earnCollectDominate', 'EARN. COLLECT. DOMINATE.').split(' ').slice(2).join(' ')}
                                 </motion.h2>
 
                                 <motion.p variants={fadeInUp} className="text-xl text-gray-400 leading-relaxed max-w-xl">
-                                    Turning study hours into XP. Complete missions to unlock exclusive Nexons and unlock new more as you learn.
+                                    {t('home.turningStudyHours', 'Turning study hours into XP. Complete missions to unlock exclusive Nexons and unlock new more as you learn.')}
                                 </motion.p>
 
                                 <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-6 pt-4">
                                     {[
-                                        { label: "Earn XP", icon: "bx:hive" },
-                                        { label: "Level Up", icon: "icon-park-outline:level" },
-                                        { label: "Rare Avatars", icon: "mdi:robot-happy" },
-                                        { label: "Showcase", icon: "mdi:podcast" }
+                                        { label: t('home.earnXp', 'Earn XP'), icon: "bx:hive" },
+                                        { label: t('home.levelUp', 'Level Up'), icon: "icon-park-outline:level" },
+                                        { label: t('home.rareAvatars', 'Rare Avatars'), icon: "mdi:robot-happy" },
+                                        { label: t('home.showcase', 'Showcase'), icon: "mdi:podcast" }
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-nexus-green/30 transition-colors">
                                             <Icon icon={item.icon} className="text-2xl text-nexus-green" />
@@ -191,7 +200,7 @@ export default function Home() {
                                 <div className="bg-black/60 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-2xl relative">
                                     <div className="flex justify-between items-center mb-6">
                                         <span className="px-3 py-1 bg-gradient-to-r from-nexus-green to-emerald-600 text-black text-xs font-black uppercase rounded-md shadow-[0_0_15px_#22c55e]">
-                                            Legendary Drop
+                                            {t('home.legendaryDrop', 'Legendary Drop')}
                                         </span>
                                         <Icon icon="mdi:dots-horizontal" className="text-gray-500" />
                                     </div>
@@ -211,7 +220,7 @@ export default function Home() {
                                     <Icon icon="mdi:gift" className="text-4xl text-purple-400" />
                                 </div>
                                 <div className="absolute -bottom-10 -left-10 bg-[#1a1a1a] p-4 rounded-2xl border border-white/10 shadow-xl animate-float" style={{ animationDelay: "2s" }}>
-                                    <div className="text-nexus-green font-black text-xl">+2500 XP</div>
+                                    <div className="text-nexus-green font-black text-xl">{t('home.xpGained', '+2500 XP')}</div>
                                 </div>
                             </div>
 
@@ -221,7 +230,7 @@ export default function Home() {
                                 style={{ animationDelay: "1.5s", transform: "translateZ(50px)" }}
                             >
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-[10px] font-bold text-gray-400 uppercase">Unlocking...</span>
+                                    <span className="text-[10px] font-bold text-gray-400 uppercase">{t('home.unlocking', 'Unlocking...')}</span>
                                     <Icon icon="mdi:lock-open-variant" className="text-nexus-green text-xs" />
                                 </div>
                                 <img
@@ -243,11 +252,11 @@ export default function Home() {
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-black mb-4">Trending Missions</h2>
-                            <p className="text-gray-400 text-lg">Join the most active learning paths.</p>
+                            <h2 className="text-4xl md:text-5xl font-black mb-4">{t('home.trendingMissions', 'Trending Missions')}</h2>
+                            <p className="text-gray-400 text-lg">{t('home.joinMostActive', 'Join the most active learning paths.')}</p>
                         </div>
                         <Link to="/courses" className="px-6 py-3 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all font-bold flex items-center gap-2">
-                            Explore Database <Icon icon="mdi:arrow-right" />
+                            {t('home.exploreDatabase', 'Explore Database')} <Icon icon="mdi:arrow-right" />
                         </Link>
                     </div>
 
@@ -313,7 +322,7 @@ export default function Home() {
             <section className="py-32 px-6">
                 <div className="container mx-auto">
                     <div className="text-center mb-20">
-                        <h2 className="text-3xl md:text-5xl font-black mb-6">WHY NEXUS?</h2>
+                        <h2 className="text-3xl md:text-5xl font-black mb-6">{t('home.whyNexus', 'WHY NEXUS?')}</h2>
                         <div className="w-20 h-1 bg-nexus-green mx-auto rounded-full" />
                     </div>
 
@@ -367,20 +376,19 @@ export default function Home() {
                         <div className="md:w-1/2 space-y-6">
                             <div className="inline-flex items-center gap-2 text-nexus-green font-bold tracking-widest uppercase text-xs">
                                 <Icon icon="mdi:teach" className="text-lg" />
-                                <span>Join the Faculty</span>
+                                <span>{t('home.joinFaculty', 'Join the Faculty')}</span>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">
-                                Share Knowledge. <br />
-                                Earn Revenue.
+                                {t('home.shareKnowledge', 'Share Knowledge. Earn Revenue.')}
                             </h2>
                             <p className="text-gray-400 text-lg leading-relaxed">
-                                Become a verified tutor on Nexus. Create courses, mentor students, and get paid for your expertise.
+                                {t('home.becomeVerified', 'Become a verified tutor on Nexus. Create courses, mentor students, and get paid for your expertise.')}
                             </p>
                             <Link
                                 to="/tutor-application"
                                 className="inline-flex items-center gap-3 px-8 py-4 bg-nexus-green text-black font-bold rounded-full hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(34,197,94,0.3)]"
                             >
-                                <span>Apply Now</span>
+                                <span>{t('home.applyNow', 'Apply Now')}</span>
                                 <Icon icon="mdi:arrow-right" />
                             </Link>
                         </div>
@@ -408,25 +416,25 @@ export default function Home() {
                             className="relative z-10 max-w-4xl mx-auto space-y-8"
                         >
                             <h2 className="text-4xl md:text-7xl font-black text-white tracking-tight">
-                                READY TO <br />
-                                <span className="text-nexus-green drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">ASCEND?</span>
+                                {t('home.readyToAscend', 'READY TO ASCEND?').split(' ').slice(0, 2).join(' ')} <br />
+                                <span className="text-nexus-green drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]">{t('home.readyToAscend', 'READY TO ASCEND?').split(' ')[2]}</span>
                             </h2>
                             <p className="text-xl md:text-2xl text-gray-300 font-light">
-                                Join the elite at Nexus 4D. Your journey to mastery begins now.
+                                {t('home.joinElite', 'Join the elite at Nexus 4D. Your journey to mastery begins now.')}
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
                                 <Link
                                     to="/register"
                                     className="px-12 py-5 bg-white text-black font-black uppercase tracking-widest text-lg rounded-full hover:bg-nexus-green transition-colors shadow-2xl"
                                 >
-                                    {t('home.cta.button', 'Initialize Account')}
+                                    {t('home.initializeAccount', 'Initialize Account')}
                                 </Link>
                                 <Link
                                     to="/tutor-application"
                                     className="px-12 py-5 bg-black/50 backdrop-blur-md border border-white/20 text-white font-bold uppercase tracking-widest text-lg rounded-full hover:bg-white/10 transition-colors"
                                 >
                                     <span className="flex items-center gap-2">
-                                        <Icon icon="mdi:teach" /> Apply as Tutor
+                                        <Icon icon="mdi:teach" /> {t('home.applyAsTutor', 'Apply as Tutor')}
                                     </span>
                                 </Link>
                             </div>
@@ -440,12 +448,12 @@ export default function Home() {
                 <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-600">
                     <div className="flex items-center gap-2 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
                         <img src="/Logo Horizontal.png" className="h-6" alt="Nexus 4D" />
-                        <span>&copy; {new Date().getFullYear()} Nexus 4D</span>
+                        <span>&copy; {new Date().getFullYear()} {t('home.allRightsReserved', 'Nexus 4D. All rights reserved.')}</span>
                     </div>
                     <div className="flex gap-8">
-                        <Link to="#" className="hover:text-nexus-green transition-colors">Privacy Protocol</Link>
-                        <Link to="#" className="hover:text-nexus-green transition-colors">Terms of Service</Link>
-                        <Link to="/contact" className="hover:text-nexus-green transition-colors">Contact Command</Link>
+                        <Link to="/privacy" className="hover:text-nexus-green transition-colors">{t('home.privacyProtocol', 'Privacy Protocol')}</Link>
+                        <Link to="/terms" className="hover:text-nexus-green transition-colors">{t('home.termsOfService', 'Terms of Service')}</Link>
+                        <Link to="/contact" className="hover:text-nexus-green transition-colors">{t('home.contactCommand', 'Contact Command')}</Link>
                     </div>
                 </div>
             </footer>

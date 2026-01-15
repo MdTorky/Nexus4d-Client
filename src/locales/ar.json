@@ -7,10 +7,111 @@
     "password": "كلمة المرور",
     "submit": "إرسال",
     "language": "اللغة",
-    "logout": "تسجيل الخروج",
+
+    "packages": {
+      "basic": "أساسي",
+      "advanced": "متقدم",
+      "premium": "متميز"
+    },
+    "levels": {
+      "beginner": "مبتدئ",
+      "intermediate": "متوسط",
+      "advanced": "متقدم"
+    },
+    "status": {
+      "active": "نشط",
+      "ongoing": "جارية",
+      "complete": "مكتمل",
+      "disabled": "معطل",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض"
+    },
+    "time": {
+      "hours": "ساعة"
+    },
+    "majors": {
+      "computer science": "علوم الحاسوب",
+      "electrical engineering": "هندسة الكهرباء",
+      "mechanical engineering": "هندسة الميكانيك",
+      "chemical engineering": "هندسة الكيميائية",
+      "civil engineering": "هندسة المدنية",
+      "software engineering": "هندسة البرمجيات",
+      "information technology": "تكنولوجيا المعلومات",
+      "data science": "علم البيانات",
+      "artificial intelligence": "الذكاء الاصطناعي",
+      "cyber security": "الأمن السيبراني"
+    },
+    "general": "عام",
+    "university": "جامعة",
     "profile": "الملف الشخصي",
     "myCourses": "دوراتي",
     "dashboard": "لوحة التحكم"
+  },
+  "tutorProfile": {
+    "notFound": "المعلم غير موجود",
+    "toasts": {
+      "failedLoad": "فشل تحميل ملف المعلم",
+      "loginRequired": "يرجى تسجيل الدخول لمتابعة المعلمين",
+      "unfollowed": "تم إلغاء متابعة المعلم",
+      "followed": "تمت متابعة المعلم!",
+      "updateFail": "فشل تحديث حالة المتابعة"
+    },
+    "lvl": "المستوى",
+    "expertInstructor": "مدرب خبير",
+    "noBio": "لا توجد سيرة ذاتية متاحة.",
+    "followers": "المتابعون",
+    "missions": "المهام",
+    "cadetProfile": "ملف المتدرب",
+    "editProfile": "تعديل الملف الشخصي",
+    "following": "تتابعه",
+    "followProtocol": "اتبع البروتوكول",
+    "unlocksCollection": "مجموعة المقتنيات",
+    "activeMissions": "المهام النشطة",
+    "deployed": "تم نشرها",
+    "noMissions": "لم يتم اكتشاف مهام نشطة.",
+    "noMissionsDesc": "لم يقم هذا المدرب بنشر أي دورات تدريبية بعد."
+  },
+  "userProfile": {
+    "notFound": "المستخدم غير موجود",
+    "toasts": {
+      "loginRequired": "يرجى تسجيل الدخول للمتابعة",
+      "requestSent": "تم إرسال طلب الصداقة!",
+      "requestCancelled": "تم إلغاء الطلب",
+      "requestAccepted": "تم قبول طلب الصداقة!",
+      "actionFailed": "فشل الإجراء"
+    },
+    "lvl": "مستوى",
+    "master": "ماستر",
+    "cadet": "متدرب",
+    "friend": "صديق",
+    "addFriend": "إضافة صديق",
+    "cancelRequest": "إلغاء الطلب",
+    "accept": "قبول",
+    "decline": "رفض",
+    "viewTutorProfile": "عرض ملف المعلم",
+    "enrolled": "مسجل",
+    "completed": "مكتمل",
+    "nexons": "نيكسون",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "missions": "المهام"
+    },
+    "nexonCollection": "مجموعة نيكسون",
+    "collectionEncrypted": "المجموعة مشفرة",
+    "privacySettingsEnabled": "تم تمكين إعدادات الخصوصية للمستخدم",
+    "noUnlockedNexons": "لا توجد نيكسون مفتوحة بعد.",
+    "achievements": "الإنجازات",
+    "privateData": "بيانات خاصة",
+    "courseCompleted": "تم إكمال الدورة",
+    "noMedals": "لم يتم كسب أي ميداليات بعد.",
+    "academicIntel": "البيانات الأكاديمية",
+    "major": "التخصص",
+    "semester": "الفصل الدراسي",
+    "notSet": "غير محدد",
+    "restrictedAccess": "وصول مقيد",
+    "restrictedAccessDesc": "تاريخ دورة هذا المستخدم سري.",
+    "progress": "التقدم",
+    "noActiveMissions": "لا توجد مهام نشطة."
   },
   "nav": {
     "home": "الرئيسية",
@@ -19,7 +120,20 @@
     "contact": "اتصل بنا",
     "becomeTutor": "كن معلماً",
     "joinNow": "انضم الآن",
-    "language": "اللغة"
+    "language": "اللغة",
+    "notifications": {
+      "title": "سجل القيادة",
+      "markAll": "تحديد الكل كمقروء",
+      "empty": "لا توجد إشارات نشطة"
+    },
+    "user": {
+      "adminCommand": "قيادة الإدارة",
+      "tutorDashboard": "لوحة المعلم",
+      "disconnect": "قطع الاتصال",
+      "level": "مستوى",
+      "nextLevel": "المستوى التالي",
+      "xp": "خبرة"
+    }
   },
   "auth": {
     "createAccount": "إنشاء حساب",
@@ -44,33 +158,151 @@
     "failedResend": "فشل إرسال الرمز"
   },
   "home": {
-    "heroTitle": "سيطر على مستقبلك مع Nexus 4D",
-    "heroSubtitle": "موارد تعليمية متميزة مصممة للمتعلم الحديث. انضم إلى مجتمع الناجحين.",
-    "exploreCourses": "تصفح الدورات",
+    "heroTitle": "ارتقِ بمستواك العلمي",
+    "heroSubtitle": "نكسس 4D هي المنصة الأولى للتعليم بأسلوب الألعاب. أتقن مهارات جديدة، وافتح شخصيات نادرة، وحدد مستقبلك.",
+    "heroBadge": "نكسس أونلاين v4.0",
+    "exploreCourses": "ابدأ المهمة",
     "startLearning": "ابدأ التعلم",
-    "stats": {
-      "students": "طالب نشط",
-      "courses": "دورة متميزة",
-      "tutors": "معلم خبير"
-    },
+    "joinNexus": "انضم إلى نكسس",
+    "scrollToBegin": "مرر للبدء",
+    "gamifiedLearning": "تعلم بأسلوب الألعاب",
+    "earnCollectDominate": "اكسب. اجمع. سيطر.",
+    "turningStudyHours": "تحويل ساعات الدراسة إلى نقاط خبرة. أكمل المهام لفتح نكسونات حصرية واكتشف المزيد أثناء تعلمك.",
+    "earnXp": "اكسب نقاط خبرة",
+    "levelUp": "ارفع مستواك",
+    "rareAvatars": "شخصيات نادرة",
+    "showcase": "استعراض",
+    "legendaryDrop": "سقوط أسطوري",
+    "xpGained": "+2500 خبرة",
+    "unlocking": "جاري الفتح...",
+    "trendingMissions": "مهام رائجة",
+    "joinMostActive": "انضم إلى مسارات التعلم الأكثر نشاطاً.",
+    "exploreDatabase": "تصفح قاعدة البيانات",
+    "whyNexus": "لماذا نكسس؟",
+    "joinFaculty": "انضم إلى الهيئة التدريسية",
+    "shareKnowledge": "شارك المعرفة. اكسب العوائد.",
+    "becomeVerified": "كن معلماً موثقاً في نكسس. أنشئ دورات، ووجه الطلاب، واحصل على مقابل لخبرتك.",
+    "applyNow": "قدم الآن",
+    "readyToAscend": "جاهز للصعود؟",
+    "joinElite": "انضم إلى النخبة في نكسس 4D. رحلتك نحو الإتقان تبدأ الآن.",
+    "initializeAccount": "انضم الآن",
+    "applyAsTutor": "التقديم كمعلم",
+    "privacyProtocol": "بروتوكول الخصوصية",
+    "termsOfService": "شروط الخدمة",
+    "contactCommand": "اتصل بالقيادة",
+    "allRightsReserved": "نكسس 4D. جميع الحقوق محفوظة.",
     "features": {
-      "title": "لماذا تختار Nexus 4D؟",
       "quality": {
-        "title": "جودة عالية",
-        "desc": "محتوى منتقى بعناية من خبراء الصناعة."
+        "title": "وصول غير محدود",
+        "desc": "اشتراك واحد، احتمالات لا حصر لها. الوصول إلى قاعدة بيانات نكسس بالكامل."
       },
       "flexibility": {
-        "title": "تعلم مرن",
-        "desc": "تعلم بالسرعة التي تناسبك، في أي مكان وفي أي وقت."
+        "title": "ملاحظات فورية",
+        "desc": "اختبارات مدعومة بالذكاء الاصطناعي وتتبع فوري للتقدم للحفاظ على حدة ذكائك."
       },
       "community": {
-        "title": "مجتمع عالمي",
-        "desc": "تواصل مع المتعلمين حول العالم."
+        "title": "شبكة عالمية",
+        "desc": "تواصل مع آلاف المتعلمين والمعلمين الآخرين في جميع أنحاء العالم."
       }
+    }
+  },
+  "about": {
+    "revolutionHere": "الثورة هنا",
+    "beyondEducation": "ما وراء التعليم",
+    "notJustPlatform": "نحن لسنا مجرد منصة. نحن <1>محرك الدوبامين</1> لنجاحك المستقبلي. تدمج نكسس 4D أسلوب الألعاب عالي الأوكتان مع التعليم من النخبة.",
+    "startLearning": "ابدأ التعلم",
+    "hyperSpeed": "تعلم فائق السرعة",
+    "forgetBoring": "انسَ المحاضرات المملة. وحداتنا التعليمية المصغرة مصممة للاستيعاب السريع والتطبيق الفوري.",
+    "gamifiedMastery": "إتقان بأسلوب الألعاب",
+    "levelUpEarn": "ارفع مستواك، واكسب نقاط خبرة، وافتح المكافآت. لقد حولنا الدراسة إلى لعبة RPG إدمانية حيث تكون أنت الشخصية الرئيسية.",
+    "eliteCommunity": "مجتمع النخبة",
+    "joinSquad": "انضم إلى فريق من المتفوقين. تنافس في قوائم المتصدرين وتعاون مع أفضل العقول في اللعبة.",
+    "oldSchoolObsolete": "المدرسة القديمة انتهت",
+    "traditionalSystem": "بُني النظام التعليمي التقليدي لعالم لم يعد موجوداً. إنه بطيء، وجامد، وبصراحة، ممل.",
+    "antidote": "نكسس 4D هو الترياق. نستخدم أحدث العلوم الإدراكية ومبادئ تصميم الألعاب لابقائك في حالة اندماج. كل نقرة، كل اختبار، كل فصل مكتمل يطلق موجة من الإنجاز.",
+    "completionRate": "معدل الإكمال",
+    "activeLearners": "متعلمين نشطين",
+    "projectNexus": "مشروع نكسس",
+    "testimonial": "\"تعلمت في 3 أسابيع على نكسس 4D أكثر مما تعلمته في 3 سنوات من الجامعة. التلعيب ليس حيلة؛ إنه المستقبل.\"",
+    "fullStackDev": "مطورة Full Stack",
+    "faqTitle": "البيانات المتكررة",
+    "questions": {
+      "q1": "ما هي نكسس 4D بالضبط؟",
+      "a1": "نكسس 4D هي المنصة الأولى للتعليم بأسلوب الألعاب. لقد استبدلنا المحاضرات المملة بمهام عالية الأوكتان. أنت لا تتعلم فقط؛ أنت تصعد. نحن نجمع بين تعليم النخبة وأنظمة التقدم الإدمانية في ألعاب RPG.",
+      "q2": "كيف أكسب المكافآت والشخصيات؟",
+      "a2": "لكل فعل رد فعل. أكمل الفصول والاختبارات لكسب نقاط الخبرة. أتقن دورات كاملة لفتح شخصيات 'نكسون' نادرة. كلما تعلمت أكثر، أصبحت هويتك الرقمية أكثر أسطورية على قائمة المتصدرين العالمية.",
+      "q3": "هل يمكنني مشاركة معرفتي الخاصة؟",
+      "a3": "بالتأكيد. نحن نوظف دائماً معلمين من النخبة. إذا كانت لديك الخبرة، قدم طلبك إلى الهيئة التدريسية عبر لوحة التحكم الخاصة بك. ابنِ منهجك، وحدد شروطك، واستثمر مهاراتك أثناء بناء متابعين.",
+      "q4": "هل هذه المنصة مجانية الدخول؟",
+      "a4": "التهيئة مجانية. يمكنك الانضمام إلى الشبكة، وتصفح المهام، وتخصيص ملفك الشخصي مجاناً. قد تتطلب دورات متميزة محددة ومحتوى حصري رسوم تسجيل، مما يدعم منشئي المحتوى لدينا مباشرة."
     },
-    "cta": {
-      "title": "جاهز لتغيير مسارك المهني؟",
-      "button": "انضم الآن"
+    "getStartedFree": "ابدأ مجاناً",
+    "browseCourses": "تصفح الدورات"
+  },
+  "courses": {
+    "header": {
+      "subtitle": "دليل الدورات",
+      "title1": "اختر مسارك",
+      "title2": "التعليمي"
+    },
+    "searchPlaceholder": "ابحث عن المعرفة...",
+    "tabs": {
+      "all": "الكل",
+      "university": "جامعي",
+      "general": "عام"
+    },
+    "filters": {
+      "allMajors": "جميع التخصصات",
+      "filterByMajor": "تصفية حسب التخصص"
+    },
+    "emptyState": {
+      "title": "فقدان الإشارة",
+      "message": "لا توجد دورات متاحة حالياً وفق معايير البحث. حاول تعديل الفلاتر.",
+      "reset": "إعادة تعيين المعايير"
+    }
+  },
+  "contact": {
+    "openFrequency": "تردد مفتوح",
+    "header": {
+      "title1": "ابدأ",
+      "title2": "الاتصال",
+      "subtitle": "لديك استفسار؟ وجدت خللاً في النظام؟ جاهز للشراكة؟ أرسل إشارة. فريقنا يستمع على جميع الترددات."
+    },
+    "directUplink": {
+      "title": "اتصال مباشر",
+      "desc": "للاستفسارات العامة، والدعم، ومقترحات الشراكة."
+    },
+    "joinHive": {
+      "title": "انضم إلى الخلية",
+      "desc": "تواصل مع أكثر من 10 آلاف متعلم في الوقت الفعلي. هنا يحدث السحر.",
+      "cta": "ادخل الخادم"
+    },
+    "hqCoordinates": {
+      "title": "إحداثيات المقر الرئيسي",
+      "desc": "مختبرات نكسس 4D\n101 شارع الحدود الرقمية\nسايبرجايا، ماليزيا"
+    },
+    "form": {
+      "title": "إرسال رسالة",
+      "identity": "الهوية",
+      "identityPlaceholder": "الاسم الكامل",
+      "email": "تردد الاتصال",
+      "emailPlaceholder": "البريد الإلكتروني",
+      "subject": "الموضوع",
+      "subjectPlaceholder": "اختر موضوعاً",
+      "subjects": {
+        "support": "دعم فني",
+        "partnership": "اقتراح شراكة",
+        "billing": "استعلام عن الفواتير",
+        "other": "أخرى"
+      },
+      "message": "نص الرسالة",
+      "messagePlaceholder": "اكتب رسالتك هنا...",
+      "submit": "إرسال الإرسال",
+      "submitting": "جاري الإرسال..."
+    },
+    "toast": {
+      "success": "تم استلام الإرسال. سنرد قريباً.",
+      "error": "فشل الإرسال. يرجى المحاولة مرة أخرى."
     }
   },
   "onboarding": {
@@ -114,6 +346,7 @@
     "semester": "الفصل الدراسي",
     "nextLevel": "المستوى التالي",
     "editProfile": "تعديل الملف الشخصي",
+    "viewPublicProfile": "عرض الملف العام",
     "notSet": "غير محدد",
     "selectNexon": "اختر النكسون الخاص بك",
     "maleNexons": "ذكور نكسون",
@@ -121,6 +354,73 @@
     "close": "إغلاق",
     "loading": "جاري تحميل النكسون...",
     "tokensLeft": "رموز متبقية",
+    "progressToLvl": "مستوى التقدم",
+    "totalExperience": "الخبرة الكلية",
+    "nexonTokens": "رموز نكسون",
+    "general": "عام",
+    "tix": "تذكرة",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "following": "المتابعون",
+      "friends": "الأصدقاء",
+      "requests": "الطلبات",
+      "settings": "النظام"
+    },
+    "overview": {
+      "activeFollowers": "المتابعون النشطون",
+      "cadets": "المتدربون",
+      "noFollowers": "لا يوجد متابعون مسجلون بعد.",
+      "myMissions": "مهماتي",
+      "resumeTraining": "استأنف تدريبك وتابع تقدمك.",
+      "accessDashboard": "ادخل لوحة التحكم",
+      "nexonArmory": "ترسانة نكسون",
+      "manageIdentity": "افتح شخصيات جديدة وأدر هويتك.",
+      "openCollection": "فتح المجموعة"
+    },
+    "friends": {
+      "allies": "الحلفاء",
+      "noAllies": "لم يتم العثور على حلفاء",
+      "expandNetwork": "وسع شبكتك بزيارة ملفات المستخدمين الآخرين."
+    },
+    "following": {
+      "mentors": "الموجهون",
+      "noMentors": "أنت لا تتابع أي معلمين.",
+      "unfollow": "إلغاء المتابعة"
+    },
+    "requests": {
+      "incomingTransmissions": "الرسائل الواردة",
+      "noRequests": "لم يتم الكشف عن طلبات معلقة.",
+      "requestedAccess": "طلب الوصول",
+      "accepted": "تم قبول طلب الصداقة!",
+      "rejected": "تم رفض طلب الصداقة"
+    },
+    "settings": {
+      "systemProtocols": "بروتوكولات النظام",
+      "publicRegistry": "سجل نكسون العام",
+      "publicRegistryDesc": "السماح للعملاء الآخرين بعرض مجموعة الشخصيات المفتوحة لديك.",
+      "missionLog": "ظهور سجل المهام",
+      "missionLogDesc": "السماح للآخرين برؤية الدورات المسجلة وحالة الإنجاز.",
+      "updateProtocols": "تحديث البروتوكولات",
+      "updated": "تم تحديث بروتوكولات الخصوصية."
+    },
+    "errors": {
+      "actionFailed": "فشل الإجراء",
+      "unfollowFailed": "فشل إلغاء المتابعة",
+      "saveFailed": "فشل حفظ الإعدادات",
+      "unfollowed": "تم إلغاء متابعة المعلم"
+    },
+    "armory": {
+      "title": "ترسانة نكسون",
+      "subtitle": "اختر هويتك الرقمية",
+      "availability": "التوفر",
+      "category": "الفئة",
+      "searchDatabase": "البحث في قاعدة البيانات",
+      "searchPlaceholder": "بحث...",
+      "active": "نشط",
+      "equip": "تجهيز",
+      "equipped": "مجهز",
+      "unlock": "فتح"
+    },
     "filter": {
       "all": "الكل",
       "unlocked": "مفتوح",
@@ -129,12 +429,206 @@
     "noAvatars": "لا توجد شخصيات في هذه الفئة.",
     "clickToUnlock": "اضغط لفتح الشخصية",
     "avatarUpdated": "تم تحديث الشخصية بنجاح!",
-    "avatarUnlocked": "تم فتح الشخصية!",
+    "avatarUnlocked": "تم منح الوصول: شخصية جديدة مفتوحة",
+    "unlockFailed": "فشل الفتح",
     "noTokens": "لا توجد رموز فتح متاحة",
     "lockedCondition": "مغلق: {{condition}}",
     "unlockTokensAvailable": "{{count}} رموز فتح متاحة",
     "devLevelUp": "[مطور] +1 مستوى",
     "lvl": "مستوى",
     "xp": "خبرة"
+  },
+  "courseDetail": {
+    "promoCode": {
+      "placeholder": "أدخل الرمز",
+      "applied": "تم تطبيق الرمز الترويجي!",
+      "invalid": "رمز ترويجي غير صالح",
+      "apply": "تطبيق",
+      "discountApplied": "تم تطبيق الخصم: {{value}} خصم",
+      "label": "الرمز الترويجي"
+    },
+    "orderSummary": {
+      "title": "ملخص الطلب",
+      "course": "الدورة",
+      "package": "الباقة",
+      "upgradeCost": "تكلفة الترقية",
+      "totalPrice": "السعر الإجمالي"
+    },
+    "payment": {
+      "secureCheckout": "دفع آمن",
+      "detailsTitle": "تفاصيل الدفع",
+      "bankName": "اسم البنك",
+      "accountNumber": "رقم الحساب",
+      "copied": "تم نسخ رقم الحساب!",
+      "scanQr": "— أو امسح رمز الاستجابة السريعة —",
+      "uploadReceipt": "تحميل إيصال الدفع",
+      "tapToChange": "اضغط للتغيير",
+      "clickToUpload": "انقر للتحميل",
+      "uploadFormat": "SVG, PNG, JPG أو GIF (بحد أقصى 800x400 بكسل)",
+      "discountApplied": "تم تطبيق خصم 100%",
+      "noPaymentRequired": "لا يلزم الدفع. تابع للتسجيل.",
+      "claimFree": "احصل على وصول مجاني",
+      "confirmPay": "تأكيد ودفع",
+      "pendingVerification": "من خلال التأكيد، سيتم تفعيل وصولك بانتظار تحقق المسؤول.",
+      "securePayment": "دفع آمن بنسبة 100% (RHB / QR)",
+      "pleaseLogin": "الرجاء تسجيل الدخول للتسجيل",
+      "cannotEnrollOwn": "لا يمكنك التسجيل في دورتك الخاصة",
+      "uploadWarning": "الرجاء تحميل إيصال الدفع الخاص بك",
+      "enrollSuccess": "تم التسجيل بنجاح في باقة {{package}}!",
+      "enrollFail": "فشل التسجيل. حاول مرة اخرى."
+    },
+    "courseInfo": {
+      "level": "المستوى",
+      "duration": "المدة",
+      "chapters": "الفصول",
+      "xpReward": "مكافأة XP",
+      "selfPaced": "ذاتي الوتيرة",
+      "leadInstructor": "المعلم الرئيسي",
+      "masteryLevel": "مستوى الإتقان",
+      "viewFullProfile": "عرض الملف الشخصي الكامل"
+    },
+    "reward": {
+      "title": "مكافأة الإكمال",
+      "nexon": "نيكسون",
+      "unlockText": "افتح هذا الأفاتار الحصري لملفك الشخصي من خلال إكمال 100% من هذه الدورة."
+    },
+    "curriculum": {
+      "title": "المنهج الدراسي",
+      "modules": "وحدات",
+      "lessons": "دروس",
+      "free": "مجاني"
+    },
+    "status": {
+      "resumeMission": "استئناف المهمة",
+      "approvalGridlocked": "الموافقة معلقة",
+      "adminReview": "مراجعة المسؤول قيد التقدم. انتظر.",
+      "accessDenied": "تم رفض الوصول",
+      "applicationRejected": "تم رفض الطلب. تحقق من الاتصالات.",
+      "missionComplete": "اكتملت المهمة",
+      "objectivesAchieved": "تم تحقيق جميع الأهداف. أحسنت، أيها العميل.",
+      "unlockAccess": "فتح الوصول الكامل",
+      "chooseLevel": "اختر مستوى التصريح الخاص بك أدناه",
+      "enrollmentActive": "التسجيل نشط",
+      "instructorAccess": "وصول المعلم",
+      "commanderMessage": "أنت قائد هذه المهمة.",
+      "initiateEnrollment": "بدء التسجيل",
+      "recommended": "موصى به"
+    },
+    "support": {
+      "title": "بحاجة الى دعم؟",
+      "message": "اتصل بمركز قيادة الدعم لدينا للمساعدة.",
+      "link": "اتصل بالدعم"
+    }
+  },
+  "myCourses": {
+    "academicDashboard": "لوحة القيادة الأكاديمية",
+    "myMissions": "مهماتي",
+    "totalEnrollments": "إجمالي التسجيلات",
+    "acrossCategories": "عبر جميع الفئات",
+    "noActiveMissions": "لا توجد مهام نشطة",
+    "emptyDashboard": "لوحة القيادة فارغة. ابدأ بروتوكول التعلم الأول الخاص بك.",
+    "exploreCourses": "استكشف الدورات",
+    "plan": "خطة",
+    "pendingApproval": "بانتظار الموافقة",
+    "enrollmentRejected": "تم رفض التسجيل",
+    "instructor": "المعلم",
+    "unknown": "غير معروف",
+    "missionProgress": "تقدم المهمة",
+    "accessPending": "الوصول معلق بانتظار التحقق من بيانات الدفع.",
+    "reason": "السبب:",
+    "adminDecision": "قرار إداري.",
+    "reEnterSim": "إعادة دخول المحاكاة",
+    "continueMission": "متابعة المهمة",
+    "locked": "مغلق",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "loader": {
+    "initializing": "جاري البدء",
+    "systemLoading": "جاري تحميل النظام...",
+    "secureConnection": "Nexus 4D // اتصال آمن"
+  },
+  "footer": {
+    "brandText": "التطور القادم في التعليم المُلَعب. أتقن مهارات معقدة من خلال تجارب تعليمية غامرة ومدفوعة بالدوبامين.",
+    "discovery": "اكتشف",
+    "support": "الدعم",
+    "stayUpdated": "ابق على اطلاع",
+    "newsletterText": "اشترك في نشرتنا الإخبارية لمعرفة أحدث الدورات وفعاليات نقاط الخبرة.",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "rightsReserved": "Nexus 4D. جميع الحقوق محفوظة.",
+    "systemsOperational": "الأنظمة تعمل",
+    "links": {
+      "courses": "الدورات",
+      "about": "من نحن",
+      "contact": "اتصل بنا",
+      "terms": "شروط الخدمة",
+      "privacy": "سياسة الخصوصية",
+      "becomeTutor": "كن معلماً"
+    }
+  },
+  "tutorApp": {
+    "accessRestricted": {
+      "title": "الوصول مقيد",
+      "message": "يجب عليك تسجيل الدخول لتقديم طلب لتصبح معلماً.",
+      "login": "سجل دخولك الآن"
+    },
+    "incompleteProfile": {
+      "title": "الملف الشخصي غير مكتمل",
+      "message": "تتطلب بروتوكولات النظام ملف تعريف مستخدم كاملاً لبدء عملية التقديم للمعلم.",
+      "button": "أكمل الملف الشخصي"
+    },
+    "accessGranted": {
+      "title": "تم منح الوصول",
+      "level": "مستوى التصريح: معلم",
+      "message": "تم التحقق من قدراتك. لديك الآن تصريح للوصول إلى مركز قيادة المعلم.",
+      "button": "ادخل لوحة التحكم"
+    },
+    "pending": {
+      "title": "الحالة: قيد الانتظار",
+      "subtitle": "بانتظار مراجعة الإدارة",
+      "message": "طلبك قيد المعالجة حالياً بواسطة أنظمتنا المركزية. انتظر تحديثات الحالة.",
+      "button": "العودة للقاعدة"
+    },
+    "rejected": {
+      "title": "تم رفض الطلب",
+      "notes": "ملاحظات لجنة المراجعة:",
+      "defaultNote": "البيانات المقدمة غير كافية.",
+      "footer": "يمكنك مراجعة وإعادة إرسال طلبك أدناه."
+    },
+    "header": {
+      "title1": "تهيئة",
+      "title2": "بروتوكول المعلم",
+      "subtitle": "انضم إلى صفوف النخبة من معلمي نكسس 4D. شارك معرفتك وقم بتشكيل الجيل القادم من العملاء."
+    },
+    "form": {
+      "identity": "الهوية",
+      "fullNamePlaceholder": "الاسم الكامل",
+      "expertise": "الخبرة",
+      "specializationPlaceholder": "الموضوع الأساسي",
+      "email": "الاتصالات (البريد الإلكتروني)",
+      "emailPlaceholder": "عنوان البريد الإلكتروني",
+      "phone": "الاتصالات (الهاتف)",
+      "phonePlaceholder": "رقم الهاتف",
+      "linkedin": "البصمة الرقمية",
+      "linkedinPlaceholder": "رابط حساب لينكد إن (اختياري)",
+      "bio": "ملخص المهمة (السيرة الذاتية)",
+      "bioPlaceholder": "فصّل خبرتك وقدراتك التعليمية...",
+      "profileId": "تعريف الملف الشخصي",
+      "imageSelected": "تم اختيار الصورة",
+      "uploadPhoto": "رفع صورة الملف الشخصي",
+      "format": "JPG أو PNG (الحد الأقصى 2 ميجابايت)",
+      "submit": "إرسال الطلب",
+      "submitting": "جاري الإرسال...",
+      "errors": {
+        "fullNameRequired": "الاسم الكامل مطلوب",
+        "specializationRequired": "التخصص مطلوب",
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "emailInvalid": "تنسيق غير صالح",
+        "phoneRequired": "رقم الهاتف مطلوب",
+        "bioRequired": "السيرة الذاتية مطلوبة",
+        "bioLength": "يرجى تقديم ما لا يقل عن 50 حرفاً"
+      },
+      "success": "تم إرسال الطلب بنجاح!",
+      "failure": "فشل إرسال الطلب"
+    }
   }
 }

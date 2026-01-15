@@ -81,11 +81,11 @@ export default function Courses() {
                             {/* <div className="p-2 bg-nexus-green/10 rounded-lg">
                                 <Icon icon="mdi:compass-outline" className="text-nexus-green text-2xl" />
                             </div> */}
-                            <span className="text-nexus-green font-bold tracking-wider uppercase text-sm">Course Catalog</span>
+                            <span className="text-nexus-green font-bold tracking-wider uppercase text-sm">{t('courses.header.subtitle')}</span>
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-                            CHOOSE YOUR <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-white">PATHWAY</span>
+                            {t('courses.header.title1')} <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-white">{t('courses.header.title2')}</span>
                         </h1>
                     </motion.div>
 
@@ -98,7 +98,7 @@ export default function Courses() {
                         <Icon icon="mdi:magnify" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-nexus-green transition-colors" width="24" />
                         <input
                             type="text"
-                            placeholder="Search for knowledge..."
+                            placeholder={t('courses.searchPlaceholder')}
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-gray-500 focus:border-nexus-green focus:ring-1 focus:ring-nexus-green/50 focus:outline-none transition-all shadow-lg backdrop-blur-sm"
@@ -132,7 +132,7 @@ export default function Courses() {
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                     />
                                 )}
-                                <span className="relative z-10">{tab.charAt(0).toUpperCase() + tab.slice(1)}</span>
+                                <span className="relative z-10">{t(`courses.tabs.${tab}`)}</span>
                             </button>
                         ))}
                     </div>
@@ -146,12 +146,12 @@ export default function Courses() {
                         >
                             <Select
                                 options={[
-                                    { label: "All Majors", value: "", icon: "mdi:all-inclusive" },
+                                    { label: t('courses.filters.allMajors'), value: "", icon: "mdi:all-inclusive" },
                                     ...MAJORS.map(m => ({ label: t(`onboarding.${m.labelKey}`) || m.value, value: m.value, icon: m.icon }))
                                 ]}
                                 value={selectedMajor}
                                 onChange={setSelectedMajor}
-                                placeholder="Filter by Major"
+                                placeholder={t('courses.filters.filterByMajor')}
                                 className="w-full"
                             />
                         </motion.div>
@@ -184,13 +184,13 @@ export default function Courses() {
                         <div className="bg-white/5 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
                             <Icon icon="mdi:database-off" className="text-gray-500" width="48" />
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Signal Lost</h3>
-                        <p className="text-gray-400 max-w-md mx-auto">No courses generated on this frequency. Adjust your filters to re-establish connection.</p>
+                        <h3 className="text-2xl font-bold text-white mb-2">{t('courses.emptyState.title')}</h3>
+                        <p className="text-gray-400 max-w-md mx-auto">{t('courses.emptyState.message')}</p>
                         <button
                             onClick={() => { setActiveTab('all'); setSearchQuery(''); setSelectedMajor(''); }}
                             className="mt-8 px-6 py-3 bg-white/10 hover:bg-white/20 text-nexus-green font-bold rounded-xl transition-all border border-nexus-green/20 hover:border-nexus-green/50"
                         >
-                            Reset Parameters
+                            {t('courses.emptyState.reset')}
                         </button>
                     </motion.div>
                 )}

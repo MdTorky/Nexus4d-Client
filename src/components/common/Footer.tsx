@@ -2,7 +2,11 @@
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
+
 export default function Footer() {
+    const { t } = useTranslation();
     return (
         <footer className="w-full border-t border-white/10 bg-black pt-16 pb-8 relative overflow-hidden">
             {/* Ambient Background */}
@@ -18,17 +22,23 @@ export default function Footer() {
                             <img src="/Logo Horizontal.png" alt="Nexus 4D" className="w-full object-contain" />
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-                            The next evolution in gamified education. Master complex skills through immersive, dopamine-driven learning experiences.
+                            {t('footer.brandText')}
                         </p>
                         <div className="flex gap-4">
                             {/* Social Placeholders */}
-                            {['mdi:twitter', 'mdi:instagram', 'mdi:discord', 'mdi:linkedin'].map((icon, idx) => (
+                            {[
+                                { icon: 'mdi:instagram', href: 'https://www.instagram.com/nexus_4d/' },
+                                { icon: 'prime:twitter', href: 'https://twitter.com' },
+                                { icon: 'mdi:linkedin', href: 'https://www.linkedin.com/company/nexus-4d' }
+                            ].map((social, idx) => (
                                 <a
                                     key={idx}
-                                    href="#"
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-nexus-green hover:text-black transition-all duration-300 hover:scale-110"
                                 >
-                                    <Icon icon={icon} className="text-xl" />
+                                    <Icon icon={social.icon} className="text-xl" />
                                 </a>
                             ))}
                         </div>
@@ -36,13 +46,13 @@ export default function Footer() {
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="text-white font-bold mb-6">Discovery</h3>
+                        <h3 className="text-white font-bold mb-6">{t('footer.discovery')}</h3>
                         <ul className="space-y-4">
                             {[
-                                { label: 'Courses', path: '/courses' },
+                                { label: t('footer.links.courses'), path: '/courses' },
                                 // { label: 'Tutors', path: '/tutors' },
-                                { label: 'About Us', path: '/about' },
-                                { label: 'Contact', path: '/contact' }
+                                { label: t('footer.links.about'), path: '/about' },
+                                { label: t('footer.links.contact'), path: '/contact' }
                             ].map((link) => (
                                 <li key={link.path}>
                                     <Link to={link.path} className="text-gray-400 hover:text-nexus-green transition-colors text-sm">
@@ -55,13 +65,13 @@ export default function Footer() {
 
                     {/* Legal/Support */}
                     <div>
-                        <h3 className="text-white font-bold mb-6">Support</h3>
+                        <h3 className="text-white font-bold mb-6">{t('footer.support')}</h3>
                         <ul className="space-y-4">
                             {[
                                 // { label: 'Help Center', path: '#' },
-                                { label: 'Terms of Service', path: '#' },
-                                { label: 'Privacy Policy', path: '#' },
-                                { label: 'Become a Tutor', path: '/tutor-application' }
+                                { label: t('footer.links.terms'), path: '/terms' },
+                                { label: t('footer.links.privacy'), path: '/privacy' },
+                                { label: t('footer.links.becomeTutor'), path: '/tutor-application' }
                             ].map((link) => (
                                 <li key={link.path}>
                                     <Link to={link.path} className="text-gray-400 hover:text-nexus-green transition-colors text-sm">
@@ -74,16 +84,16 @@ export default function Footer() {
 
                     {/* Newsletter/Action */}
                     <div>
-                        <h3 className="text-white font-bold mb-6">Stay Updated</h3>
-                        <p className="text-gray-400 text-sm mb-4">Join our newsletter for the latest course drops and XP events.</p>
+                        <h3 className="text-white font-bold mb-6">{t('footer.stayUpdated')}</h3>
+                        <p className="text-gray-400 text-sm mb-4">{t('footer.newsletterText')}</p>
                         <div className="flex gap-2">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
+                                placeholder={t('footer.emailPlaceholder')}
                                 className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-nexus-green w-full"
                             />
                             <button className="bg-nexus-green text-black px-4 py-2 rounded-lg font-bold hover:bg-nexus-green/90 transition-colors">
-                                <Icon icon="mdi:arrow-right" />
+                                <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                             </button>
                         </div>
                     </div>
@@ -92,12 +102,12 @@ export default function Footer() {
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-gray-500 text-xs">
-                        © {new Date().getFullYear()} Nexus 4D. All rights reserved.
+                        © {new Date().getFullYear()} {t('footer.rightsReserved')}
                     </p>
                     <div className="flex gap-8">
                         <span className="text-gray-500 text-xs flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            Systems Operational
+                            {t('footer.systemsOperational')}
                         </span>
                     </div>
                 </div>

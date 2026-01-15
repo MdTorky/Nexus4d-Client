@@ -93,7 +93,7 @@ export default function CoursePlayer() {
     const progress = enrollment?.progress || 0;
 
     return (
-        <div className="flex h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-[#0a0a0a] to-black overflow-hidden font-sans text-white text-selection-nexus">
+        <div className="flex h-screen bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900 via-[#0a0a0a] to-black overflow-hidden font-sans text-white text-selection-nexus ltr">
             {/* Holographic Sidebar */}
             <AnimatePresence mode="wait">
                 {sidebarOpen && (

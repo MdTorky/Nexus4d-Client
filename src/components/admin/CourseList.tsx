@@ -92,7 +92,7 @@ export default function CourseList() {
                                     <div className="absolute top-3 right-3 z-20">
                                         <span className={`px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-widest backdrop-blur-md border ${course.status === 'complete'
                                             ? 'bg-green-500/20 text-green-400 border-green-500/30'
-                                            : 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                                            : course.status === 'ongoing' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : 'bg-red-500/20 text-red-400 border-red-500/30'
                                             }`}>
                                             {course.status}
                                         </span>

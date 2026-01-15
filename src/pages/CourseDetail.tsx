@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
@@ -9,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
 export default function CourseDetail() {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     // const navigate = useNavigate();
     const { user } = useAuth();
@@ -44,10 +47,10 @@ export default function CourseDetail() {
 
             if (data.valid) {
                 setPromoDiscount({ type: data.discountType, value: data.discountValue });
-                showToast('Promo code applied!', 'success');
+                showToast(t('courseDetail.promoCode.applied'), 'success');
             }
         } catch (error: any) {
-            setPromoError(error.response?.data?.message || 'Invalid promo code');
+            setPromoError(error.response?.data?.message || t('courseDetail.promoCode.invalid'));
             setPromoDiscount(null);
         } finally {
             setPromoLoading(false);
@@ -162,7 +165,11 @@ export default function CourseDetail() {
 
     const handleEnroll = () => {
         if (!user) {
-            showToast('Please login to enroll', 'info');
+            showToast(t('courseDetail.payment.pleaseLogin'), 'info');
+            return;
+        }
+        if (course?.tutor_id?._id === user._id) {
+            showToast(t('courseDetail.payment.cannotEnrollOwn'), 'error');
             return;
         }
         setShowPaymentModal(true);
@@ -178,7 +185,7 @@ export default function CourseDetail() {
     const confirmPayment = async () => {
         const currentPrice = getPrice(selectedPackage);
         if (currentPrice > 0 && !receiptFile) {
-            showToast('Please upload your payment receipt', 'warning');
+            showToast(t('courseDetail.payment.uploadWarning'), 'warning');
             return;
         }
 
@@ -196,14 +203,14 @@ export default function CourseDetail() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            showToast(`Successfully enrolled in ${selectedPackage} package!`, 'success');
+            showToast(t('courseDetail.payment.enrollSuccess', { package: selectedPackage }), 'success');
             // Refresh enrollment status
             const { data } = await api.get(`/courses/${id}/enrollment`);
             setEnrollment(data);
             setShowPaymentModal(false); // Close modal
         } catch (error) {
             console.error('Enrollment failed:', error);
-            showToast('Failed to enroll. Please try again.', 'error');
+            showToast(t('courseDetail.payment.enrollFail'), 'error');
         }
     };
 
@@ -230,24 +237,24 @@ export default function CourseDetail() {
                         >
                             <button
                                 onClick={() => setShowPaymentModal(false)}
-                                className="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors p-1"
+                                className={`${i18n.language === 'en' ? 'left-5' : 'right-5'}absolute top-5 text-gray-400 hover:text-white transition-colors p-1`}
                             >
                                 <Icon icon="mdi:close" width="24" />
                             </button>
 
                             <h2 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
                                 <Icon icon="mdi:secure" className="text-nexus-green" />
-                                SECURE CHECKOUT
+                                {t('courseDetail.payment.secureCheckout')}
                             </h2>
 
                             {/* Promo Code Input */}
                             <div className="mb-6 space-y-2">
-                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest">Promo Code</label>
+                                <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest">{t('courseDetail.promoCode.label')}</label>
                                 <div className="flex gap-2">
                                     <div className="relative flex-1">
                                         <input
                                             type="text"
-                                            placeholder="ENTER CODE"
+                                            placeholder={t('courseDetail.promoCode.placeholder')}
                                             className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-white outline-none transition-all uppercase placeholder-gray-600 font-mono text-sm
                                                 ${promoError ? 'border-red-500/50 focus:border-red-500' :
                                                     promoDiscount ? 'border-nexus-green focus:border-nexus-green' : 'border-white/10 focus:border-nexus-green/50 focus:bg-white/10'}`}
@@ -267,7 +274,7 @@ export default function CourseDetail() {
                                         className={`px-5 rounded-xl font-bold transition-all
                                             ${promoDiscount ? 'bg-white/5 text-gray-500 cursor-not-allowed border border-white/5' : 'bg-white text-black hover:bg-gray-200'}`}
                                     >
-                                        {promoLoading ? <Icon icon="mdi:loading" className="animate-spin" /> : 'APPLY'}
+                                        {promoLoading ? <Icon icon="mdi:loading" className="animate-spin" /> : t('courseDetail.promoCode.apply')}
                                     </button>
                                 </div>
                                 {promoError && (
@@ -277,22 +284,22 @@ export default function CourseDetail() {
                                 )}
                                 {promoDiscount && (
                                     <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-nexus-green text-xs font-bold flex items-center gap-1">
-                                        <Icon icon="mdi:tag" /> DISCOUNT APPLIED: {promoDiscount.type === 'percentage' ? `${promoDiscount.value}%` : `$${promoDiscount.value}`} OFF
+                                        <Icon icon="mdi:tag" /> {t('courseDetail.promoCode.discountApplied', { value: promoDiscount.type === 'percentage' ? `${promoDiscount.value}%` : `$${promoDiscount.value}` })}
                                     </motion.p>
                                 )}
                             </div>
 
                             {/* Order Summary */}
                             <div className="bg-white/5 border border-white/5 rounded-2xl p-5 mb-6">
-                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Order Summary</h3>
+                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">{t('courseDetail.orderSummary.title')}</h3>
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-start">
-                                        <span className="text-gray-400 text-sm">Course</span>
+                                        <span className="text-gray-400 text-sm">{t('courseDetail.orderSummary.course')}</span>
                                         <span className="text-white font-bold text-right text-sm line-clamp-1 w-2/3">{course.title}</span>
                                     </div>
                                     <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 text-sm">Package</span>
-                                        <span className="text-white font-bold text-sm uppercase bg-white/10 px-2 py-0.5 rounded text-[10px] tracking-wider">{selectedPackage}</span>
+                                        <span className="text-gray-400 text-sm">{t('courseDetail.orderSummary.package')}</span>
+                                        <span className="text-white font-bold text-sm uppercase bg-white/10 px-2 py-0.5 rounded text-[10px] tracking-wider">{t(`common.packages.${selectedPackage}`)}</span>
                                     </div>
 
                                     <div className="h-px bg-white/10 my-2" />
@@ -301,7 +308,7 @@ export default function CourseDetail() {
                                         <span className="text-gray-400 text-sm">
                                             {(() => {
                                                 const { isUpgrade } = getUpgradeDetails(selectedPackage);
-                                                return isUpgrade ? "Upgrade Cost" : "Total Price";
+                                                return isUpgrade ? t('courseDetail.orderSummary.upgradeCost') : t('courseDetail.orderSummary.totalPrice');
                                             })()}
                                         </span>
                                         <div className="text-right">
@@ -325,7 +332,7 @@ export default function CourseDetail() {
                                 <div className="space-y-4 mb-8">
                                     <div className="flex items-center gap-2 mb-2">
                                         <Icon icon="mdi:bank-transfer" className="text-nexus-green" />
-                                        <p className="text-sm font-bold text-white uppercase tracking-wider">Payment Details</p>
+                                        <p className="text-sm font-bold text-white uppercase tracking-wider">{t('courseDetail.payment.detailsTitle')}</p>
                                     </div>
 
                                     <div className="grid gap-3">
@@ -334,7 +341,7 @@ export default function CourseDetail() {
                                                 <Icon icon="mdi:bank" className="text-black text-xl" />
                                             </div>
                                             <div>
-                                                <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Bank Name</div>
+                                                <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">{t('courseDetail.payment.bankName')}</div>
                                                 <div className="text-white font-bold">RHB Bank</div>
                                             </div>
                                         </div>
@@ -345,14 +352,14 @@ export default function CourseDetail() {
                                                     <Icon icon="mdi:card-account-details-outline" className="text-xl" />
                                                 </div>
                                                 <div>
-                                                    <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Account Number</div>
+                                                    <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">{t('courseDetail.payment.accountNumber')}</div>
                                                     <div className="text-white font-bold font-mono tracking-wider">{import.meta.env.VITE_BANK_ACCOUNT_NUMBER || '1140 5555 8888'}</div>
                                                 </div>
                                             </div>
                                             <button
                                                 onClick={() => {
                                                     navigator.clipboard.writeText(import.meta.env.VITE_BANK_ACCOUNT_NUMBER || '1140 5555 8888');
-                                                    showToast('Account number copied!', 'success');
+                                                    showToast(t('courseDetail.payment.copied'), 'success');
                                                 }}
                                                 className="p-2 hover:bg-nexus-green/20 text-gray-400 hover:text-nexus-green rounded-lg transition-colors relative z-10"
                                             >
@@ -362,7 +369,7 @@ export default function CourseDetail() {
                                     </div>
 
                                     <div className="text-center">
-                                        <p className="text-xs text-gray-500 mb-2">— OR SCAN QR —</p>
+                                        <p className="text-xs text-gray-500 mb-2">{t('courseDetail.payment.scanQr')}</p>
                                         <div className="bg-white p-2 rounded-xl inline-block">
                                             <img src='/Payment QR.PNG' className='w-48 h-48 object-contain' alt="Payment QR" />
                                         </div>
@@ -376,7 +383,7 @@ export default function CourseDetail() {
                                 <div className="mb-8">
                                     <label className="block text-sm font-bold text-white mb-3 flex items-center gap-2">
                                         <Icon icon="mdi:cloud-upload" className="text-nexus-green" />
-                                        Upload Payment Receipt
+                                        {t('courseDetail.payment.uploadReceipt')}
                                     </label>
                                     <div className="relative border-2 border-dashed border-white/10 rounded-2xl p-8 text-center hover:border-nexus-green/50 hover:bg-nexus-green/5 transition-all group cursor-pointer bg-black/20">
                                         <input
@@ -391,7 +398,7 @@ export default function CourseDetail() {
                                                     <Icon icon="mdi:check" className="text-2xl" />
                                                 </div>
                                                 <span className="text-nexus-green font-bold text-sm truncate max-w-[200px]">{receiptFile.name}</span>
-                                                <span className="text-xs text-gray-500">Tap to change</span>
+                                                <span className="text-xs text-gray-500">{t('courseDetail.payment.tapToChange')}</span>
                                             </div>
                                         ) : (
                                             <div className="flex flex-col items-center gap-3 text-gray-500 group-hover:text-gray-300">
@@ -399,8 +406,8 @@ export default function CourseDetail() {
                                                     <Icon icon="mdi:tray-arrow-up" className="text-2xl" />
                                                 </div>
                                                 <div>
-                                                    <span className="text-sm font-bold block text-gray-400 group-hover:text-white">Click to Upload</span>
-                                                    <span className="text-xs mt-1">SVG, PNG, JPG or GIF (MAX. 800x400px)</span>
+                                                    <span className="text-sm font-bold block text-gray-400 group-hover:text-white">{t('courseDetail.payment.clickToUpload')}</span>
+                                                    <span className="text-xs mt-1">{t('courseDetail.payment.uploadFormat')}</span>
                                                 </div>
                                             </div>
                                         )}
@@ -410,8 +417,8 @@ export default function CourseDetail() {
                                 <div className="mb-8 bg-nexus-green/10 border border-nexus-green/20 p-6 rounded-2xl text-center relative overflow-hidden">
                                     <div className="absolute top-0 right-0 w-20 h-20 bg-nexus-green/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                                     <Icon icon="mdi:gift-outline" className="text-nexus-green text-4xl mx-auto mb-3 relative z-10" />
-                                    <p className="text-nexus-green font-black text-lg relative z-10">100% DISCOUNT APPLIED</p>
-                                    <p className="text-xs text-nexus-green/70 font-medium relative z-10">No payment required. Proceed to enroll.</p>
+                                    <p className="text-nexus-green font-black text-lg relative z-10">{t('courseDetail.payment.discountApplied')}</p>
+                                    <p className="text-xs text-nexus-green/70 font-medium relative z-10">{t('courseDetail.payment.noPaymentRequired')}</p>
                                 </div>
                             )}
 
@@ -426,16 +433,16 @@ export default function CourseDetail() {
                             >
                                 {getPrice(selectedPackage) === 0 ? (
                                     <>
-                                        <Icon icon="mdi:gift" width="24" /> Claim Free Access
+                                        <Icon icon="mdi:gift" width="24" /> {t('courseDetail.payment.claimFree')}
                                     </>
                                 ) : (
                                     <>
-                                        <Icon icon="mdi:check-decagram" width="24" /> Confirm & Pay
+                                        <Icon icon="mdi:check-decagram" width="24" /> {t('courseDetail.payment.confirmPay')}
                                     </>
                                 )}
                             </button>
                             <p className="text-center text-[10px] text-gray-500 mt-4 uppercase tracking-wider font-medium">
-                                By confirming, your access will be activated pending admin verification.
+                                {t('courseDetail.payment.pendingVerification')}
                             </p>
                         </motion.div>
                     </div>
@@ -458,11 +465,13 @@ export default function CourseDetail() {
                                 ${course.status === 'ongoing' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-nexus-green/10 text-nexus-green border-nexus-green/20'}
                             `}>
                                 <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${course.status === 'ongoing' ? 'bg-orange-500' : 'bg-nexus-green'}`} />
-                                {course.status}
+                                {t(`common.status.${course.status}`)}
                             </span>
                             <span className="flex items-center gap-2 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-white/10 bg-white/5 text-gray-300">
                                 <Icon icon={course.type === 'university' ? 'mdi:bank-outline' : 'mdi:school-outline'} />
-                                {course.type === 'university' ? course.major : course.category || "General"}
+                                {course.type === 'university'
+                                    ? (course.major ? t(`common.majors.${course.major.toLowerCase()}`, { defaultValue: course.major }) : t('common.university'))
+                                    : (course.category ? t(`common.general`, { defaultValue: course.category }) : t('common.general'))}
                             </span>
                         </div>
 
@@ -477,10 +486,10 @@ export default function CourseDetail() {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {[
-                            { label: 'Level', value: course.level, icon: 'mdi:stairs-up', color: 'text-blue-400' },
-                            { label: 'Duration', value: course.total_duration || 'Self-Paced', icon: 'mdi:clock-outline', color: 'text-orange-400' },
-                            { label: 'Chapters', value: course.total_chapters, icon: 'mdi:book-open-page-variant', color: 'text-purple-400' },
-                            { label: 'XP Reward', value: `+${course.completion_xp_bonus} XP`, icon: 'mdi:star-four-points', color: 'text-nexus-green' },
+                            { label: t('courseDetail.courseInfo.level'), value: t(`common.levels.${course.level.toLowerCase()}`), icon: 'mdi:stairs-up', color: 'text-blue-400' },
+                            { label: t('courseDetail.courseInfo.duration'), value: course.total_duration ? `${course.total_duration}` : t('courseDetail.courseInfo.selfPaced'), icon: 'mdi:clock-outline', color: 'text-orange-400' },
+                            { label: t('courseDetail.courseInfo.chapters'), value: course.total_chapters, icon: 'mdi:book-open-page-variant', color: 'text-purple-400' },
+                            { label: t('courseDetail.courseInfo.xpReward'), value: `+${course.completion_xp_bonus} XP`, icon: 'mdi:star-four-points', color: 'text-nexus-green' },
                         ].map((stat, i) => (
                             <div key={i} className="bg-black/40 border border-white/10 p-5 rounded-2xl backdrop-blur-sm hover:bg-white/5 transition-colors">
                                 <div className={`text-2xl mb-2 ${stat.color}`}>
@@ -509,8 +518,8 @@ export default function CourseDetail() {
                                 </div>
                             </Link>
 
-                            <div className="text-center md:text-left flex-1">
-                                <div className="text-xs font-bold text-nexus-green uppercase tracking-widest mb-2">Lead Instructor</div>
+                            <div className={`text-center ${i18n.language === 'ar' ? 'md:text-right' : 'md:text-left'} flex-1`}>
+                                <div className="text-xs font-bold text-nexus-green uppercase tracking-widest mb-2">{t('courseDetail.courseInfo.leadInstructor')}</div>
                                 <Link to={`/tutors/${course.tutor_id?._id}`} className="hover:underline decoration-white/30 underline-offset-4">
                                     <h3 className="text-3xl font-bold text-white mb-2">
                                         {course.tutor_id?.first_name
@@ -525,10 +534,10 @@ export default function CourseDetail() {
                                 <div className="flex items-center justify-center md:justify-start gap-4">
                                     <span className="text-xs font-bold text-gray-500 flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
                                         <Icon icon="mdi:school" className="text-gray-400" />
-                                        {course.tutor_id?.expertise || "Mastery Level"}
+                                        {t(`common.majors.${course.tutor_id?.expertise.toLowerCase()}`) || t('courseDetail.courseInfo.masteryLevel')}
                                     </span>
                                     <Link to={`/tutors/${course.tutor_id?._id}`} className="text-xs font-bold text-white flex items-center gap-1 hover:text-nexus-green transition-colors">
-                                        View Full Profile <Icon icon="mdi:arrow-right" />
+                                        {t('courseDetail.courseInfo.viewFullProfile')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                                     </Link>
                                 </div>
                             </div>
@@ -542,7 +551,7 @@ export default function CourseDetail() {
                             <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-nexus-green/20 to-transparent" />
 
                             <div className="relative z-10">
-                                <h3 className="text-xs font-black text-nexus-green uppercase tracking-[0.3em] mb-8">Completion Reward</h3>
+                                <h3 className="text-xs font-black text-nexus-green uppercase tracking-[0.3em] mb-8">{t('courseDetail.reward.title')}</h3>
 
                                 <motion.div
                                     animate={{ y: [0, -10, 0] }}
@@ -558,10 +567,10 @@ export default function CourseDetail() {
                                 </motion.div>
 
                                 <h4 className="text-3xl font-black text-white uppercase italic tracking-tighter mb-2">
-                                    {(course.reward_avatar_id as any).name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-white">NEXON</span>
+                                    {(course.reward_avatar_id as any).name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-nexus-green to-white">{t('courseDetail.reward.nexon')}</span>
                                 </h4>
                                 <p className="text-sm text-gray-400 max-w-md mx-auto">
-                                    Unlock this exclusive avatar for your profile by completing 100% of this course.
+                                    {t('courseDetail.reward.unlockText')}
                                 </p>
                             </div>
                         </div>
@@ -570,8 +579,8 @@ export default function CourseDetail() {
                     {/* Syllabus */}
                     <div>
                         <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-3xl font-bold text-white">Curriculum</h2>
-                            <span className="text-sm text-gray-500">{course.chapters?.length || 0} Modules</span>
+                            <h2 className="text-3xl font-bold text-white">{t('courseDetail.curriculum.title')}</h2>
+                            <span className="text-sm text-gray-500">{course.chapters?.length || 0} {t('courseDetail.curriculum.modules')}</span>
                         </div>
 
                         <div className="space-y-4">
@@ -594,7 +603,7 @@ export default function CourseDetail() {
                                                     {chapter.title}
                                                 </h4>
                                                 <div className="flex items-center gap-3 text-xs text-gray-500 font-medium uppercase tracking-wide">
-                                                    <span className="flex items-center gap-1"><Icon icon="mdi:file-document-outline" /> {chapter.materials.length} Lessons</span>
+                                                    <span className="flex items-center gap-1"><Icon icon="mdi:file-document-outline" /> {chapter.materials.length} {t('courseDetail.curriculum.lessons')}</span>
                                                     <span className="w-1 h-1 rounded-full bg-gray-700" />
                                                     <span className="flex items-center gap-1 text-nexus-green"><Icon icon="mdi:star-four-points-outline" /> {chapter.xp_reward} XP</span>
                                                 </div>
@@ -641,7 +650,7 @@ export default function CourseDetail() {
                                                             {!chapter.is_free ? (
                                                                 <Icon icon="mdi:lock" className="text-gray-600" width="16" />
                                                             ) : (
-                                                                <span className="text-[10px] bg-nexus-green/10 text-nexus-green px-2 py-0.5 rounded border border-nexus-green/20 uppercase font-bold tracking-wider">Free</span>
+                                                                <span className="text-[10px] bg-nexus-green/10 text-nexus-green px-2 py-0.5 rounded border border-nexus-green/20 uppercase font-bold tracking-wider">{t('courseDetail.curriculum.free')}</span>
                                                             )}
                                                         </div>
                                                     ))}
@@ -685,45 +694,45 @@ export default function CourseDetail() {
                                         className="block w-full bg-nexus-green text-black font-black text-center py-4 rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)] mb-6 hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transform hover:-translate-y-1 uppercase tracking-wide flex items-center justify-center gap-2 group"
                                     >
                                         <Icon icon="mdi:play-circle-outline" width="24" className="group-hover:scale-110 transition-transform" />
-                                        Resume Mission
+                                        {t('courseDetail.status.resumeMission')}
                                     </Link>
                                 ) : enrollment?.status === 'pending' ? (
                                     <div className="text-center mb-6 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
                                         <div className="text-yellow-400 font-bold flex items-center justify-center gap-2 mb-1 uppercase tracking-wider text-sm">
-                                            <Icon icon="mdi:clock-alert-outline" /> Approval Gridlocked
+                                            <Icon icon="mdi:clock-alert-outline" /> {t('courseDetail.status.approvalGridlocked')}
                                         </div>
                                         <p className="text-xs text-yellow-500/60">
-                                            Admin review in progress. Stand by.
+                                            {t('courseDetail.status.adminReview')}
                                         </p>
                                     </div>
                                 ) : enrollment?.status === 'rejected' ? (
                                     <div className="text-center mb-6 bg-red-500/10 border border-red-500/20 rounded-xl p-4">
                                         <div className="text-red-400 font-bold flex items-center justify-center gap-2 mb-1 uppercase tracking-wider text-sm">
-                                            <Icon icon="mdi:alert-circle" /> Access Denied
+                                            <Icon icon="mdi:alert-circle" /> {t('courseDetail.status.accessDenied')}
                                         </div>
                                         <p className="text-xs text-red-400/60">
-                                            Application rejected. Check comms.
+                                            {t('courseDetail.status.applicationRejected')}
                                         </p>
                                     </div>
                                 ) : enrollment?.status === 'completed' ? (
                                     <div className="text-center mb-6 bg-nexus-green/10 border border-nexus-green/20 rounded-xl p-4">
                                         <div className="text-nexus-green font-bold flex items-center justify-center gap-2 mb-1 uppercase tracking-wider text-sm">
-                                            <Icon icon="mdi:trophy" /> Mission Complete
+                                            <Icon icon="mdi:trophy" /> {t('courseDetail.status.missionComplete')}
                                         </div>
                                         <p className="text-xs text-nexus-green/60">
-                                            All objectives achieved. Well done, operative.
+                                            {t('courseDetail.status.objectivesAchieved')}
                                         </p>
                                     </div>
                                 ) : (
                                     <div className="text-center mb-6">
-                                        <p className="text-white font-bold text-lg mb-1">Unlock Full Access</p>
-                                        <p className="text-gray-500 text-xs">Choose your clearance level below</p>
+                                        <p className="text-white font-bold text-lg mb-1">{t('courseDetail.status.unlockAccess')}</p>
+                                        <p className="text-gray-500 text-xs">{t('courseDetail.status.chooseLevel')}</p>
                                     </div>
                                 )}
 
                                 {/* Packages Selection */}
                                 <div className="space-y-4 mb-4">
-                                    <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4 px-1">Clearance Levels</h3>
+                                    <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-4 px-1">{t('courseDetail.status.chooseLevel')}</h3>
 
                                     {/* Basic Package */}
                                     <div
@@ -741,7 +750,7 @@ export default function CourseDetail() {
                                         `}
                                     >
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="font-bold text-white uppercase tracking-wider">Basic</h4>
+                                            <h4 className="font-bold text-white uppercase tracking-wider">{t('common.packages.basic')}</h4>
                                             <div className="text-lg font-bold text-white">RM {course.packages.basic.price}</div>
                                         </div>
                                         <ul className="space-y-2">
@@ -772,12 +781,12 @@ export default function CourseDetail() {
                                         <div className="absolute top-0 right-0">
                                             <div className={`text-[9px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider transition-colors
                                                 ${selectedPackage === 'advanced' ? 'bg-nexus-green text-black' : 'bg-white/10 text-gray-400 group-hover:bg-nexus-green/20 group-hover:text-nexus-green'}`}>
-                                                Recommended
+                                                {t('courseDetail.status.recommended')}
                                             </div>
                                         </div>
 
                                         <div className="flex justify-between items-center mb-4">
-                                            <h4 className={`font-bold text-lg uppercase tracking-wider ${selectedPackage === 'advanced' ? 'text-nexus-green' : 'text-white'}`}>Advanced</h4>
+                                            <h4 className={`font-bold text-lg uppercase tracking-wider ${selectedPackage === 'advanced' ? 'text-nexus-green' : 'text-white'}`}>{t('common.packages.advanced')}</h4>
                                             <div className={`text-xl font-bold ${selectedPackage === 'advanced' ? 'text-nexus-green' : 'text-white'}`}>
                                                 RM {course.packages.advanced.price}
                                             </div>
@@ -808,7 +817,7 @@ export default function CourseDetail() {
                                         `}
                                     >
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className={`font-bold uppercase tracking-wider ${selectedPackage === 'premium' ? 'text-purple-400' : 'text-white'}`}>Premium</h4>
+                                            <h4 className={`font-bold uppercase tracking-wider ${selectedPackage === 'premium' ? 'text-purple-400' : 'text-white'}`}>{t('common.packages.premium')}</h4>
                                             <div className={`text-lg font-bold ${selectedPackage === 'premium' ? 'text-purple-400' : 'text-white'}`}>
                                                 RM {course.packages.premium.price}
                                             </div>
@@ -826,17 +835,22 @@ export default function CourseDetail() {
 
                                 <div className="mt-6 flex flex-col items-center gap-3">
                                     {enrollment?.isEnrolled ? (
-                                        <p className="text-[10px] text-gray-500 uppercase tracking-widest">Enrollment Active</p>
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-widest">{t('courseDetail.status.enrollmentActive')}</p>
+                                    ) : user?._id === course.tutor_id?._id ? (
+                                        <div className="w-full bg-white/5 border border-white/5 p-4 rounded-xl text-center cursor-not-allowed">
+                                            <p className="text-gray-400 text-sm font-bold uppercase tracking-wider">{t('courseDetail.status.instructorAccess')}</p>
+                                            <p className="text-xs text-gray-600 mt-1">{t('courseDetail.status.commanderMessage')}</p>
+                                        </div>
                                     ) : (
                                         <button
                                             onClick={handleEnroll}
                                             className="w-full bg-white text-black font-black py-4 rounded-xl hover:bg-nexus-green transition-all shadow-lg hover:shadow-nexus-green/20 uppercase tracking-wider flex items-center justify-center gap-2 group"
                                         >
-                                            Initiate Enrollment <Icon icon="mdi:arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                                            {t('courseDetail.status.initiateEnrollment')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} className="group-hover:translate-x-1 transition-transform" />
                                         </button>
                                     )}
                                     <p className="text-[10px] text-gray-600 flex items-center gap-1">
-                                        <Icon icon="mdi:shield-check" /> 100% Secure Payment (RHB / QR)
+                                        <Icon icon="mdi:shield-check" /> {t('courseDetail.payment.securePayment')}
                                     </p>
                                 </div>
                             </div>
@@ -844,9 +858,9 @@ export default function CourseDetail() {
 
                         {/* Support Card */}
                         <div className="bg-black/20 border border-white/5 rounded-2xl p-6 text-center">
-                            <h4 className="text-white font-bold mb-2">Need Support?</h4>
-                            <p className="text-xs text-gray-500 mb-4">Contact our support command center for assistance.</p>
-                            <Link to="/contact" className="text-nexus-green text-sm font-bold hover:underline">Contact Support</Link>
+                            <h4 className="text-white font-bold mb-2">{t('courseDetail.support.title')}</h4>
+                            <p className="text-xs text-gray-500 mb-4">{t('courseDetail.support.message')}</p>
+                            <Link to="/contact" className="text-nexus-green text-sm font-bold hover:underline">{t('courseDetail.support.link')}</Link>
                         </div>
                     </div>
                 </div>

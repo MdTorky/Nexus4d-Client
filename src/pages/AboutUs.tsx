@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,6 +69,7 @@ const FAQItem = ({ faq, index }: { faq: { question: string, answer: string }, in
 
 export default function AboutUs() {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     return (
         <div className="min-h-screen bg-nexus-black text-white selection:bg-nexus-green selection:text-black overflow-hidden relative">
@@ -89,19 +91,29 @@ export default function AboutUs() {
                 >
                     <motion.div variants={itemVariants} className="inline-block mb-4">
                         <span className="px-4 py-1.5 rounded-full border border-nexus-green/30 bg-nexus-green/10 text-nexus-green text-sm font-bold tracking-wider uppercase">
-                            The Revolution is Here
+                            {t('about.revolutionHere', 'The Revolution is Here')}
                         </span>
                     </motion.div>
 
-                    <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-black mb-8 tracking-tighter leading-none">
-                        BEYOND <br />
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-nexus-green via-white to-purple-500">
-                            EDUCATION
-                        </span>
-                    </motion.h1>
+                    {i18n.language === "en" ? (
+                        <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-black mb-8 tracking-tighter leading-none">
+                            {t('about.beyondEducation', 'BEYOND EDUCATION').split(' ')[0]} <br />
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-nexus-green via-white to-purple-500">
+                                {t('about.beyondEducation', 'BEYOND EDUCATION').split(' ')[1]}
+                            </span>
+                        </motion.h1>
+                    ) : (
+                        <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-9xl font-black mb-8 tracking-tighter leading-none">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-nexus-green via-white to-purple-500">
+                                {t('about.beyondEducation', 'BEYOND EDUCATION')}
+                            </span>
+                        </motion.h1>
+                    )}
 
                     <motion.p variants={itemVariants} className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12">
-                        We aren't just a platform. We are the <span className="text-white font-bold">dopamine-fueled engine</span> of your future success. Nexus4D merges high-octane gamification with elite-tier education.
+                        <Trans i18nKey="about.notJustPlatform">
+                            We aren't just a platform. We are the <span className="text-white font-bold">dopamine-fueled engine</span> of your future success. Nexus4D merges high-octane gamification with elite-tier education.
+                        </Trans>
                     </motion.p>
 
                     <motion.div variants={itemVariants}>
@@ -110,7 +122,7 @@ export default function AboutUs() {
                             className="group relative px-8 py-4 bg-nexus-green text-black font-black text-lg uppercase tracking-wider overflow-hidden rounded-xl perspective-distant hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-300"
                         >
                             <span className="relative z-10 flex items-center gap-2">
-                                Start Learning <Icon icon="mdi:arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                                {t('about.startLearning', 'Start Learning')} <Icon icon={`${i18n.language === "en" ? "mdi:arrow-right" : "mdi:arrow-left"}`} className="group-hover:translate-x-1 transition-transform" />
                             </span>
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 transform origin-bottom" />
                         </button>
@@ -123,20 +135,20 @@ export default function AboutUs() {
                         {
                             icon: "mdi:lightning-bolt",
                             color: "text-yellow-400",
-                            title: "Hyper-Speed Learning",
-                            desc: "Forget boring lectures. Our micro-learning modules are designed for rapid absorption and instant application."
+                            title: t('about.hyperSpeed', 'Hyper-Speed Learning'),
+                            desc: t('about.forgetBoring', 'Forget boring lectures. Our micro-learning modules are designed for rapid absorption and instant application.')
                         },
                         {
                             icon: "mdi:controller",
                             color: "text-nexus-green",
-                            title: "Gamified Mastery",
-                            desc: "Level up, earn XP, and unlock rewards. We turned studying into an addictive RPG where YOU are the main character."
+                            title: t('about.gamifiedMastery', 'Gamified Mastery'),
+                            desc: t('about.levelUpEarn', 'Level up, earn XP, and unlock rewards. We turned studying into an addictive RPG where YOU are the main character.')
                         },
                         {
                             icon: "mdi:account-group",
                             color: "text-purple-400",
-                            title: "Elite Community",
-                            desc: "Join a squad of high-performers. Compete on leaderboards and collaborate with the best minds in the game."
+                            title: t('about.eliteCommunity', 'Elite Community'),
+                            desc: t('about.joinSquad', 'Join a squad of high-performers. Compete on leaderboards and collaborate with the best minds in the game.')
                         }
                     ].map((feature, index) => (
                         <motion.div
@@ -165,25 +177,25 @@ export default function AboutUs() {
                         className="lg:w-1/2"
                     >
                         <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
-                            OLD SCHOOL IS <br />
-                            <span className="text-red-500 line-through decoration-4 decoration-white">OBSOLETE</span>
+                            {t('about.oldSchoolObsolete', 'OLD SCHOOL IS OBSOLETE').split(' ').slice(0, 3).join(' ')} <br />
+                            <span className="text-red-500 line-through decoration-4 decoration-white">{t('about.oldSchoolObsolete', 'OLD SCHOOL IS OBSOLETE').split(' ').slice(3).join(' ')}</span>
                         </h2>
                         <p className="text-lg text-gray-400 mb-6">
-                            The traditional education system was built for a world that no longer exists. It's slow, rigid, and frankly, boring.
+                            {t('about.traditionalSystem', 'The traditional education system was built for a world that no longer exists. It\'s slow, rigid, and frankly, boring.')}
                         </p>
                         <p className="text-lg text-gray-400 mb-8">
-                            Nexus4D is the antidote. We use cutting-edge cognitive science and game design principles to keep you in a state of flow. Every click, every quiz, every completed chapter triggers a rush of accomplishment.
+                            {t('about.antidote', 'Nexus4D is the antidote. We use cutting-edge cognitive science and game design principles to keep you in a state of flow. Every click, every quiz, every completed chapter triggers a rush of accomplishment.')}
                         </p>
                         <div className="flex gap-4">
                             <div className="flex flex-col">
                                 <span className="text-4xl font-black text-white">94%</span>
-                                <span className="text-sm text-gray-500 uppercase tracking-widest">Completion Rate</span>
+                                <span className="text-sm text-gray-500 uppercase tracking-widest">{t('about.completionRate', 'Completion Rate')}</span>
                             </div>
-                            <div className="w-px bg-white/20 h-16 mx-4" />
-                            <div className="flex flex-col">
+                            {/* <div className="w-px bg-white/20 h-16 mx-4" /> */}
+                            {/* <div className="flex flex-col">
                                 <span className="text-4xl font-black text-white">10k+</span>
-                                <span className="text-sm text-gray-500 uppercase tracking-widest">Active Learners</span>
-                            </div>
+                                <span className="text-sm text-gray-500 uppercase tracking-widest">{t('about.activeLearners', 'Active Learners')}</span>
+                            </div> */}
                         </div>
                     </motion.div>
                     <motion.div
@@ -193,10 +205,10 @@ export default function AboutUs() {
                         className="lg:w-1/2 relative"
                     >
                         <div className="relative z-10 bg-linear-to-br from-gray-900 to-black border border-white/10 rounded-3xl p-8 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <div className="absolute -top-10 -right-10 text-9xl text-white/5 font-black z-0 pointer-events-none">X</div>
-                            <h3 className="text-2xl font-bold mb-2 text-white">Project Nexus</h3>
+                            <div className={`absolute -top-10  text-9xl text-white/5 font-black z-0 pointer-events-none ${i18n.language === "en" ? "-right-10" : "-left-10"}`}>X</div>
+                            <h3 className="text-2xl font-bold mb-2 text-white">{t('about.projectNexus', 'Project Nexus')}</h3>
                             <div className="h-2 w-20 bg-nexus-green mb-6 rounded-full" />
-                            <p className="text-gray-400 italic">"I learned more in 3 weeks on Nexus4D than I did in 3 years of college. The gamification isn't a gimmick; it's the future."</p>
+                            <p className="text-gray-400 italic">"{t('about.testimonial')}"</p>
                             <div className="mt-6 flex items-center gap-4">
                                 <div className="w-12 h-12 bg-gray-700 rounded-full overflow-hidden">
                                     {/* Placeholder Avatar */}
@@ -205,7 +217,7 @@ export default function AboutUs() {
                                 </div>
                                 <div>
                                     <div className="font-bold text-white">Sarah Jenkins</div>
-                                    <div className="text-xs text-nexus-green">Full Stack Developer</div>
+                                    <div className="text-xs text-nexus-green">{t('about.fullStackDev', 'Full Stack Developer')}</div>
                                 </div>
                             </div>
                         </div>
@@ -222,27 +234,27 @@ export default function AboutUs() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-3xl md:text-5xl font-black mb-6">FREQUENTLY ASKED <span className="text-nexus-green">DATA</span></h2>
+                        <h2 className="text-3xl md:text-5xl font-black mb-6">{t('about.faqTitle', 'FREQUENTLY ASKED DATA')}</h2>
                         <div className="w-20 h-1 bg-nexus-green mx-auto rounded-full" />
                     </motion.div>
 
                     <div className="space-y-4">
                         {[
                             {
-                                question: "What exactly is Nexus 4D?",
-                                answer: "Nexus 4D is the premiere platform for gamified learning. We've replaced boring lectures with high-octane missions. You don't just learn; you ascend. We combine elite-tier education with the addictive progression systems of RPGs."
+                                question: t('about.questions.q1', 'What exactly is Nexus 4D?'),
+                                answer: t('about.questions.a1', 'Nexus 4D is the premiere platform for gamified learning. We\'ve replaced boring lectures with high-octane missions. You don\'t just learn; you ascend. We combine elite-tier education with the addictive progression systems of RPGs.')
                             },
                             {
-                                question: "How do I earn Rewards & Avatars?",
-                                answer: "Every action has a reaction. Complete chapters and quizzes to earn XP. Master full courses to unlock rare 'Nexon' avatars. The more you learn, the more legendary your digital identity becomes on the global leaderboard."
+                                question: t('about.questions.q2', 'How do I earn Rewards & Avatars?'),
+                                answer: t('about.questions.a2', 'Every action has a reaction. Complete chapters and quizzes to earn XP. Master full courses to unlock rare \'Nexon\' avatars. The more you learn, the more legendary your digital identity becomes on the global leaderboard.')
                             },
                             {
-                                question: "Can I share my own knowledge?",
-                                answer: "Absolutely. We are always recruiting elite Tutors. If you have the expertise, apply to the Faculty via your dashboard. Build your curriculum, set your terms, and monetize your skills while building a following."
+                                question: t('about.questions.q3', 'Can I share my own knowledge?'),
+                                answer: t('about.questions.a3', 'Absolutely. We are always recruiting elite Tutors. If you have the expertise, apply to the Faculty via your dashboard. Build your curriculum, set your terms, and monetize your skills while building a following.')
                             },
                             {
-                                question: "Is this platform free to access?",
-                                answer: "Initialization is free. You can join the network, browse missions, and customize your profile at no cost. Specific Premium courses and exclusive content drops may require enrollment fees, directly supporting our creators."
+                                question: t('about.questions.q4', 'Is this platform free to access?'),
+                                answer: t('about.questions.a4', 'Initialization is free. You can join the network, browse missions, and customize your profile at no cost. Specific Premium courses and exclusive content drops may require enrollment fees, directly supporting our creators.')
                             }
                         ].map((faq, index) => (
                             <FAQItem key={index} faq={faq} index={index} />
@@ -258,22 +270,22 @@ export default function AboutUs() {
                     className="text-center bg-linear-to-b from-white/5 to-transparent border border-white/10 rounded-3xl p-12 md:p-24"
                 >
                     <Icon icon="mdi:rocket-launch" className="text-6xl text-nexus-green mx-auto mb-6 animate-pulse" />
-                    <h2 className="text-4xl md:text-6xl font-black mb-6">READY TO ASCEND?</h2>
+                    <h2 className="text-4xl md:text-6xl font-black mb-6">{t('home.readyToAscend', 'READY TO ASCEND?')}</h2>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-                        The leaderboard is calling. Your potential is limitless. Stop waiting for permission to be great.
+                        {t('about.joinSquad', 'The leaderboard is calling. Your potential is limitless. Stop waiting for permission to be great.')}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button
                             onClick={() => navigate('/register')}
                             className="px-8 py-4 bg-white text-black font-black text-lg rounded-xl hover:scale-105 transition-transform"
                         >
-                            Get Started Free
+                            {t('about.getStartedFree', 'Get Started Free')}
                         </button>
                         <button
                             onClick={() => navigate('/courses')}
                             className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl hover:bg-white/5 transition-colors"
                         >
-                            Browse Courses
+                            {t('about.browseCourses', 'Browse Courses')}
                         </button>
                     </div>
                 </motion.div>

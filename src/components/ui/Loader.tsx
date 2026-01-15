@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 type LoaderProps = {
     className?: string;
@@ -6,7 +7,9 @@ type LoaderProps = {
     size?: 'sm' | 'md' | 'lg';
 };
 
-export const Loader = ({ className = "", text = "Initializing", size = 'md' }: LoaderProps) => {
+export const Loader = ({ className = "", text, size = 'md' }: LoaderProps) => {
+    const { t } = useTranslation();
+    const displayText = text || t('loader.initializing');
 
     const sizes = {
         sm: 'h-8 w-8',
@@ -51,10 +54,10 @@ export const Loader = ({ className = "", text = "Initializing", size = 'md' }: L
                 />
             </div>
 
-            {text && (
+            {displayText && (
                 <div className="flex flex-col items-center gap-1">
                     <span className="text-xs font-bold uppercase tracking-[0.2em] text-nexus-green animate-pulse">
-                        {text}
+                        {displayText}
                     </span>
                     <motion.div
                         className="h-0.5 bg-gray-800 w-24 rounded-full overflow-hidden"
@@ -72,16 +75,17 @@ export const Loader = ({ className = "", text = "Initializing", size = 'md' }: L
 };
 
 export const FullScreenLoader = () => {
+    const { t } = useTranslation();
     return (
         <div className="fixed inset-0 z-[200] flex h-screen w-screen items-center justify-center bg-[#09090b] text-white">
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80" />
 
-            <Loader size="lg" text="System Loading..." />
+            <Loader size="lg" text={t('loader.systemLoading')} />
 
             <div className="absolute bottom-8 left-0 right-0 text-center">
                 <p className="text-[10px] text-gray-600 font-mono uppercase tracking-widest">
-                    Nexus 4D // Secure Connection
+                    {t('loader.secureConnection')}
                 </p>
             </div>
         </div>

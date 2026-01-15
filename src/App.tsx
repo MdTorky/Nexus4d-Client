@@ -22,7 +22,10 @@ import MyCourses from './pages/MyCourses';
 import { FullScreenLoader } from './components/ui/Loader';
 import Deactivated from './pages/Deactivated';
 import AboutUs from './pages/AboutUs';
+
 import ContactUs from './pages/ContactUs';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 // ... (existing imports)
 
@@ -88,6 +91,8 @@ function AppRoutes() {
           {/* Placeholders for PRD Links */}
           <Route path="/about" element={<AboutUs />} />
 
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/tutor-dashboard" element={<TutorDashboard />} />
         </Route>

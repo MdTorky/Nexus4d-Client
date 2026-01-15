@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import api from '../api/axios';
@@ -145,16 +146,16 @@ export default function Profile() {
         try {
             if (action === 'accept') {
                 await api.post(`/social/friends/accept/${requestId}`);
-                showToast('Friend request accepted!', 'success');
+                showToast(t('profile.requests.accepted'), 'success');
                 fetchRequests();
                 fetchFriends(); // Refresh friends list too
             } else {
                 await api.delete(`/social/friends/request/${requestId}`);
-                showToast('Friend request rejected', 'info');
+                showToast(t('profile.requests.rejected'), 'info');
                 fetchRequests();
             }
         } catch (error: any) {
-            showToast(error.response?.data?.message || 'Action failed', 'error');
+            showToast(error.response?.data?.message || t('profile.errors.actionFailed'), 'error');
         }
     };
 
@@ -162,9 +163,9 @@ export default function Profile() {
         try {
             await api.delete(`/social/follow/${tutorId}`);
             setFollowing(prev => prev.filter(t => t._id !== tutorId));
-            showToast('Unfollowed tutor', 'info');
+            showToast(t('profile.errors.unfollowed'), 'info');
         } catch (error) {
-            showToast('Failed to unfollow', 'error');
+            showToast(t('profile.errors.unfollowFailed'), 'error');
         }
     };
 
@@ -175,9 +176,9 @@ export default function Profile() {
                 privacy_settings: privacySettings
             });
             updateUser(res.data);
-            showToast('Privacy protocols updated.', 'success');
+            showToast(t('profile.settings.updated'), 'success');
         } catch (error: any) {
-            showToast(error.response?.data?.message || 'Failed to save settings', 'error');
+            showToast(error.response?.data?.message || t('profile.errors.saveFailed'), 'error');
         } finally {
             setIsSavingSettings(false);
         }
@@ -216,9 +217,9 @@ export default function Profile() {
             const res = await api.post('/user/avatar/unlock', { avatar_id: avatar._id });
             setUnlockedAvatars(prev => prev.map(a => a._id === avatar._id ? { ...a, is_unlocked: true } : a));
             updateUser({ avatar_unlock_tokens: res.data.avatar_unlock_tokens });
-            showToast('Access Granted: New Avatar Unlocked', 'success');
+            showToast(t('profile.avatarUnlocked'), 'success');
         } catch (error: any) {
-            showToast(error.response?.data?.message || 'Unlock Failed', 'error');
+            showToast(error.response?.data?.message || t('profile.errors.unlockFailed'), 'error');
         } finally {
             setIsUnlocking(false);
         }
@@ -283,13 +284,13 @@ export default function Profile() {
                                     <div className="w-full h-full rounded-full overflow-hidden border-4 border-black bg-gradient-to-b from-gray-900 to-black relative flex flex-col items-center justify-center">
                                         <div className="absolute inset-0 bg-blue-500/20 animate-pulse" />
                                         <span className="text-4xl font-black text-white relative z-10">{user.level || 1}</span>
-                                        <span className="text-[9px] uppercase font-bold text-blue-400 tracking-widest relative z-10">Level</span>
+                                        <span className="text-[9px] uppercase font-bold text-blue-400 tracking-widest relative z-10">{t('profile.lvl')}</span>
                                     </div>
                                 </div>
                             </div>
                             {/* Edit Badge */}
                             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-nexus-green text-black text-[10px] uppercase font-black px-4 py-1.5 rounded-full border border-white/20 hover:scale-105 transition-transform z-30 shadow-lg tracking-wider">
-                                Edit
+                                {t('profile.changeAvatar')}
                             </div>
                         </div>
 
@@ -305,13 +306,13 @@ export default function Profile() {
                                     <p className="text-gray-500 text-sm font-bold tracking-wider uppercase">@{user.username}</p>
                                     <span className="hidden md:block w-1.5 h-1.5 rounded-full bg-gray-700" />
                                     <Link to={`/users/${user._id}`} className="text-blue-400 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest border-b border-blue-400/30 hover:border-white">
-                                        View Public Profile
+                                        {t('profile.viewPublicProfile')}
                                     </Link>
                                 </div>
                             </div>
 
                             {user.bio && (
-                                <p className="text-gray-300 max-w-2xl mx-auto md:mx-0 leading-relaxed text-lg font-light border-l-2 border-white/10 pl-4 md:pl-0 md:border-l-0">
+                                <p className="text-gray-300 w-full  leading-relaxed text-lg font-light border-l-2 border-white/10  md:border-l-0 rl">
                                     "{user.bio}"
                                 </p>
                             )}
@@ -319,21 +320,21 @@ export default function Profile() {
                             {/* Academic Details - WITH EDIT BUTTON */}
                             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
                                 <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Major</p>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t('profile.major')}</p>
                                     <p className="text-white font-bold text-sm">
-                                        {user.major ? t(`onboarding.${MAJORS.find(m => m.value === user.major)?.labelKey || 'majors.other'}`) : 'Not Set'}
+                                        {user.major ? t(`onboarding.${MAJORS.find(m => m.value === user.major)?.labelKey || 'majors.other'}`) : t('profile.notSet')}
                                     </p>
                                 </div>
                                 <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Semester</p>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t('profile.semester')}</p>
                                     <p className="text-white font-bold text-sm">
-                                        {user.semester ? t(`onboarding.${SEMESTERS.find(s => s.value === user.semester)?.labelKey || 'unknown'}`) : 'Not Set'}
+                                        {user.semester ? t(`onboarding.${SEMESTERS.find(s => s.value === user.semester)?.labelKey || 'unknown'}`) : t('profile.notSet')}
                                     </p>
                                 </div>
 
                                 <Link to="/onboarding" className="bg-white/5 hover:bg-nexus-green/20 border border-white/10 hover:border-nexus-green/50 px-4 py-2 rounded-xl flex items-center gap-2 group transition-all">
                                     <Icon icon="mdi:pencil" className="text-gray-400 group-hover:text-nexus-green" />
-                                    <span className="text-xs font-bold text-gray-400 group-hover:text-white uppercase tracking-wider">Edit Profile</span>
+                                    <span className="text-xs font-bold text-gray-400 group-hover:text-white uppercase tracking-wider">{t('profile.editProfile')}</span>
                                 </Link>
                             </div>
                         </div>
@@ -348,10 +349,10 @@ export default function Profile() {
                             </div>
                             <div className="flex justify-between items-end mb-2 relative z-10">
                                 <div>
-                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Progress to Lvl {user.level ? user.level + 1 : 2}</p>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t('profile.progressToLvl')} {user.level ? user.level + 1 : 2}</p>
                                     <p className="text-2xl font-black text-white">{Math.floor(progressPercent)}%</p>
                                 </div>
-                                <span className="text-nexus-green font-mono text-xs">{currentLevelXP}/{XP_PER_LEVEL} XP</span>
+                                <span className="text-nexus-green font-mono text-xs">{currentLevelXP}/{XP_PER_LEVEL} {t('profile.xp')}</span>
                             </div>
                             <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden relative z-10">
                                 <div
@@ -366,9 +367,9 @@ export default function Profile() {
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Icon icon="mdi:star-four-points" className="text-4xl text-purple-500" />
                             </div>
-                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Total Experience</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">{t('profile.totalExperience')}</p>
                             <p className="text-2xl font-black text-white group-hover:text-purple-400 transition-colors">
-                                {user.xp_points?.toLocaleString() || 0} <span className="text-sm font-bold text-gray-600">XP</span>
+                                {user.xp_points?.toLocaleString() || 0} <span className="text-sm font-bold text-gray-600">{t('profile.xp')}</span>
                             </p>
                         </div>
 
@@ -377,9 +378,9 @@ export default function Profile() {
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <Icon icon="mdi:ticket-confirmation" className="text-4xl text-yellow-500" />
                             </div>
-                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Nexon Tokens</p>
+                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">{t('profile.nexonTokens')}</p>
                             <p className="text-2xl font-black text-white group-hover:text-yellow-400 transition-colors">
-                                {user.avatar_unlock_tokens || 0} <span className="text-sm font-bold text-gray-600">TIX</span>
+                                {user.avatar_unlock_tokens || 0} <span className="text-sm font-bold text-gray-600">{t('profile.tix')}</span>
                             </p>
                         </div>
                     </div>
@@ -388,11 +389,11 @@ export default function Profile() {
                 {/* Navigation Tabs */}
                 <div className="flex overflow-x-auto pb-2 gap-8 border-b border-white/10 no-scrollbar">
                     {[
-                        { id: 'overview', label: 'Overview', icon: 'mdi:view-dashboard-outline' },
-                        { id: 'following', label: 'Following', icon: 'mdi:account-group' },
-                        { id: 'friends', label: 'Friends', icon: 'mdi:account-heart' },
-                        { id: 'requests', label: 'Requests', icon: 'mdi:account-clock', count: pendingRequests.length },
-                        { id: 'settings', label: 'System', icon: 'mdi:cog-outline' }
+                        { id: 'overview', label: t('profile.tabs.overview'), icon: 'mdi:view-dashboard-outline' },
+                        { id: 'following', label: t('profile.tabs.following'), icon: 'mdi:account-group' },
+                        { id: 'friends', label: t('profile.tabs.friends'), icon: 'mdi:account-heart' },
+                        { id: 'requests', label: t('profile.tabs.requests'), icon: 'mdi:account-clock', count: pendingRequests.length },
+                        { id: 'settings', label: t('profile.tabs.settings'), icon: 'mdi:cog-outline' }
                     ].map((tab) => (
                         <button
                             key={tab.id}
@@ -436,44 +437,44 @@ export default function Profile() {
                         >
                             {/* Tutor Followers Data */}
                             {user.role === 'tutor' &&
-                                isLoadingFollowers ? (
-                                <div className="py-20 flex justify-center"><Icon icon="mdi:loading" className="animate-spin text-4xl text-nexus-green" /></div>
-                            ) : (
-                                <div className="bg-black/40 border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
-                                            <Icon icon="mdi:account-group" className="text-blue-500" />
-                                            Active Followers
-                                        </h3>
-                                        <span className="text-xs text-gray-500 font-mono">{followers.length} CADETS</span>
+                                (isLoadingFollowers ? (
+                                    <div className="py-20 flex justify-center"><Icon icon="mdi:loading" className="animate-spin text-4xl text-nexus-green" /></div>
+                                ) : (
+                                    <div className="bg-black/40 border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-black text-white uppercase tracking-tighter flex items-center gap-3">
+                                                <Icon icon="mdi:account-group" className="text-blue-500" />
+                                                {t('profile.overview.activeFollowers')}
+                                            </h3>
+                                            <span className="text-xs text-gray-500 font-mono">{followers.length} {t('profile.overview.cadets')}</span>
+                                        </div>
+
+
+
+                                        {followers.length === 0 ? (
+                                            <div className="text-center py-12 text-gray-500 border border-dashed border-white/10 rounded-2xl bg-black/20">
+                                                <p className="text-sm font-bold uppercase tracking-wide">{t('profile.overview.noFollowers')}</p>
+                                            </div>
+                                        ) : (
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                {followers.map((f) => (
+                                                    <Link to={`/users/${f._id}`} key={f._id} className="bg-white/5 border border-white/5 rounded-xl p-3 flex items-center gap-3 hover:bg-white/10 hover:border-blue-500/30 transition-all group">
+                                                        <img
+                                                            src={f.current_avatar_url || `https://ui-avatars.com/api/?name=${f.username}`}
+                                                            className="w-10 h-10 rounded-full border border-white/10 group-hover:border-blue-500/50 transition-colors"
+                                                            alt={f.username}
+                                                        />
+                                                        <div className="overflow-hidden">
+                                                            <p className="text-white font-bold text-sm truncate group-hover:text-blue-400 transition-colors">{f.first_name} {f.last_name}</p>
+                                                            <p className="text-[12px] text-nexus-green uppercase tracking-wider font-bold">{f.username}</p>
+                                                            <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">{t('profile.lvl')} {f.level || 0}</p>
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
-
-
-
-                                    {followers.length === 0 ? (
-                                        <div className="text-center py-12 text-gray-500 border border-dashed border-white/10 rounded-2xl bg-black/20">
-                                            <p className="text-sm font-bold uppercase tracking-wide">No followers registered yet.</p>
-                                        </div>
-                                    ) : (
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            {followers.map((f) => (
-                                                <Link to={`/users/${f._id}`} key={f._id} className="bg-white/5 border border-white/5 rounded-xl p-3 flex items-center gap-3 hover:bg-white/10 hover:border-blue-500/30 transition-all group">
-                                                    <img
-                                                        src={f.current_avatar_url || `https://ui-avatars.com/api/?name=${f.username}`}
-                                                        className="w-10 h-10 rounded-full border border-white/10 group-hover:border-blue-500/50 transition-colors"
-                                                        alt={f.username}
-                                                    />
-                                                    <div className="overflow-hidden">
-                                                        <p className="text-white font-bold text-sm truncate group-hover:text-blue-400 transition-colors">{f.first_name} {f.last_name}</p>
-                                                        <p className="text-[12px] text-nexus-green uppercase tracking-wider font-bold">{f.username}</p>
-                                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Lvl {f.level || 0}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                                ))}
 
                             {/* Basic Quick Links / Empty Overview State */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -482,11 +483,11 @@ export default function Profile() {
                                         <Icon icon="mdi:school" className="text-3xl" />
                                     </div>
                                     <div>
-                                        <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-1">My Missions</h3>
-                                        <p className="text-gray-400 text-sm font-medium">Resume your training and track progress.</p>
+                                        <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-1">{t('profile.overview.myMissions')}</h3>
+                                        <p className="text-gray-400 text-sm font-medium">{t('profile.overview.resumeTraining')}</p>
                                     </div>
                                     <div className="mt-4 flex items-center gap-2 text-nexus-green font-bold uppercase tracking-widest text-xs">
-                                        Access Dashboard <Icon icon="mdi:arrow-right" />
+                                        {t('profile.overview.accessDashboard')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                                     </div>
                                 </Link>
 
@@ -498,11 +499,11 @@ export default function Profile() {
                                         <Icon icon="mdi:robot-happy" className="text-3xl" />
                                     </div>
                                     <div>
-                                        <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-1">Nexon Armory</h3>
-                                        <p className="text-gray-400 text-sm font-medium">Unlock new avatars and manage your identity.</p>
+                                        <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-1">{t('profile.overview.nexonArmory')}</h3>
+                                        <p className="text-gray-400 text-sm font-medium">{t('profile.overview.manageIdentity')}</p>
                                     </div>
                                     <div className="mt-4 flex items-center gap-2 text-purple-400 font-bold uppercase tracking-widest text-xs">
-                                        Open Collection <Icon icon="mdi:arrow-right" />
+                                        {t('profile.overview.openCollection')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                                     </div>
                                 </div>
                             </div>
@@ -519,7 +520,7 @@ export default function Profile() {
                         >
                             <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
                                 <span className="p-2 bg-pink-500/20 rounded-lg text-pink-500"><Icon icon="mdi:account-heart" /></span>
-                                Allies ({friends.length})
+                                {t('profile.friends.allies')} ({friends.length})
                             </h2>
 
                             {isLoadingFriends ? (
@@ -527,8 +528,8 @@ export default function Profile() {
                             ) : friends.length === 0 ? (
                                 <div className="text-center py-20 bg-black/40 rounded-3xl border border-white/10">
                                     <Icon icon="mdi:account-off-outline" className="text-5xl text-gray-600 mx-auto mb-4" />
-                                    <h3 className="text-xl font-bold text-white mb-2">No Allies Found</h3>
-                                    <p className="text-gray-400">Expand your network by visiting other user profiles.</p>
+                                    <h3 className="text-xl font-bold text-white mb-2">{t('profile.friends.noAllies')}</h3>
+                                    <p className="text-gray-400">{t('profile.friends.expandNetwork')}</p>
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -544,7 +545,7 @@ export default function Profile() {
                                                 {friend.first_name ? `${friend.first_name} ${friend.last_name}` : friend.username}
                                             </h3>
                                             <p className="text-nexus-green text-xs font-bold uppercase tracking-widest mb-1">{friend.role}</p>
-                                            <p className="text-gray-500 text-xs">Lvl {friend.level || 0}</p>
+                                            <p className="text-gray-500 text-xs">{t('profile.lvl')} {friend.level || 0}</p>
                                         </Link>
                                     ))}
                                 </div>
@@ -562,7 +563,7 @@ export default function Profile() {
                         >
                             <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
                                 <span className="p-2 bg-blue-500/20 rounded-lg text-blue-500"><Icon icon="mdi:account-group" /></span>
-                                Mentors ({following.length})
+                                {t('profile.following.mentors')} ({following.length})
                             </h2>
 
                             {isLoadingFollowing ? (
@@ -570,7 +571,7 @@ export default function Profile() {
                             ) : following.length === 0 ? (
                                 <div className="text-center py-20 bg-black/40 rounded-3xl border border-white/10">
                                     <Icon icon="mdi:school-outline" className="text-5xl text-gray-600 mx-auto mb-4" />
-                                    <p className="text-gray-400">You are not following any tutors.</p>
+                                    <p className="text-gray-400">{t('profile.following.noMentors')}</p>
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -608,14 +609,14 @@ export default function Profile() {
                         <motion.div key="requests" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                             <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
                                 <span className="p-2 bg-yellow-500/20 rounded-lg text-yellow-500"><Icon icon="mdi:account-clock" /></span>
-                                Incoming Transmissions
+                                {t('profile.requests.incomingTransmissions')}
                             </h2>
                             {isLoadingRequests ? (
                                 <div className="py-20 flex justify-center"><Icon icon="mdi:loading" className="animate-spin text-4xl text-nexus-green" /></div>
                             ) : pendingRequests.length === 0 ? (
                                 <div className="text-center py-20 bg-black/40 rounded-3xl border border-white/10">
                                     <Icon icon="mdi:radar" className="text-5xl text-gray-600 mx-auto mb-4" />
-                                    <p className="text-gray-400">No pending requests detected.</p>
+                                    <p className="text-gray-400">{t('profile.requests.noRequests')}</p>
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -651,15 +652,15 @@ export default function Profile() {
                         <motion.div key="settings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                             <h2 className="text-2xl font-black text-white mb-8 flex items-center gap-3 uppercase tracking-tighter">
                                 <span className="p-2 bg-gray-700/50 rounded-lg text-gray-300"><Icon icon="mdi:shield-account" /></span>
-                                System Protocols
+                                {t('profile.settings.systemProtocols')}
                             </h2>
                             <div className="bg-black/40 border border-white/10 rounded-3xl p-8 max-w-2xl">
                                 <div className="space-y-8">
                                     {/* Toggle Nexon Visibility */}
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <h4 className="text-white font-bold text-lg mb-1">Public Nexon Registry</h4>
-                                            <p className="text-gray-400 text-xs">Allow other operatives to view your unlocked avatar collection.</p>
+                                            <h4 className="text-white font-bold text-lg mb-1">{t('profile.settings.publicRegistry')}</h4>
+                                            <p className="text-gray-400 text-xs">{t('profile.settings.publicRegistryDesc')}</p>
                                         </div>
                                         <button
                                             onClick={() => setPrivacySettings(p => ({ ...p, show_nexons: !p.show_nexons }))}
@@ -674,8 +675,8 @@ export default function Profile() {
                                     {/* Toggle Course Visibility */}
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <h4 className="text-white font-bold text-lg mb-1">Mission Log Visibility</h4>
-                                            <p className="text-gray-400 text-xs">Allow others to see your enrolled courses and completion status.</p>
+                                            <h4 className="text-white font-bold text-lg mb-1">{t('profile.settings.missionLog')}</h4>
+                                            <p className="text-gray-400 text-xs">{t('profile.settings.missionLogDesc')}</p>
                                         </div>
                                         <button
                                             onClick={() => setPrivacySettings(p => ({ ...p, show_courses: !p.show_courses }))}
@@ -691,7 +692,7 @@ export default function Profile() {
                                         className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 uppercase tracking-widest mt-6"
                                     >
                                         {isSavingSettings ? <Icon icon="mdi:loading" className="animate-spin" /> : <Icon icon="mdi:content-save" />}
-                                        Update Protocols
+                                        {t('profile.settings.updateProtocols')}
                                     </button>
                                 </div>
                             </div>
@@ -719,9 +720,9 @@ export default function Profile() {
                                 <div>
                                     <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-1 flex items-center gap-3">
                                         <Icon icon="mdi:robot" className="text-nexus-green" />
-                                        Nexon Armory
+                                        {t('profile.armory.title')}
                                     </h2>
-                                    <p className="text-gray-400 text-sm font-bold tracking-wide">Select your digital identity</p>
+                                    <p className="text-gray-400 text-sm font-bold tracking-wide">{t('profile.armory.subtitle')}</p>
                                 </div>
                                 <button onClick={() => setIsAvatarModalOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
                                     <Icon icon="mdi:close" className="text-2xl text-white" />
@@ -741,7 +742,7 @@ export default function Profile() {
                                                     onClick={() => setFilter(f as any)}
                                                     className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${filter === f ? 'bg-nexus-green text-black' : 'text-gray-400 hover:bg-white/5'}`}
                                                 >
-                                                    {f}
+                                                    {t(`profile.filter.${f}`)}
                                                 </button>
                                             ))}
                                         </div>
@@ -756,19 +757,22 @@ export default function Profile() {
                                                     onClick={() => setActiveCategory(f as any)}
                                                     className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${activeCategory === f ? 'bg-nexus-green text-black' : 'text-gray-400 hover:bg-white/5'}`}
                                                 >
-                                                    {f}
+                                                    {f === 'admin' ? 'Admin' :
+                                                        f === 'general' ? t('profile.general') :
+                                                            t(f === 'all' ? 'profile.filter.all' : `profile.${f}Nexons`).replace('Nexons', '')
+                                                    }
                                                 </button>
                                             ))}
                                         </div>
                                     </div>
 
                                     <div>
-                                        <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-4">Search Database</p>
+                                        <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-4">{t('profile.armory.searchDatabase')}</p>
                                         <div className="relative">
                                             <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-gray-500" />
                                             <input
                                                 type="text"
-                                                placeholder="SEARCH..."
+                                                placeholder={t('profile.armory.searchPlaceholder')}
                                                 value={avatarSearch}
                                                 onChange={(e) => setAvatarSearch(e.target.value)}
                                                 className="w-full bg-black/40 border border-white/10 rounded-lg py-2.5 pl-10 text-white text-xs font-bold focus:border-nexus-green focus:outline-none"
@@ -801,13 +805,13 @@ export default function Profile() {
                                                         {/* Status Badge */}
                                                         {isEquipped && (
                                                             <div className="absolute top-3 right-3 bg-nexus-green text-black text-[9px] font-black uppercase px-2 py-0.5 rounded-full z-10">
-                                                                Active
+                                                                {t('profile.armory.active')}
                                                             </div>
                                                         )}
                                                         {!avatar.is_unlocked && (
                                                             <div className="absolute top-3 right-3 bg-black/80 text-yellow-500 border border-yellow-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full z-10 flex items-center gap-1">
                                                                 <Icon icon="mdi:lock" />
-                                                                {avatar.unlock_condition === 'token' ? `${avatar.token_cost || 1} TIX` : 'Locked'}
+                                                                {avatar.unlock_condition === 'token' ? `${avatar.token_cost || 1} ${t('profile.tix')}` : t('profile.filter.locked')}
                                                             </div>
                                                         )}
 
@@ -828,12 +832,12 @@ export default function Profile() {
                                                                 <button className={`w-full py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all
                                                                     ${isEquipped ? 'bg-nexus-green text-black' : 'bg-white/10 text-gray-300 hover:bg-white hover:text-black'}
                                                                  `}>
-                                                                    {isEquipped ? 'Equipped' : 'Equip'}
+                                                                    {isEquipped ? t('profile.armory.equipped') : t('profile.armory.equip')}
                                                                 </button>
                                                             ) : (
                                                                 <button disabled={isUnlocking} className="w-full py-2 rounded-lg text-[9px] font-black uppercase tracking-widest bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500 hover:text-black border border-yellow-500/30 transition-all flex items-center justify-center gap-1">
                                                                     {isUnlocking ? <Icon icon="mdi:loading" className="animate-spin" /> : <Icon icon="mdi:lock-open-variant" />}
-                                                                    Unlock
+                                                                    {t('profile.armory.unlock')}
                                                                 </button>
                                                             )}
                                                         </div>
@@ -849,6 +853,6 @@ export default function Profile() {
                 )}
             </AnimatePresence>
 
-        </div>
+        </div >
     );
 }
