@@ -415,9 +415,9 @@
     "antidote": "Nexus4D is the antidote. We use cutting-edge cognitive science and game design principles to keep you in a state of flow. Every click, every quiz, every completed chapter triggers a rush of accomplishment.",
     "completionRate": "Completion Rate",
     "activeLearners": "Active Learners",
-    "projectNexus": "Project Nexus",
+    "projectNexus": "Rocketry Course",
     "testimonial": "\"I learned more in 3 weeks on Nexus4D than I did in 3 years of college. The gamification isn't a gimmick; it's the future.\"",
-    "fullStackDev": "Full Stack Developer",
+    "fullStackDev": "Mechatronix Engineer",
     "faqTitle": "FREQUENTLY ASKED DATA",
     "questions": {
       "q1": "What exactly is Nexus 4D?",
@@ -465,21 +465,22 @@
       "title": "Direct Uplink",
       "desc": "For general inquiries, support, and partnership proposals."
     },
-    "joinHive": {
-      "title": "Join the Hive",
-      "desc": "Connect with 10k+ learners in real-time. This is where the magic happens.",
-      "cta": "Enter Server"
+    "instagram": {
+      "title": "Visual Feed",
+      "desc": "Daily drops, student showcases, and event highlights.",
+      "cta": "Follow Feed"
     },
-    "hqCoordinates": {
-      "title": "HQ Coordinates",
-      "desc": "Nexus4D Labs\n101 Digital Frontier Blvd\nCyberjaya, Malaysia"
+    "linkedin": {
+      "title": "Professional Network",
+      "desc": "Industry insights, career opportunities, and corporate partnerships.",
+      "cta": "Connect"
     },
     "form": {
       "title": "Transmit Message",
       "identity": "Identity",
-      "identityPlaceholder": "John Doe",
+      "identityPlaceholder": "Youssef Shahin",
       "email": "Comms Frequency",
-      "emailPlaceholder": "john@example.com",
+      "emailPlaceholder": "torky@example.com",
       "subject": "Subject",
       "subjectPlaceholder": "Select a Topic",
       "subjects": {

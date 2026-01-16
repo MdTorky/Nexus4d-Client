@@ -187,10 +187,10 @@ export default function AboutUs() {
                             {t('about.antidote', 'Nexus4D is the antidote. We use cutting-edge cognitive science and game design principles to keep you in a state of flow. Every click, every quiz, every completed chapter triggers a rush of accomplishment.')}
                         </p>
                         <div className="flex gap-4">
-                            <div className="flex flex-col">
+                            {/* <div className="flex flex-col">
                                 <span className="text-4xl font-black text-white">94%</span>
                                 <span className="text-sm text-gray-500 uppercase tracking-widest">{t('about.completionRate', 'Completion Rate')}</span>
-                            </div>
+                            </div> */}
                             {/* <div className="w-px bg-white/20 h-16 mx-4" /> */}
                             {/* <div className="flex flex-col">
                                 <span className="text-4xl font-black text-white">10k+</span>

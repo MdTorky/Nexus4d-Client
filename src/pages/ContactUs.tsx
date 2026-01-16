@@ -118,24 +118,25 @@ export default function ContactUs() {
                         </div>
 
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors group">
-                            <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400 mb-4 group-hover:scale-110 transition-transform">
-                                <Icon icon="mdi:discord" className="text-2xl" />
+                            <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center text-pink-400 mb-4 group-hover:scale-110 transition-transform">
+                                <Icon icon="mdi:instagram" className="text-2xl" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">{t('contact.joinHive.title')}</h3>
-                            <p className="text-gray-400 mb-4">{t('contact.joinHive.desc')}</p>
-                            <a href="#" className="flex items-center gap-2 text-white font-bold hover:text-purple-400 transition-colors">
-                                {t('contact.joinHive.cta')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
+                            <h3 className="text-xl font-bold mb-2">{t('contact.instagram.title')}</h3>
+                            <p className="text-gray-400 mb-4">{t('contact.instagram.desc')}</p>
+                            <a href="https://www.instagram.com/nexus_4d" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white font-bold hover:text-pink-400 transition-colors">
+                                {t('contact.instagram.cta')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                             </a>
                         </div>
 
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-colors group">
-                            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition-transform">
-                                <Icon icon="mdi:map-marker" className="text-2xl" />
+                            <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center text-blue-500 mb-4 group-hover:scale-110 transition-transform">
+                                <Icon icon="mdi:linkedin" className="text-2xl" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2">{t('contact.hqCoordinates.title')}</h3>
-                            <p className="text-gray-400 whitespace-pre-line">
-                                {t('contact.hqCoordinates.desc')}
-                            </p>
+                            <h3 className="text-xl font-bold mb-2">{t('contact.linkedin.title')}</h3>
+                            <p className="text-gray-400 mb-4">{t('contact.linkedin.desc')}</p>
+                            <a href="https://www.linkedin.com/company/nexus-4d" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white font-bold hover:text-blue-500 transition-colors">
+                                {t('contact.linkedin.cta')} <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
+                            </a>
                         </div>
                     </motion.div>
 
