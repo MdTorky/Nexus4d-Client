@@ -329,21 +329,21 @@ export default function Home() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
                             {
-                                icon: "mdi:infinity",
-                                title: t('home.features.quality.title', 'Unlimited Access'),
-                                desc: t('home.features.quality.desc', 'One subscription, infinite possibilities. Access the entire Nexus database.'),
+                                icon: "mdi:school",
+                                title: t('home.features.universityAccess.title', 'Universal Database'),
+                                desc: t('home.features.universityAccess.desc', 'Access multiple university courses in one hub. One platform, infinite knowledge.'),
                                 color: "text-blue-400"
                             },
                             {
-                                icon: "mdi:lightning-bolt",
-                                title: t('home.features.flexibility.title', 'Instant Feedback'),
-                                desc: t('home.features.flexibility.desc', 'AI-powered quizzes and real-time progress tracking to keep you sharp.'),
+                                icon: "mdi:account-star",
+                                title: t('home.features.seniorTutors.title', 'Veteran Instructors'),
+                                desc: t('home.features.seniorTutors.desc', 'Learn directly from senior operatives who have conquered the curriculum.'),
                                 color: "text-yellow-400"
                             },
                             {
-                                icon: "mdi:earth",
-                                title: t('home.features.community.title', 'Global Network'),
-                                desc: t('home.features.community.desc', 'Connect with thousands of other learners and tutors worldwide.'),
+                                icon: "mdi:roadmap",
+                                title: t('home.features.exclusiveMaterials.title', 'Classified Intel'),
+                                desc: t('home.features.exclusiveMaterials.desc', 'Exclusive study materials and roadmaps you won\'t find on the open web.'),
                                 color: "text-purple-400"
                             }
                         ].map((feature, i) => (

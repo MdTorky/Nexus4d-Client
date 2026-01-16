@@ -294,7 +294,61 @@
     "header": {
       "title1": "Initialize",
       "title2": "Tutor Protocol",
-      "subtitle": "Join the elite ranks of Nexus 4D instructors. Share your knowledge and shape the next generation of operatives."
+      "subtitle": "Join the elite ranks of Nexus 4D instructors. Share your knowledge, shape the next generation of operatives, and earn 20% profit share on your deployed missions."
+    },
+    "terms": {
+      "commission": {
+        "title": "6. Instructor Commission Protocol",
+        "desc": "Verified Instructors are entitled to a 20% commission on the net profit from each sale of their premium courses. Payments are processed monthly upon reaching a minimum threshold. Nexus 4D retains 80% for platform maintenance and marketing operations."
+      },
+      "header": {
+        "title1": "TERMS OF",
+        "title2": "SERVICE",
+        "version": "Protocol v4.0.1",
+        "subtitle": "Please review the terms of engagement before proceeding with your mission on Nexus 4D."
+      },
+      "missionAcceptance": {
+        "title": "1. Mission Acceptance",
+        "p1": "By accessing or using the Nexus 4D platform, you agree to be bound by these Terms of Service. If you do not agree to these terms, you are not authorized to access the platform.",
+        "p2": "These protocols govern your use of our website, mobile interface, and all educational content provided herein."
+      },
+      "cadetAccounts": {
+        "title": "2. Cadet Accounts",
+        "security": "Security: ",
+        "securityDesc": "You are responsible for maintaining the confidentiality of your account credentials. Any activity that occurs under your account involves your liability.",
+        "accuracy": "Accuracy: ",
+        "accuracyDesc": "You agree to provide accurate, current, and complete information during the registration process. Using false identities or impersonating other cadets is strictly prohibited."
+      },
+      "codeOfConduct": {
+        "title": "3. Code of Conduct",
+        "intro": "While operating within Nexus 4D, you agree NOT to:",
+        "list": {
+          "1": "Exploit bugs or glitches to artificially inflate XP or Leaderboard standing.",
+          "2": "Distribute, copy, or resell proprietary course materials outside the platform.",
+          "3": "Harass, bully, or disrupt the learning experience of other cadets.",
+          "4": "Use automated scripts or \"bots\" to interact with the service."
+        }
+      },
+      "intellectualProperty": {
+        "title": "4. Intellectual Property",
+        "p1": "All content available on Nexus 4D, including but not limited to text, graphics, logos, code, and course videos, is the property of Nexus 4D or its licensors and is protected by copyright laws.",
+        "p2": "You are granted a limited, non-exclusive, non-transferable license to access course materials for personal, non-commercial learning only."
+      },
+      "paymentsRefunds": {
+        "title": "5. Payments & Refunds",
+        "transactions": "Transactions: ",
+        "transactionsDesc": "Premium courses and content packs are purchased via one-time payments. Prices are subject to change without notice.",
+        "refundProtocol": "Refund Protocol: ",
+        "refundProtocolDesc": "Refunds may be requested within 7 days of purchase, provided that less than 20% of the course content has been consumed. Nexus 4D reserves the right to deny refunds for suspected abuse of this policy."
+      },
+      "termination": {
+        "title": "7. Termination",
+        "desc": "Nexus 4D reserves the right to suspend or terminate your account (\"Dishonorable Discharge\") at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties, or for any other reason."
+      },
+      "footer": {
+        "lastUpdated": "Last Updated: January 2026",
+        "acknowledge": "Acknowledge & Return to Base"
+      }
     },
     "form": {
       "identity": "Identity",
@@ -348,7 +402,9 @@
     "verifying": "Verifying...",
     "resendCode": "Resend Code",
     "codeSent": "New verification code sent!",
-    "failedResend": "Failed to resend code"
+    "failedResend": "Failed to resend code",
+    "agreeToTerms": "By signing up, you agree to our",
+    "termsOfService": "Terms of Service"
   },
   "home": {
     "heroTitle": "LEVEL UP YOUR KNOWLEDGE",
@@ -385,17 +441,17 @@
     "contactCommand": "Contact Command",
     "allRightsReserved": "Nexus 4D. All rights reserved.",
     "features": {
-      "quality": {
-        "title": "Unlimited Access",
-        "desc": "One subscription, infinite possibilities. Access the entire Nexus database."
+      "universityAccess": {
+        "title": "Universal Database",
+        "desc": "Access multiple university courses in one hub. One platform, infinite knowledge."
       },
-      "flexibility": {
-        "title": "Instant Feedback",
-        "desc": "AI-powered quizzes and real-time progress tracking to keep you sharp."
+      "seniorTutors": {
+        "title": "Veteran Instructors",
+        "desc": "Learn directly from senior operatives who have conquered the curriculum."
       },
-      "community": {
-        "title": "Global Network",
-        "desc": "Connect with thousands of other learners and tutors worldwide."
+      "exclusiveMaterials": {
+        "title": "Classified Intel",
+        "desc": "Exclusive study materials and roadmaps you won't find on the open web."
       }
     }
   },

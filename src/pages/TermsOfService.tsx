@@ -29,9 +29,12 @@ const Section = ({ title, icon, children, delay }: { title: string, icon: string
     </motion.div>
 );
 
+import { useTranslation } from 'react-i18next';
+
 export default function TermsOfService() {
+    const { t, i18n } = useTranslation();
     return (
-        <div className="min-h-screen bg-black text-white relative overflow-hidden font-sans selection:bg-nexus-green selection:text-black">
+        <div className={`min-h-screen bg-black text-white relative overflow-hidden selection:bg-nexus-green selection:text-black ${i18n.language === 'ar' ? 'font-changa' : 'font-coortif'}`}>
 
             {/* Background Effects */}
             <div className="fixed inset-0 pointer-events-none z-0">
@@ -50,66 +53,72 @@ export default function TermsOfService() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6">
                         <span className="w-2 h-2 rounded-full bg-nexus-green animate-pulse" />
-                        <span className="text-xs font-mono text-nexus-green uppercase tracking-widest">Protocol v4.0.1</span>
+                        <span className="text-xs font-mono text-nexus-green uppercase tracking-widest">{t('tutorApp.terms.header.version')}</span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black mb-6">TERMS OF <br /><span className="text-nexus-green">SERVICE</span></h1>
+                    <h1 className="text-4xl md:text-6xl font-black mb-6">{t('tutorApp.terms.header.title1')} <br /><span className="text-nexus-green">{t('tutorApp.terms.header.title2')}</span></h1>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Please review the terms of engagement before proceeding with your mission on Nexus 4D.
+                        {t('tutorApp.terms.header.subtitle')}
                     </p>
                 </motion.div>
 
                 <div className="space-y-4">
-                    <Section title="1. Mission Acceptance" icon="mdi:handshake" delay={0.1}>
+                    <Section title={t('tutorApp.terms.missionAcceptance.title')} icon="mdi:handshake" delay={0.1}>
                         <p>
-                            By accessing or using the Nexus 4D platform, you agree to be bound by these Terms of Service. If you do not agree to these terms, you are not authorized to access the platform.
+                            {t('tutorApp.terms.missionAcceptance.p1')}
                         </p>
                         <p>
-                            These protocols govern your use of our website, mobile interface, and all educational content provided herein.
-                        </p>
-                    </Section>
-
-                    <Section title="2. Cadet Accounts" icon="mdi:account-shield" delay={0.2}>
-                        <p>
-                            <strong>Security:</strong> You are responsible for maintaining the confidentiality of your account credentials. Any activity that occurs under your account involves your liability.
-                        </p>
-                        <p>
-                            <strong>Accuracy:</strong> You agree to provide accurate, current, and complete information during the registration process. Using false identities or impersonating other cadets is strictly prohibited.
+                            {t('tutorApp.terms.missionAcceptance.p2')}
                         </p>
                     </Section>
 
-                    <Section title="3. Code of Conduct" icon="mdi:gavel" delay={0.3}>
+                    <Section title={t('tutorApp.terms.cadetAccounts.title')} icon="codicon:account" delay={0.2}>
                         <p>
-                            While operating within Nexus 4D, you agree NOT to:
+                            <strong>{t('tutorApp.terms.cadetAccounts.security')}</strong> {t('tutorApp.terms.cadetAccounts.securityDesc')}
+                        </p>
+                        <p>
+                            <strong>{t('tutorApp.terms.cadetAccounts.accuracy')}</strong> {t('tutorApp.terms.cadetAccounts.accuracyDesc')}
+                        </p>
+                    </Section>
+
+                    <Section title={t('tutorApp.terms.codeOfConduct.title')} icon="mdi:gavel" delay={0.3}>
+                        <p>
+                            {t('tutorApp.terms.codeOfConduct.intro')}
                         </p>
                         <ul className="list-disc pl-6 space-y-2 marker:text-nexus-green">
-                            <li>Exploit bugs or glitches to artificially inflate XP or Leaderboard standing.</li>
-                            <li>Distribute, copy, or resell proprietary course materials outside the platform.</li>
-                            <li>Harass, bully, or disrupt the learning experience of other cadets.</li>
-                            <li>Use automated scripts or "bots" to interact with the service.</li>
+                            <li>{t('tutorApp.terms.codeOfConduct.list.1')}</li>
+                            <li>{t('tutorApp.terms.codeOfConduct.list.2')}</li>
+                            <li>{t('tutorApp.terms.codeOfConduct.list.3')}</li>
+                            <li>{t('tutorApp.terms.codeOfConduct.list.4')}</li>
                         </ul>
                     </Section>
 
-                    <Section title="4. Intellectual Property" icon="mdi:brain" delay={0.4}>
+                    <Section title={t('tutorApp.terms.intellectualProperty.title')} icon="mdi:brain" delay={0.4}>
                         <p>
-                            All content available on Nexus 4D, including but not limited to text, graphics, logos, code, and course videos, is the property of Nexus 4D or its licensors and is protected by copyright laws.
+                            {t('tutorApp.terms.intellectualProperty.p1')}
                         </p>
                         <p>
-                            You are granted a limited, non-exclusive, non-transferable license to access course materials for personal, non-commercial learning only.
-                        </p>
-                    </Section>
-
-                    <Section title="5. Payments & Refunds" icon="mdi:credit-card-check" delay={0.5}>
-                        <p>
-                            <strong>Transactions:</strong> Premium courses and content packs are purchased via one-time payments. Prices are subject to change without notice.
-                        </p>
-                        <p>
-                            <strong>Refund Protocol:</strong> Refunds may be requested within 7 days of purchase, provided that less than 20% of the course content has been consumed. Nexus 4D reserves the right to deny refunds for suspected abuse of this policy.
+                            {t('tutorApp.terms.intellectualProperty.p2')}
                         </p>
                     </Section>
 
-                    <Section title="6. Termination" icon="mdi:alert-octagon" delay={0.6}>
+                    <Section title={t('tutorApp.terms.paymentsRefunds.title')} icon="mdi:credit-card-check" delay={0.5}>
                         <p>
-                            Nexus 4D reserves the right to suspend or terminate your account ("Dishonorable Discharge") at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties, or for any other reason.
+                            <strong>{t('tutorApp.terms.paymentsRefunds.transactions')}</strong> {t('tutorApp.terms.paymentsRefunds.transactionsDesc')}
+                        </p>
+                        <p>
+                            <strong>{t('tutorApp.terms.paymentsRefunds.refundProtocol')}</strong> {t('tutorApp.terms.paymentsRefunds.refundProtocolDesc')}
+                        </p>
+                    </Section>
+
+                    <Section title={t('tutorApp.terms.commission.title')} icon="mdi:finance" delay={0.6}>
+                        <p>
+                            {t('tutorApp.terms.commission.desc')}
+                        </p>
+                    </Section>
+
+                    <Section title={t('tutorApp.terms.termination.title')} icon="mdi:alert-octagon" delay={0.7}>
+                        <p>
+                            {t('tutorApp.terms.termination.desc')}
                         </p>
                     </Section>
 
@@ -119,13 +128,13 @@ export default function TermsOfService() {
                         transition={{ delay: 0.8 }}
                         className="text-center pt-12 border-t border-white/10 mt-16"
                     >
-                        <p className="text-gray-500 mb-6">Last Updated: January 2026</p>
+                        <p className="text-gray-500 mb-6">{t('tutorApp.terms.footer.lastUpdated')}</p>
                         <Link
                             to="/"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-nexus-green text-black font-bold rounded-xl hover:bg-green-400 transition-colors"
                         >
                             <Icon icon="mdi:check-bold" />
-                            Acknowledge & Return to Base
+                            {t('tutorApp.terms.footer.acknowledge')}
                         </Link>
                     </motion.div>
                 </div>

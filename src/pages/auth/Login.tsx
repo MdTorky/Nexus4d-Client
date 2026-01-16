@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function Login() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { login } = useAuth();
     const navigate = useNavigate();
     // const [error, setError] = useState('');
@@ -189,14 +189,17 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className="flex justify-center">
+                        <div className="flex justify-center !rtl">
                             <GoogleLogin
                                 onSuccess={handleGoogleSuccess}
                                 onError={() => showToast('Google Sign In Failed', 'error')}
-                                theme="filled_black"
-                                shape="pill"
+                                theme="outline"
+                                shape="rectangular"
                                 width="100%"
                                 text="signin_with"
+                                logo_alignment="center"
+                            // @ts-ignore
+                            // locale={i18n.language}
                             />
                         </div>
                     </form>

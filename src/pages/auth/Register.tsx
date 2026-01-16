@@ -173,6 +173,10 @@ export default function Register() {
                             ) : t('auth.signUp')}
                         </Button>
 
+                        <div className="text-center text-xs text-gray-500 mt-4">
+                            {t('auth.agreeToTerms')} <Link to="/terms" className="text-nexus-green hover:underline">{t('auth.termsOfService')}</Link>
+                        </div>
+
                         <div className="relative py-2">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t border-white/10" />
@@ -186,8 +190,8 @@ export default function Register() {
                             <GoogleLogin
                                 onSuccess={handleGoogleSuccess}
                                 onError={() => setError('Google Sign In Failed')}
-                                theme="filled_black"
-                                shape="pill"
+                                theme="outline"
+                                shape="rectangular"
                                 width="100%"
                                 text="signup_with"
                             />
