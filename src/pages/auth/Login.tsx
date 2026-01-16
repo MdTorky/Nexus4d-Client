@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function Login() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { login } = useAuth();
     const navigate = useNavigate();
     // const [error, setError] = useState('');
