@@ -83,7 +83,7 @@ export default function Footer() {
                     </div>
 
                     {/* Newsletter/Action */}
-                    <div>
+                    {/* <div>
                         <h3 className="text-white font-bold mb-6">{t('footer.stayUpdated')}</h3>
                         <p className="text-gray-400 text-sm mb-4">{t('footer.newsletterText')}</p>
                         <div className="flex gap-2">
@@ -96,7 +96,7 @@ export default function Footer() {
                                 <Icon icon={`mdi:arrow-${i18n.language === "en" ? "right" : "left"}`} />
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Bottom Bar */}

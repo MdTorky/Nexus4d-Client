@@ -645,12 +645,14 @@
       "rejected": "Friend request rejected"
     },
     "settings": {
+      "missionLog": "Mission Log",
+      "missionLogDesc": "Your mission history will be visible on your public profile.",
+      "newsletter": "Mission Briefings",
+      "newsletterDesc": "Receive tactical updates and classified intel via email.",
+      "updateProtocols": "Update Protocols",
       "systemProtocols": "System Protocols",
       "publicRegistry": "Public Nexon Registry",
       "publicRegistryDesc": "Allow other operatives to view your unlocked avatar collection.",
-      "missionLog": "Mission Log Visibility",
-      "missionLogDesc": "Allow others to see your enrolled courses and completion status.",
-      "updateProtocols": "Update Protocols",
       "updated": "Privacy protocols updated."
     },
     "errors": {

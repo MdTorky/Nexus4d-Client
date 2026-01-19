@@ -46,6 +46,7 @@ export default function Profile() {
         show_nexons: true,
         show_courses: true
     });
+    const [newsletterOptIn, setNewsletterOptIn] = useState(true);
     const [isSavingSettings, setIsSavingSettings] = useState(false);
 
     // --- Effects ---
@@ -59,6 +60,7 @@ export default function Profile() {
                 show_nexons: user.privacy_settings?.show_nexons ?? true,
                 show_courses: user.privacy_settings?.show_courses ?? true
             });
+            setNewsletterOptIn(user.newsletter_opt_in ?? true);
         }
     }, [user]);
 
@@ -173,7 +175,8 @@ export default function Profile() {
         setIsSavingSettings(true);
         try {
             const res = await api.put('/user/profile', {
-                privacy_settings: privacySettings
+                privacy_settings: privacySettings,
+                newsletter_opt_in: newsletterOptIn
             });
             updateUser(res.data);
             showToast(t('profile.settings.updated'), 'success');
@@ -683,6 +686,22 @@ export default function Profile() {
                                             className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${privacySettings.show_courses ? 'bg-nexus-green shadow-[0_0_15px_rgba(34,197,94,0.4)]' : 'bg-gray-800'}`}
                                         >
                                             <div className={`absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${privacySettings.show_courses ? 'translate-x-6' : ''}`} />
+                                        </button>
+                                    </div>
+
+                                    <div className="h-px bg-white/5" />
+
+                                    {/* Toggle Newsletter */}
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <h4 className="text-white font-bold text-lg mb-1">{t('profile.settings.newsletter')}</h4>
+                                            <p className="text-gray-400 text-xs">{t('profile.settings.newsletterDesc')}</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setNewsletterOptIn(prev => !prev)}
+                                            className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${newsletterOptIn ? 'bg-nexus-green shadow-[0_0_15px_rgba(34,197,94,0.4)]' : 'bg-gray-800'}`}
+                                        >
+                                            <div className={`absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 ${newsletterOptIn ? 'translate-x-6' : ''}`} />
                                         </button>
                                     </div>
 
