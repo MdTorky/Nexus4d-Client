@@ -404,6 +404,7 @@
     "codeSent": "New verification code sent!",
     "failedResend": "Failed to resend code",
     "agreeToTerms": "By signing up, you agree to our",
+    "continueWithGoogle": "Continue with Google",
     "termsOfService": "Terms of Service"
   },
   "home": {

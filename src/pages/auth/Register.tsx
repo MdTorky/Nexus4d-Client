@@ -9,8 +9,8 @@ import api from '../../api/axios';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
-import { GoogleLogin } from '@react-oauth/google';
 import { useToast } from '../../context/ToastContext';
+import GoogleAuthButton from '../../components/auth/GoogleAuthButton';
 
 import { useTranslation } from 'react-i18next';
 
@@ -56,7 +56,7 @@ export default function Register() {
     const handleGoogleSuccess = async (credentialResponse: any) => {
         try {
             const response = await api.post('/auth/google', {
-                googleToken: credentialResponse.credential,
+                googleToken: credentialResponse.access_token,
             });
             login(response.data);
             navigate('/');
@@ -187,13 +187,10 @@ export default function Register() {
                         </div>
 
                         <div className="flex justify-center">
-                            <GoogleLogin
+                            <GoogleAuthButton
                                 onSuccess={handleGoogleSuccess}
                                 onError={() => setError('Google Sign In Failed')}
-                                theme="outline"
-                                shape="rectangular"
-                                width="100%"
-                                text="signup_with"
+                                isLoading={isSubmitting}
                             />
                         </div>
                     </form>

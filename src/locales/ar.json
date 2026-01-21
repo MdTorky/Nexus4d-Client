@@ -157,6 +157,7 @@
     "codeSent": "تم إرسال رمز جديد!",
     "failedResend": "فشل إرسال الرمز",
     "agreeToTerms": "بالتسجيل، أنت توافق على",
+    "continueWithGoogle": "المتابعة باستخدام جوجل",
     "termsOfService": "شروط الخدمة"
   },
   "home": {
